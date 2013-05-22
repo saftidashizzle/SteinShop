@@ -83,7 +83,7 @@ public class ShopVerwaltung {
 					// neue Menge setzen und Ereignis loggen
 					artikel.setMenge(artikel.getMenge()-menge);
 					erVer.ereignisEinfuegen(akteur, jahrestag, artikel, artikel.getMenge(), "Artikel in den Warenkorb gelegt.");
-					break;
+					break; // dasjdasjkfakdsfksdflsadfklfdasdfjkljfdaölksdjlöjfdsöj
 				} else { // gewollte Menge ist größer als die vorhandene Menge
 					ArtikelMengeReichtNichtException e = new ArtikelMengeReichtNichtException(menge, artikel.getMenge());
 					throw e;

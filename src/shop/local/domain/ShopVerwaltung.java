@@ -83,13 +83,13 @@ public class ShopVerwaltung {
 					// neue Menge setzen und Ereignis loggen
 					artikel.setMenge(artikel.getMenge()-menge);
 					erVer.ereignisEinfuegen(akteur, jahrestag, artikel, artikel.getMenge(), "Artikel in den Warenkorb gelegt.");
+					break;
 				} else { // gewollte Menge ist größer als die vorhandene Menge
 					ArtikelMengeReichtNichtException e = new ArtikelMengeReichtNichtException(menge, artikel.getMenge());
 					throw e;
 				}
-			} else if (!it.hasNext() && !(artID == artikel.getNummer())){ // gesuchte Artikel ID nicht gefunden
-				ArtikelNichtVerfuegbarException e = new ArtikelNichtVerfuegbarException(artID);
-				throw e; 
+			} else if (!(artID==artikel.getNummer())&&!it.hasNext()){ // gesuchte Artikel ID nicht gefunden
+				throw new ArtikelNichtVerfuegbarException(artID); 
 			}
 		}
 	}
@@ -117,6 +117,7 @@ public class ShopVerwaltung {
 						warkoVer.artikelAusWarenkorb(artikel, akteur);
 						// Ereignis loggen
 						erVer.ereignisEinfuegen(akteur, jahrestag, artikel, artikel.getMenge(), "Artikel aus dem Warenkorb genommen.");
+						break;
 					}
 				}
 			// Artikelnr nicht im Warenkorb des Users vorhanden

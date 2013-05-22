@@ -117,7 +117,7 @@ public class ShopVerwaltung {
 						warkoVer.artikelAusWarenkorb(artikel, akteur);
 						// Ereignis loggen
 						erVer.ereignisEinfuegen(akteur, jahrestag, artikel, artikel.getMenge(), "Artikel aus dem Warenkorb genommen.");
-						break;
+						break; // hallo
 					}
 				}
 			// Artikelnr nicht im Warenkorb des Users vorhanden

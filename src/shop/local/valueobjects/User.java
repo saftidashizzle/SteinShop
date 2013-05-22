@@ -1,4 +1,7 @@
 package shop.local.valueobjects;
+
+import java.util.List;
+
 /**
  * Klasse User
  * 
@@ -7,39 +10,35 @@ package shop.local.valueobjects;
  */
 
 
-public class User {
-	private String name;
-	private String passwort;
-	private boolean mitarbeiter;
+public abstract class User {
+	protected String name;
+	protected String passwort;
+	protected int nr;
+	protected String vorUndZuName;
+	protected String anrede;
+	
 
 	/** Konstruktor: wenn nur Name und Passwort übergeben werden, ist der boolean mitarbeiter per default auf false gesetzt. 
 	 * 
 	 * @param name Der Benutzername des neuen Users.
 	 * @param passwort Das Passwort des neuen Users.
+	 * @param vorUndZuName2 
+	 * @param anrede2 
 	 */
-	public User(String name, String passwort) {
-		this(name, passwort, false);
-	}
-	
-	/** Konstruktor des Users.
-	 * 
-	 * @param name Der Benutzername des neuen Users.
-	 * @param passwort Das Passwort des neuen Users.
-	 * @param mitarbeiter Boolean: wenn true, dann Mitarbeiter, wenn false, dann Kunde.
-	 */
-	public User(String name, String passwort, boolean angestellt) {
+	public User(String name, String passwort, int nr, String anrede, String vorUndZuName) {
 		this.name = name;
 		this.passwort = passwort;
-		this.mitarbeiter = angestellt;
+		this.nr = nr;
+		this.anrede = anrede;
+		this.vorUndZuName = vorUndZuName;
 	}
+
 	/** Gibt einen String zurück in dem Name und Mitarbeiter stehen.
 	 * 
 	 */
 	public String toString() {
-		return ("Name: " + name + " | Mitarbeiter: " + mitarbeiter);
-		
+		return null;
 	}
-	
 	/**
 	 * Getter für den Namen.
 	 * @return gibt den Namen des Benutzerobjekts zurück.
@@ -54,11 +53,19 @@ public class User {
 	public String getPasswort(){
 		return passwort;
 	}
-	/**
-	 * Getter für boolean angestellt
-	 * @return Gibt den boolean angestellt zurück.
+	/** 
+	 * Methode die die Nummer des Userobjektes zurück gibt.
+	 * @return Die zurückgegebene Nummer.
 	 */
-	public boolean getRang(){
-		return mitarbeiter;
+	public int getNummer() {
+		return nr;
+	}
+
+	public String getAdresse() {
+		return null;
+	}
+
+	public List<Artikel> getWarenkorb() {
+		return null;
 	}
 }

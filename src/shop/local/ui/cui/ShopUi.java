@@ -8,6 +8,7 @@ import java.util.List;
 
 import shop.local.domain.ShopVerwaltung;
 import shop.local.valueobjects.Artikel;
+import shop.local.valueobjects.Ereignis;
 import shop.local.valueobjects.User;
 /**
  * ShopUi: Klasse die das Konsolen Interface für den Shop bereitstellt.
@@ -31,13 +32,13 @@ public class ShopUi {
 	
 	public static void main(String[] args) {
 		ShopUi shop = new ShopUi();
-		shop.shopVer.fuegeArtikelEin("EINSTEIN", 1, 42);
-		shop.shopVer.fuegeArtikelEin("ZWEISTEIN", 2, 11);
-		shop.shopVer.fuegeArtikelEin("DREISTEIN", 3, 1);
+		shop.shopVer.fuegeArtikelEin("EINSTEIN", 42, 1.99);
+		shop.shopVer.fuegeArtikelEin("ZWEISTEIN", 11, 2.99);
+		shop.shopVer.fuegeArtikelEin("DREISTEIN", 1, 3.99);
 		
-		shop.shopVer.fuegeUserEin("Kunde", "123", false);
-		shop.shopVer.fuegeUserEin("Mitarbeiter", "123", true);
-		shop.shopVer.fuegeUserEin("Rupert", "123");
+		shop.shopVer.fuegeUserEin("Kunde", "123", "Herr", "Axel Schweiss","Elbenweg 3", 1337, "Bruchtal", "Mittelerde");
+		shop.shopVer.fuegeUserEin("Mitarbeiter", "123", "Herr", "Voll iDiot");
+		shop.shopVer.fuegeUserEin("Rupert", "123", "Herr", "Rupert Tunnichtgut", "Haufenweg 2", 7353, "Hodenhausen", "DA WO ES STINKT");
 
 		
 		
@@ -68,27 +69,50 @@ public class ShopUi {
 				do {
 					System.out.println("Artikelliste:");
 					gibArtikellisteAus(ArtikelListe);
-					if(aktuellerBenutzer.getRang()) {
+					if(aktuellerBenutzer.getAdresse()==null) {
 						menueMitarbeiter();
 					} else {
 						menueKunde();
 					}
 		
-				} while (!eingabe.equals("q"));
-			}
-			else{
-				System.out.println("zum einloggen e) eingeben, zum beenden q)");
+				} while (!eingabe.equals("a"));
+				aktuellerBenutzer = null;
+			} else {
+				System.out.println("e) Einloggen\n" +
+						"r) Registriere Kunden Account\n" +
+						"q) Beenden");
 				eingabe = liesEingabe();
 				if(eingabe.equals("e")){
 					System.out.println("Dein Benutzername?");
 					String name = liesEingabe();
 					System.out.println("Dein Passwort?");	
 					String passwort = liesEingabe();
-					// System.out.println("User: " + name + "PW: " + passwort);
 					aktuellerBenutzer = userLogin(UserListe, name, passwort);
-					// eingeloggt=userLogin(UserListe, name, passwort);
-					
-				}			
+				} else if (eingabe.equals("r")) {
+					System.out.println("Waehle deinen Benutzernamen:");
+					String name = liesEingabe();
+					String passwort;
+					String passwort1;
+					do {
+						System.out.println("Waehle dein Passwort:");
+						passwort = liesEingabe();
+						System.out.println("Eingabe Wiederholen:");
+						passwort1 = liesEingabe();
+					} while (!passwort.equals(passwort1));
+					System.out.println("Anrede:");
+					String anrede = liesEingabe();
+					System.out.println("Vor- und Zu-Name:");
+					String vorUndZuName = liesEingabe();
+					System.out.println("Straße und Hausnr:");
+					String strasse = liesEingabe();
+					System.out.println("Postleitzahl");
+					int plz = Integer.parseInt(liesEingabe());
+					System.out.println("Ort:");
+					String ort = liesEingabe();
+					System.out.println("Land:");
+					String land = liesEingabe();
+					this.shopVer.fuegeUserEin(name, passwort, anrede, vorUndZuName, strasse, plz, ort, land);
+				}
 			}
 		} while (!eingabe.equals("q"));		
 	}
@@ -105,7 +129,41 @@ public class ShopUi {
 			Iterator<Artikel> it = liste.iterator();
 			while (it.hasNext()) {
 				Artikel artikel = it.next();
-				System.out.println(artikel.toString());
+				if (!(artikel.getMenge() == 0)) {
+					System.out.println(artikel.toString());
+				}
+			}			
+		}
+		System.out.println(" ");
+	}
+	/**
+	 * Methode die, alle Elemente der Benutzerliste (siehe artikel.toString()) in der Konsole ausgibt.
+	 * @param liste
+	 */
+	private void gibBenutzerlisteAus(List<User> liste) {
+		if(liste.isEmpty()) {
+			System.out.println("Liste ist leer.");
+		} else {
+			Iterator<User> it = liste.iterator();
+			while (it.hasNext()) {
+				User user = it.next();
+				System.out.println(user.toString());
+			}			
+		}
+		System.out.println(" ");
+	}
+	/**
+	 * Methode die, alle Elemente des Protokolls in der Konsole ausgibt.
+	 * @param liste
+	 */
+	private void gibProtokollAus(List<Ereignis> liste) {
+		if(liste.isEmpty()) {
+			System.out.println("Liste ist leer.");
+		} else {
+			Iterator<Ereignis> it = liste.iterator();
+			while (it.hasNext()) {
+				Ereignis ereignis = it.next();
+				System.out.println(ereignis.toString());
 			}			
 		}
 		System.out.println(" ");
@@ -139,45 +197,69 @@ public class ShopUi {
 	public void menueMitarbeiter() throws IOException {
 		System.out.println("n) neuen Artikel anlegen \n" +
 				"m) Artikelmenge aendern\n" +
-				"q) Beenden");
+				"u) Alle Benutzer anzeigen\n" +
+				"r) Neuen Mitarbeiter registrieren\n" +
+				"d) Mitarbeiter löschen\n" + 
+				"p) Protokoll anzeigen\n" + 
+				"a) Ausloggen");
 		eingabe = liesEingabe();
 		switch(eingabe) {
 			case "n": 	
 				System.out.println("Name des Artikels: ");
 				String name = liesEingabe();
-				System.out.println("Nummer: ");
-				eingabe = liesEingabe();
-				int nr = Integer.parseInt(eingabe);
 				System.out.println("Menge: ");
 				eingabe = liesEingabe();
 				int menge = Integer.parseInt(eingabe);
+				System.out.println("Preis: ");
+				eingabe = liesEingabe();
+				double preis = Double.parseDouble(eingabe);
 				System.out.println("wird angelegt!");
-				shopVer.fuegeArtikelEin(name, nr, menge);
+				shopVer.fuegeArtikelEin(name, menge, preis);
 				break;
 			case "m":
+				System.out.println("Artikelliste:");
+				gibArtikellisteAus(shopVer.gibAlleArtikel());
 				System.out.println("Artikelnummer des zu ändernden Artikel eingeben.");
 				eingabe = liesEingabe();
 				int nummer = Integer.parseInt(eingabe);
 				System.out.println("Wieviele moechtest du hinzufügen?");
 				eingabe = liesEingabe();
 				int anzahl = Integer.parseInt(eingabe);
-				shopVer.mengeAendern(nummer, anzahl);
+				shopVer.mengeAendern(nummer, anzahl, aktuellerBenutzer);
+				System.out.println("Artikel wurden hinzugefügt!");
+				break;
+			case "u":
+				gibBenutzerlisteAus(shopVer.gibAlleUser());
+				break;
+			case "r": 
+				System.out.println("Waehle deinen Benutzernamen:");
+				String benutzername = liesEingabe();
+				String passwort;
+				String passwort1;
+				do {
+					System.out.println("Waehle dein Passwort:");
+					passwort = liesEingabe();
+					System.out.println("Eingabe Wiederholen:");
+					passwort1 = liesEingabe();
+				} while (!passwort.equals(passwort1));
+				System.out.println("Anrede:");
+				String anrede = liesEingabe();
+				System.out.println("Vor- und Zu-Name:");
+				String vorUndZuName = liesEingabe();
+				this.shopVer.fuegeUserEin(benutzername, passwort, anrede, vorUndZuName);
+				break;
+			case "d":
+				System.out.println("Welchen Mitarbeiter willst du löschen?");
+				int userName = Integer.parseInt(liesEingabe());
+				shopVer.loescheUser(userName, aktuellerBenutzer);
+			case "p":
+				gibProtokollAus(shopVer.gibProtokoll());
+				break;
+			case "a":
+				System.out.println("Auf Wiedersehen!");
 				break;
 			default: System.out.println("Falsche Eingabe.");
 		}
-//		if (eingabe.equals("n")) {	
-//			System.out.println("Name des Artikels: ");
-//			String name = liesEingabe();
-//			System.out.println("Nummer: ");
-//			eingabe = liesEingabe();
-//			int nr = Integer.parseInt(eingabe);
-//			System.out.println("Menge: ");
-//			eingabe = liesEingabe();
-//			int menge = Integer.parseInt(eingabe);
-//			System.out.println("wird angelegt!");
-//			shopVer.fuegeArtikelEin(name, nr, menge);
-//			
-//		} 		
 	}
 	/**
 	 * Methode, die ein Kunden-spezifisches Menue ausgibt.
@@ -186,59 +268,73 @@ public class ShopUi {
 
 	public void menueKunde() throws IOException{
 		System.out.println("w) Zum Warenkorb\n" +
-				"b) Artikelbeschreibung aufrufen\n" +
+				//"b) Artikelbeschreibung aufrufen\n" +
+				"n) Artikel nach Namen ordnen\n" +
+				"f) Artikel nach Nummern ordnen\n" +
 				"c) Artikel Kaufen\n" +
+				"d) Artikel aus Warenkorb\n" +
+				"e) Warenkorb leeren\n" +
 				"k) Zur Kasse\n" +
-				"q) Beenden");
+				"a) Ausloggen");
 		
 			eingabe = liesEingabe();
+			List<Artikel> Warenkorb = shopVer.gibWarenkorb(aktuellerBenutzer);
 		switch(eingabe) {
-			case "w": zumWarenkorb();
-				List<Artikel> Warenkorb = shopVer.gibWarenkorb();
+			case "w": 
 				gibArtikellisteAus(Warenkorb);
 				break;
-			case "b": 
-				System.out.println("Welchen Artikel?");
-				eingabe = liesEingabe();
-				int artID = Integer.parseInt(eingabe);
-				artikelBeschreibung(artID);
-				break;
+//			case "b": 
+//				System.out.println("Welchen Artikel?");
+//				eingabe = liesEingabe();
+//				int artID = Integer.parseInt(eingabe);
+//				artikelBeschreibung(artID);
+//				break;
+			case "n": shopVer.artikelNachNamenOrdnen();
+					break;
+			case "f": shopVer.artikelNachZahlenOrdnen();
+					break;
 			case "c": 
 				System.out.println("Welchen Artikel kaufen?");
 				eingabe = liesEingabe();
-				artID = Integer.parseInt(eingabe);
+				int artID = Integer.parseInt(eingabe);
 				System.out.println("Wieviele davon?");
 				eingabe = liesEingabe();
 				int menge = Integer.parseInt(eingabe);
-				shopVer.artikelInWarenkorb(artID, menge);
+				try {
+					shopVer.artikelInWarenkorb(artID, menge, aktuellerBenutzer);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				break;
+			case "d": 
+				System.out.println("Welchen Artikel entfernen?");
+				eingabe = liesEingabe();
+				artID = Integer.parseInt(eingabe);
+				try {
+					shopVer.artikelAusWarenkorb(artID, aktuellerBenutzer);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				break;
+			case "e": shopVer.warenkorbLeeren(aktuellerBenutzer);
 				break;
 			case "k": zurKasse();
 				break;
-			case "q": break;
-				default: System.out.println("Falsche Eingabe.");
+			case "p":
+				gibProtokollAus(shopVer.gibProtokoll());
+				break;
+			case "a":
+				System.out.println("Auf Wiedersehen!");
+				break;
+			default: System.out.println("Falsche Eingabe.");
 		}
 		
 	}
-	/** Methode, die den Inhalt des aktuellen Warenkorb ausgibt. 
-	 * 
-	 */
-	public void zumWarenkorb(){
-		System.out.println("Warenkorb:");
-	}
-	/** Methode, die zu einer bestimmten ArtikelID die passende Artikelbeschreibung ausgibt.
-	 * 
-	 * @param artID
-	 */
-	
-	public void artikelBeschreibung(int artID){
-		
-	}
-
 	/** Methode, die die Rechnung ausgibt. 
 	 * 
 	 */
 	public void zurKasse(){
-		System.out.println("Kasse: ");
+		shopVer.rechnungErstellen(aktuellerBenutzer);
 	}
 	/** Methode die eine Eingabe einliest. Ersetzt in.readLine();
 	 * 

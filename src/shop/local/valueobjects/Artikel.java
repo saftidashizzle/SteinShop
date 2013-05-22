@@ -3,6 +3,7 @@ package shop.local.valueobjects;
 public class Artikel {
 	private String titel;
 	private int nummer;
+	private double preis;
 	private int menge;
 	
 	/**
@@ -11,8 +12,8 @@ public class Artikel {
 	 * @param nr die Artikelnummer des Artikels, der erzeugt werden soll
 	 */
 	
-	public Artikel(String name, int nr) {
-		this(name, nr, 1);
+	public Artikel(String name, int nr, double preis) {
+		this(name, nr, preis, 1);
 	}
 	
 	/**
@@ -21,16 +22,17 @@ public class Artikel {
 	 * @param nr die Nr des zu erzeugenden Artikels
 	 * @param meng die Menge des zu erzeugenden Artikels
 	 */
-	public Artikel(String name, int nr, int meng) {
+	public Artikel(String name, int nr, double prei, int meng) {
 		this.titel = name;
 		this.nummer = nr;
+		this.preis = prei;
 		this.menge = meng;
 	}
 	/**
 	 * Methode die einen String in der Form: "Nr: * | Titel: * | Anzahl: * "zurückgibt. * ist ein Platzhalter für die jeweilige Variable.
 	 */
 	public String toString() {
-		return ("Nr: " + nummer + " | Titel: " + titel + " | Anzahl: " + menge);
+		return ("Nr: " + nummer + " | Titel: " + titel + " | Anzahl: " + menge + " | Einzelpreis: " + preis);
 		
 	}
 	
@@ -61,5 +63,12 @@ public class Artikel {
 	 */
 	public void setMenge(int zahl){
 		menge = zahl;
+	}
+	/**
+	 * Methode die den Preis des Artikelobjektes zurück gibt.
+	 * @return Die Preis (float)
+	 */
+	public double getPreis(){
+		return preis;
 	}
 }

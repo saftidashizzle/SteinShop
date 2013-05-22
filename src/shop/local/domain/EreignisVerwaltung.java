@@ -19,4 +19,7 @@ public class EreignisVerwaltung {
 		return protokoll;
 	}
 
+	public List<Ereignis> gibEreignisseNachArtikelUndTagen(Artikel a, int anzahlTage) {
+		return null;
+	}
 }

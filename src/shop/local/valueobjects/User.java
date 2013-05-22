@@ -64,8 +64,4 @@ public abstract class User {
 	public String getAdresse() {
 		return null;
 	}
-
-	public List<Artikel> getWarenkorb() {
-		return null;
-	}
 }

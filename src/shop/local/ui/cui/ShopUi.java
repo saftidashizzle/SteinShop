@@ -9,7 +9,9 @@ import java.util.List;
 import shop.local.domain.ShopVerwaltung;
 import shop.local.valueobjects.Artikel;
 import shop.local.valueobjects.Ereignis;
+import shop.local.valueobjects.Kunde;
 import shop.local.valueobjects.User;
+import shop.local.valueobjects.Warenkorb;
 /**
  * ShopUi: Klasse die das Konsolen Interface für den Shop bereitstellt.
  * 
@@ -32,9 +34,9 @@ public class ShopUi {
 	
 	public static void main(String[] args) {
 		ShopUi shop = new ShopUi();
-		shop.shopVer.fuegeArtikelEin("EINSTEIN", 42, 1.99);
-		shop.shopVer.fuegeArtikelEin("ZWEISTEIN", 11, 2.99);
-		shop.shopVer.fuegeArtikelEin("DREISTEIN", 1, 3.99);
+		shop.shopVer.fuegeArtikelEin("EINSTEIN", 42, 1.99, null);
+		shop.shopVer.fuegeArtikelEin("ZWEISTEIN", 11, 2.99, null);
+		shop.shopVer.fuegeArtikelEin("DREISTEIN", 1, 3.99, null);
 		
 		shop.shopVer.fuegeUserEin("Kunde", "123", "Herr", "Axel Schweiss","Elbenweg 3", 1337, "Bruchtal", "Mittelerde");
 		shop.shopVer.fuegeUserEin("Mitarbeiter", "123", "Herr", "Voll iDiot");
@@ -122,19 +124,8 @@ public class ShopUi {
 	 * Methode die, alle Elemente der Artikelliste (siehe artikel.toString()) in der Konsole ausgibt.
 	 * @param liste
 	 */
-	private void gibArtikellisteAus(List<Artikel> liste) {
-		if(liste.isEmpty()) {
-			System.out.println("Liste ist leer.");
-		} else {
-			Iterator<Artikel> it = liste.iterator();
-			while (it.hasNext()) {
-				Artikel artikel = it.next();
-				if (!(artikel.getMenge() == 0)) {
-					System.out.println(artikel.toString());
-				}
-			}			
-		}
-		System.out.println(" ");
+	private void gibArtikellisteAus() {
+		shopVer.gibArtikellisteAus();
 	}
 	/**
 	 * Methode die, alle Elemente der Benutzerliste (siehe artikel.toString()) in der Konsole ausgibt.
@@ -214,7 +205,7 @@ public class ShopUi {
 				eingabe = liesEingabe();
 				double preis = Double.parseDouble(eingabe);
 				System.out.println("wird angelegt!");
-				shopVer.fuegeArtikelEin(name, menge, preis);
+				shopVer.fuegeArtikelEin(name, menge, preis, aktuellerBenutzer);
 				break;
 			case "m":
 				System.out.println("Artikelliste:");
@@ -278,10 +269,10 @@ public class ShopUi {
 				"a) Ausloggen");
 		
 			eingabe = liesEingabe();
-			List<Artikel> Warenkorb = shopVer.gibWarenkorb(aktuellerBenutzer);
+			Warenkorb warenkorb = ((Kunde)aktuellerBenutzer).getWarenkorb();
 		switch(eingabe) {
 			case "w": 
-				gibArtikellisteAus(Warenkorb);
+				gibArtikellisteAus(warenkorb);
 				break;
 //			case "b": 
 //				System.out.println("Welchen Artikel?");
@@ -311,12 +302,12 @@ public class ShopUi {
 				eingabe = liesEingabe();
 				artID = Integer.parseInt(eingabe);
 				try {
-					shopVer.artikelAusWarenkorb(artID, aktuellerBenutzer);
+					shopVer.artikelAusWarenkorb(artID, (Kunde)aktuellerBenutzer);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				break;
-			case "e": shopVer.warenkorbLeeren(aktuellerBenutzer);
+			case "e": shopVer.warenkorbLeeren((Kunde)aktuellerBenutzer);
 				break;
 			case "k": zurKasse();
 				break;
@@ -334,7 +325,7 @@ public class ShopUi {
 	 * 
 	 */
 	public void zurKasse(){
-		shopVer.rechnungErstellen(aktuellerBenutzer);
+		shopVer.rechnungErstellen((Kunde)aktuellerBenutzer);
 	}
 	/** Methode die eine Eingabe einliest. Ersetzt in.readLine();
 	 * 

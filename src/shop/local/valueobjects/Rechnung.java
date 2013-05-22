@@ -5,11 +5,11 @@ import java.util.List;
 
 public class Rechnung { 
 	private User kunde;
-	private List warenkorb;
+	private Warenkorb warenkorb;
 	private int jahrestag;
 	private double gesamtbetrag;
 	
-	public Rechnung(User kunde, List<Artikel> warenkorb, int jahrestag) {
+	public Rechnung(User kunde, Warenkorb warenkorb, int jahrestag) {
 		this.kunde=kunde;
 		this.warenkorb=warenkorb;
 		this.jahrestag = jahrestag;
@@ -17,12 +17,12 @@ public class Rechnung {
 				"Kunde: " + kunde.getName() + 
 				" | Datum: " + jahrestag);
 
-		Iterator<Artikel> it = warenkorb.iterator();
-		while (it.hasNext()) {
-			Artikel artikel = it.next();
-			gesamtbetrag= gesamtbetrag+artikel.getPreis() * artikel.getMenge();
-			System.out.println("Name: " + artikel.getName() + " | Einzelpreis: " + artikel.getPreis() + " | Anzahl: " + artikel.getMenge() );
-		}
-		System.out.println("Gesamtbetrag: " + gesamtbetrag + "\n");
+//		Iterator<Artikel> it = warenkorb.iterator();
+//		while (it.hasNext()) {
+//			Artikel artikel = it.next();
+//			gesamtbetrag= gesamtbetrag+artikel.getPreis() * artikel.getMenge();
+//			System.out.println("Name: " + artikel.getName() + " | Einzelpreis: " + artikel.getPreis() + " | Anzahl: " + artikel.getMenge() );
+//		}
+//		System.out.println("Gesamtbetrag: " + gesamtbetrag + "\n");
 	}
 }

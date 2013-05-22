@@ -8,8 +8,10 @@ import shop.local.domain.exceptions.ArtikelMengeReichtNichtException;
 import shop.local.domain.exceptions.ArtikelNichtVerfuegbarException;
 import shop.local.valueobjects.Artikel;
 import shop.local.valueobjects.Ereignis;
+import shop.local.valueobjects.Kunde;
 import shop.local.valueobjects.Rechnung;
 import shop.local.valueobjects.User;
+import shop.local.valueobjects.Warenkorb;
 
 
 
@@ -36,10 +38,10 @@ public class ShopVerwaltung {
 	 * @param menge Menge des einzufügenden Artikels
 	 * @param aktuellerBenutzer 
 	 */
-	public void fuegeArtikelEin(String titel, int menge, double d)  { // hier fehlt ArtikelExistiertBereitsException
+	public void fuegeArtikelEin(String titel, int menge, double d, User akteur)  { // hier fehlt ArtikelExistiertBereitsException
 		Artikel art = new Artikel(titel, menge, d);
 		artVer.einfuegen(art);
-		//erVer.ereignisEinfuegen(aktuellerBenutzer, jahrestag, artVer.getArtikelBestand().get(artVer.getArtikelBestand().size()), menge, "Artikel zum Bestand hinzugefuegt.");
+		erVer.ereignisEinfuegen(akteur, jahrestag, artVer.getArtikelBestand().get(artVer.getArtikelBestand().size()), menge, "Artikel zum Bestand hinzugefuegt.");
 	}
 	/**
 	 * Methode um einen User einzufügen
@@ -67,91 +69,66 @@ public class ShopVerwaltung {
 	 * @throws ArtikelNummerFalsch 
 	 */
 	public void artikelInWarenkorb(int artID, int menge, User akteur) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException {	
-		Iterator<Artikel> it = gibAlleArtikel().iterator();
-		// Artikel erstellen
-		Artikel artikel = null;
-		// Artikelverzeichnis durchlaufen
-		while (it.hasNext()) {
-			artikel = it.next();
-			// gesuchte Artikel ID gefunden
-			if(artID==artikel.getNummer()){
-				// Gewollte Menge ist kleinergleich der vorhandenen Menge
-				if(menge<=artikel.getMenge()){ 
-					// neuen Artikel erstellen, in Warenkorb tun 
-					Artikel einArtikel= new Artikel(artikel.getName(),artID, artikel.getPreis(), menge);
-					warkoVer.artikelInWarenkorb(einArtikel, akteur);
-					// neue Menge setzen und Ereignis loggen
-					artikel.setMenge(artikel.getMenge()-menge);
-					erVer.ereignisEinfuegen(akteur, jahrestag, artikel, artikel.getMenge(), "Artikel in den Warenkorb gelegt.");
-					break;
-				} else { // gewollte Menge ist größer als die vorhandene Menge
-					ArtikelMengeReichtNichtException e = new ArtikelMengeReichtNichtException(menge, artikel.getMenge());
-					throw e;
-				}
-			} else if (!(artID==artikel.getNummer())&&!it.hasNext()){ // gesuchte Artikel ID nicht gefunden
-				throw new ArtikelNichtVerfuegbarException(artID); 
-			}
-		}
+		Artikel a = artVer.findArtikelByNumber(artID);
+		warkoVer.artikelInWarenkorb(a, menge, akteur);
 	}
 	/**
 	 * Methode die einen artikel einliest und an die warenkorb verwaltung durchreicht
 	 * @param artID Artikel ID des zu entfernenden Artikels
 	 */
-	public void artikelAusWarenkorb(int artID, User akteur) throws ArtikelNichtVerfuegbarException {
-		Iterator<Artikel> it = gibWarenkorb(akteur).iterator();
-		// Warenkorb des Users durchlaufen
-		while (it.hasNext()) {
-			Artikel artikel = it.next();
-			// Artikel gefunden
-			if(artID==artikel.getNummer()){
-				Iterator<Artikel> it2 = gibAlleArtikel().iterator();
-				// gesamten Artikelbestand durchlaufen
-				while (it2.hasNext()) {
-					// Artikel aus dem Warenkorb
-					Artikel alterArtikel = it2.next();
-					// Artikel aus dem Warenkorb hat die selbe Nr wie der Artikel aus dem Artikelbestand
-					if(artikel.getNummer()==alterArtikel.getNummer()){
-						// Aus dem Warenkorb herausgenommene Menge wieder auf den Bestand aufaddieren
-						alterArtikel.setMenge(alterArtikel.getMenge()+artikel.getMenge());
-						// Artikel aus Warenkorb entfernen
-						warkoVer.artikelAusWarenkorb(artikel, akteur);
-						// Ereignis loggen
-						erVer.ereignisEinfuegen(akteur, jahrestag, artikel, artikel.getMenge(), "Artikel aus dem Warenkorb genommen.");
-						break;
-					}
-				}
-			// Artikelnr nicht im Warenkorb des Users vorhanden
-			} else if (!it.hasNext()){
-				ArtikelNichtVerfuegbarException e = new ArtikelNichtVerfuegbarException(artID);
-				throw e; 
-			}
-		}
+
+	public void artikelAusWarenkorb(int artID, Kunde akteur) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException {	
+		Artikel a = artVer.findArtikelByNumber(artID);
+		warkoVer.artikelAusWarenkorb(a, akteur);
 	}
+	
+//	public void artikelAusWarenkorb(int artID, User akteur) throws ArtikelNichtVerfuegbarException {
+//		Iterator<Artikel> it = gibWarenkorb((Kunde)akteur).iterator();
+//		// Warenkorb des Users durchlaufen
+//		while (it.hasNext()) {
+//			Artikel artikel = it.next();
+//			// Artikel gefunden
+//			if(artID==artikel.getNummer()){
+//				Iterator<Artikel> it2 = gibAlleArtikel().iterator();
+//				// gesamten Artikelbestand durchlaufen
+//				while (it2.hasNext()) {
+//					// Artikel aus dem Warenkorb
+//					Artikel alterArtikel = it2.next();
+//					// Artikel aus dem Warenkorb hat die selbe Nr wie der Artikel aus dem Artikelbestand
+//					if(artikel.getNummer()==alterArtikel.getNummer()){
+//						// Aus dem Warenkorb herausgenommene Menge wieder auf den Bestand aufaddieren
+//						alterArtikel.setMenge(alterArtikel.getMenge()+artikel.getMenge());
+//						// Artikel aus Warenkorb entfernen
+//						warkoVer.artikelAusWarenkorb(artikel, akteur);
+//						// Ereignis loggen
+//						erVer.ereignisEinfuegen(akteur, jahrestag, artikel, artikel.getMenge(), "Artikel aus dem Warenkorb genommen.");
+//						break;
+//					}
+//				}
+//			// Artikelnr nicht im Warenkorb des Users vorhanden
+//			} else if (!it.hasNext()){
+//				ArtikelNichtVerfuegbarException e = new ArtikelNichtVerfuegbarException(artID);
+//				throw e; 
+//			}
+//		}
+//	}
+	
+	
 	/**
 	 * Methode die, die Warenkorb Liste löscht.
 	 * @return Die Artikelliste.
 	 */
-	public void warenkorbLeeren(User akteur){
-		Iterator<Artikel> it = gibWarenkorb(akteur).iterator();
-		while (it.hasNext()) {
-			Artikel artikel = it.next();			
-				Iterator<Artikel> it2 = gibAlleArtikel().iterator();
-				while (it2.hasNext()) {
-					Artikel alterArtikel = it2.next();
-					if(artikel.getNummer()==alterArtikel.getNummer()){
-						alterArtikel.setMenge(alterArtikel.getMenge()+artikel.getMenge());
-					}
-				}
-		}
-		warkoVer.warenkorbLeeren(akteur);
+
+	public void warenkorbLeeren(Kunde akteur){
+		akteur.getWarenkorb().leeren();
 	}
 	/** 
 	 * Methode um den Warenkorb einzukaufen.
 	 * @param User aktuellerBenutzer
 	 */
-	public void rechnungErstellen(User akteur){
-		Rechnung rechnung = new Rechnung(akteur, gibWarenkorb(akteur), 0);
-		warkoVer.warenkorbLeeren(akteur);
+	public void rechnungErstellen(Kunde akteur){
+		Rechnung rechnung = new Rechnung(akteur, akteur.getWarenkorb(), 0);
+		warenkorbLeeren(akteur);
 	}
 	
 	/** 
@@ -173,8 +150,8 @@ public class ShopVerwaltung {
 	 * Methode um die Benutzerliste zurückzugeben.
 	 * @return Die Benutzerliste.
 	 */
-	public List<Artikel> gibWarenkorb(User user){
-		return warkoVer.getWarenkorb(user);
+	public Warenkorb gibWarenkorb(Kunde user){
+		return user.getWarenkorb();
 	}	
 
 	public List<Ereignis> gibProtokoll() {
@@ -212,5 +189,9 @@ public class ShopVerwaltung {
 
 	public void loescheUser(int userName, User aktuellerBenutzer) {
 		userVer.loescheUser(userName, aktuellerBenutzer);
+	}
+
+	public void gibArtikellisteAus() {
+		artVer.gibArtikellisteAus();		
 	}
 }

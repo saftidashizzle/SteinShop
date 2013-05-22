@@ -4,7 +4,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import shop.local.domain.exceptions.ArtikelNichtVerfuegbarException;
 import shop.local.valueobjects.Artikel;
+import shop.local.valueobjects.Warenkorb;
 
 public class ArtikelVerwaltung {
 
@@ -42,4 +44,36 @@ public class ArtikelVerwaltung {
 			}
 		}
 	}
+	public Artikel findArtikelByNumber(int artID) throws ArtikelNichtVerfuegbarException {
+		Iterator<Artikel> it = artikelBestand.iterator();
+		// Artikel erstellen
+		Artikel artikel = null;
+		// Artikelverzeichnis durchlaufen
+		while (it.hasNext()) {
+			artikel = it.next();
+			// gesuchte Artikel ID gefunden
+			if(artID==artikel.getNummer()){
+				return artikel;				
+			} else if (!(artID==artikel.getNummer())&&!it.hasNext()){ // gesuchte Artikel ID nicht gefunden
+				throw new ArtikelNichtVerfuegbarException(artID); 
+			}
+		}
+		return null;
+	}
+	public void gibArtikellisteAus(){
+		
+		if(artikelBestand.isEmpty()) {
+			System.out.println("Liste ist leer.");
+		} else {
+			Iterator<Artikel> it = artikelBestand.iterator();
+			while (it.hasNext()) {
+				Artikel artikel = it.next();
+				if (!(artikel.getMenge() == 0)) {
+					System.out.println(artikel.toString());
+				}
+			}			
+		}
+		System.out.println(" ");
+	}
+	
 }

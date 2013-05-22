@@ -1,14 +1,12 @@
 package shop.local.valueobjects;
 
-import java.util.List;
-import java.util.Vector;
 
 public class Kunde extends User {
 	private String strasseUndHausnr;
 	private int plz;
 	private String ort;
 	private String land;
-	private List<Artikel> warenkorb = new Vector<Artikel>();
+	private Warenkorb warenkorb = new Warenkorb();
 	
 	public Kunde(String name, String passwort, int nr, String anrede, String vorUndZuName, String strasse, int plz, String ort, String land) {
 		super(name, passwort, nr, anrede, vorUndZuName);
@@ -48,7 +46,7 @@ public class Kunde extends User {
 	 * Methode die die aktuelle Artikelliste zurückgibt
 	 * @return die aktuelle Artikelliste.
 	 */
-	public List<Artikel> getWarenkorb() {
+	public Warenkorb getWarenkorb() {
 		return warenkorb;
 	}
 }

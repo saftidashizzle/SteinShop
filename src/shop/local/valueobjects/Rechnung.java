@@ -16,7 +16,7 @@ public class Rechnung {
 		System.out.println("Rechnung: \n" +
 				"Kunde: " + kunde.getName() + 
 				" | Datum: " + jahrestag);
-
+			
 //		Iterator<Artikel> it = warenkorb.iterator();
 //		while (it.hasNext()) {
 //			Artikel artikel = it.next();

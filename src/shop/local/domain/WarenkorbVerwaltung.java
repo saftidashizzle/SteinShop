@@ -1,7 +1,6 @@
 package shop.local.domain;
 
-import java.util.Iterator;
-
+import java.util.HashMap;
 import shop.local.domain.exceptions.ArtikelMengeReichtNichtException;
 import shop.local.valueobjects.Artikel;
 import shop.local.valueobjects.Kunde;
@@ -75,5 +74,17 @@ public class WarenkorbVerwaltung {
 //				artikel.setMenge(anzahl + artikel.getMenge());
 //			} 
 //		}
+	}
+	public void getWarenkorbInhalt(User user){
+		HashMap<Artikel, Integer> warenkorb = ((Kunde) user).getWarenkorb().getInhalt();
+		if(warenkorb.isEmpty()){
+			System.out.println("Warenkorb ist leer.");
+		}
+		else{
+			for(Artikel key : warenkorb.keySet())
+		    {
+		      System.out.print( key + " | Anzahl: " + warenkorb.get(key) + " | Preis: " + key.getPreis()*warenkorb.get(key) + "\n");
+		    }
+		}
 	}
 }

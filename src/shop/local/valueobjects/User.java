@@ -1,7 +1,5 @@
 package shop.local.valueobjects;
 
-import java.util.List;
-
 /**
  * Klasse User
  * 

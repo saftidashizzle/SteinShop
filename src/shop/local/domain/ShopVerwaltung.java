@@ -35,13 +35,22 @@ public class ShopVerwaltung {
 	 * Methode die einen neuen Artikel einfügt und den Auftrag an die Artikelverwaltung weiterreicht.
 	 * @param titel Titel des einzufügenden Artikels.
 	 * @param nummer Nummer des einzufügenden Artikels.
+	 * @param aktuellerBenutzer 
+	 */
+	public void fuegeArtikelEin(String titel, double d, User akteur)  { // hier fehlt ArtikelExistiertBereitsException
+		artVer.einfuegen(titel, d);
+		//erVer.ereignisEinfuegen(akteur, jahrestag, artVer.getArtikelBestand().get(artVer.getArtikelBestand().size()), menge, "Artikel zum Bestand hinzugefuegt.");
+	}
+	/**
+	 * Methode die einen neuen Artikel einfügt und den Auftrag an die Artikelverwaltung weiterreicht.
+	 * @param titel Titel des einzufügenden Artikels.
+	 * @param nummer Nummer des einzufügenden Artikels.
 	 * @param menge Menge des einzufügenden Artikels
 	 * @param aktuellerBenutzer 
 	 */
-	public void fuegeArtikelEin(String titel, int menge, double d, User akteur)  { // hier fehlt ArtikelExistiertBereitsException
-		Artikel art = new Artikel(titel, menge, d);
-		artVer.einfuegen(art);
-		erVer.ereignisEinfuegen(akteur, jahrestag, artVer.getArtikelBestand().get(artVer.getArtikelBestand().size()), menge, "Artikel zum Bestand hinzugefuegt.");
+	public void fuegeArtikelEin(String titel, double d, User akteur, int menge)  { // hier fehlt ArtikelExistiertBereitsException
+		artVer.einfuegen(titel, d, menge);
+		//erVer.ereignisEinfuegen(akteur, jahrestag, artVer.getArtikelBestand().get(artVer.getArtikelBestand().size()), menge, "Artikel zum Bestand hinzugefuegt.");
 	}
 	/**
 	 * Methode um einen User einzufügen
@@ -147,7 +156,7 @@ public class ShopVerwaltung {
 	}
 	
 	/**
-	 * Methode um die Benutzerliste zurückzugeben.
+	 * Methode um den Warenkorb Inhaltzurückzugeben.
 	 * @return Die Benutzerliste.
 	 */
 	public Warenkorb gibWarenkorb(Kunde user){
@@ -193,5 +202,9 @@ public class ShopVerwaltung {
 
 	public void gibArtikellisteAus() {
 		artVer.gibArtikellisteAus();		
+	}
+	
+	public void getWarenkorbInhalt(User user){
+		warkoVer.getWarenkorbInhalt(user);
 	}
 }

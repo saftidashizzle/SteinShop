@@ -6,18 +6,28 @@ import java.util.Vector;
 
 import shop.local.domain.exceptions.ArtikelNichtVerfuegbarException;
 import shop.local.valueobjects.Artikel;
-import shop.local.valueobjects.Warenkorb;
 
 public class ArtikelVerwaltung {
 
 	private List<Artikel> artikelBestand = new Vector<Artikel>();
+	private int laufnr = 0;
 	
 	/**
 	 * Methode um einen neuen Artikel in die Liste einzufügen.
 	 * @param einArtikel der Artikel der eingefügt werden soll.
 	 */
-	public void einfuegen(Artikel einArtikel) {
-		
+	public void einfuegen(String titel, double d) {
+		int nr = bestimmeNr();
+		Artikel einArtikel = new Artikel(titel, nr, d, 1);
+		artikelBestand.add(einArtikel);
+	}
+	/**
+	 * Methode um einen neuen Artikel in die Liste einzufügen.
+	 * @param einArtikel der Artikel der eingefügt werden soll.
+	 */
+	public void einfuegen(String titel, double d, int menge) {
+		int nr = bestimmeNr();
+		Artikel einArtikel = new Artikel(titel, nr, d, menge);
 		artikelBestand.add(einArtikel);
 	}
 	/**
@@ -74,6 +84,12 @@ public class ArtikelVerwaltung {
 			}			
 		}
 		System.out.println(" ");
+	}
+	private int bestimmeNr() {
+		int counter;
+		laufnr++;
+		counter = laufnr;
+		return counter;
 	}
 	
 }

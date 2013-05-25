@@ -13,13 +13,16 @@ public class Warenkorb {
 		} else {
 			warenkorb.put(a, menge);
 		}
-	}
-	
+	}	
 	public void artikelEntfernen(Artikel a) {
-		
+		warenkorb.remove(a);
 	}
 	
 	public void leeren() {
 		warenkorb.clear();
 	}
+	public HashMap<Artikel, Integer> getInhalt(){
+		return warenkorb;
+	}
+	
 }

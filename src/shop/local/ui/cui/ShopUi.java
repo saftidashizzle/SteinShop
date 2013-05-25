@@ -34,9 +34,9 @@ public class ShopUi {
 	
 	public static void main(String[] args) {
 		ShopUi shop = new ShopUi();
-		shop.shopVer.fuegeArtikelEin("EINSTEIN", 42, 1.99, null);
-		shop.shopVer.fuegeArtikelEin("ZWEISTEIN", 11, 2.99, null);
-		shop.shopVer.fuegeArtikelEin("DREISTEIN", 1, 3.99, null);
+		shop.shopVer.fuegeArtikelEin("EINSTEIN", 1.99, null, 12);
+		shop.shopVer.fuegeArtikelEin("ZWEISTEIN", 2.99, null);
+		shop.shopVer.fuegeArtikelEin("DREISTEIN", 3.99, null);
 		
 		shop.shopVer.fuegeUserEin("Kunde", "123", "Herr", "Axel Schweiss","Elbenweg 3", 1337, "Bruchtal", "Mittelerde");
 		shop.shopVer.fuegeUserEin("Mitarbeiter", "123", "Herr", "Voll iDiot");
@@ -70,7 +70,7 @@ public class ShopUi {
 				"und ein steinhartes Kauferlebnis.\n");
 				do {
 					System.out.println("Artikelliste:");
-					gibArtikellisteAus(ArtikelListe);
+					gibArtikellisteAus();
 					if(aktuellerBenutzer.getAdresse()==null) {
 						menueMitarbeiter();
 					} else {
@@ -205,11 +205,11 @@ public class ShopUi {
 				eingabe = liesEingabe();
 				double preis = Double.parseDouble(eingabe);
 				System.out.println("wird angelegt!");
-				shopVer.fuegeArtikelEin(name, menge, preis, aktuellerBenutzer);
+				shopVer.fuegeArtikelEin(name, preis, aktuellerBenutzer, menge);
 				break;
 			case "m":
 				System.out.println("Artikelliste:");
-				gibArtikellisteAus(shopVer.gibAlleArtikel());
+				gibArtikellisteAus();
 				System.out.println("Artikelnummer des zu ändernden Artikel eingeben.");
 				eingabe = liesEingabe();
 				int nummer = Integer.parseInt(eingabe);
@@ -272,7 +272,8 @@ public class ShopUi {
 			Warenkorb warenkorb = ((Kunde)aktuellerBenutzer).getWarenkorb();
 		switch(eingabe) {
 			case "w": 
-				gibArtikellisteAus(warenkorb);
+				shopVer.getWarenkorbInhalt(aktuellerBenutzer);
+				//gibArtikellisteAus();
 				break;
 //			case "b": 
 //				System.out.println("Welchen Artikel?");

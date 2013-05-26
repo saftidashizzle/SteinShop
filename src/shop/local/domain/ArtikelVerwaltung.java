@@ -54,6 +54,12 @@ public class ArtikelVerwaltung {
 			}
 		}
 	}
+	/**
+	 * findet einen nach der ArtikelId gesuchten Artikel und gibt diesen zurück
+	 * @param artID Artikel Id des zu suchenden Artikels
+	 * @return Artikel gibt den Artikel zurück
+	 * @throws ArtikelNichtVerfuegbarException
+	 */
 	public Artikel findArtikelByNumber(int artID) throws ArtikelNichtVerfuegbarException {
 		Iterator<Artikel> it = artikelBestand.iterator();
 		// Artikel erstellen
@@ -70,8 +76,10 @@ public class ArtikelVerwaltung {
 		}
 		return null;
 	}
-	public void gibArtikellisteAus(){
-		
+	/**
+	 * gibt die Artikelliste aus
+	 */
+	public void gibArtikellisteAus(){		
 		if(artikelBestand.isEmpty()) {
 			System.out.println("Liste ist leer.");
 		} else {
@@ -85,6 +93,10 @@ public class ArtikelVerwaltung {
 		}
 		System.out.println(" ");
 	}
+	/**
+	 * gibt die Aktuelle Nr die für neu angelegte Artikel verwendet werden soll zurück
+	 * @return laufnr zuverwendende Artikel Id
+	 */
 	private int bestimmeNr() {
 		int counter;
 		laufnr++;

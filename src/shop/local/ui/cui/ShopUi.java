@@ -40,9 +40,7 @@ public class ShopUi {
 		
 		shop.shopVer.fuegeUserEin("Kunde", "123", "Herr", "Axel Schweiss","Elbenweg 3", 1337, "Bruchtal", "Mittelerde");
 		shop.shopVer.fuegeUserEin("Mitarbeiter", "123", "Herr", "Voll iDiot");
-		shop.shopVer.fuegeUserEin("Rupert", "123", "Herr", "Rupert Tunnichtgut", "Haufenweg 2", 7353, "Hodenhausen", "DA WO ES STINKT");
-
-		
+		shop.shopVer.fuegeUserEin("Rupert", "123", "Herr", "Rupert Tunnichtgut", "Haufenweg 2", 7353, "Hodenhausen", "DA WO ES STINKT");		
 		
 		try {
 			shop.run();
@@ -50,12 +48,8 @@ public class ShopUi {
 		catch (Exception e) {
 			System.out.println("Fehler bei der Eingabe");
 			e.printStackTrace();
-		}
-		
-
-		
-	}
-	
+		}		
+	}	
 	/**
 	 * Methode, die in der Main am Anfang ausgeführt wird und das ganze Programm zum Laufen bringt.
 	 * @throws IOException

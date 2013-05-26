@@ -90,39 +90,6 @@ public class ShopVerwaltung {
 		Artikel a = artVer.findArtikelByNumber(artID);
 		warkoVer.artikelAusWarenkorb(a, akteur);
 	}
-	
-//	public void artikelAusWarenkorb(int artID, User akteur) throws ArtikelNichtVerfuegbarException {
-//		Iterator<Artikel> it = gibWarenkorb((Kunde)akteur).iterator();
-//		// Warenkorb des Users durchlaufen
-//		while (it.hasNext()) {
-//			Artikel artikel = it.next();
-//			// Artikel gefunden
-//			if(artID==artikel.getNummer()){
-//				Iterator<Artikel> it2 = gibAlleArtikel().iterator();
-//				// gesamten Artikelbestand durchlaufen
-//				while (it2.hasNext()) {
-//					// Artikel aus dem Warenkorb
-//					Artikel alterArtikel = it2.next();
-//					// Artikel aus dem Warenkorb hat die selbe Nr wie der Artikel aus dem Artikelbestand
-//					if(artikel.getNummer()==alterArtikel.getNummer()){
-//						// Aus dem Warenkorb herausgenommene Menge wieder auf den Bestand aufaddieren
-//						alterArtikel.setMenge(alterArtikel.getMenge()+artikel.getMenge());
-//						// Artikel aus Warenkorb entfernen
-//						warkoVer.artikelAusWarenkorb(artikel, akteur);
-//						// Ereignis loggen
-//						erVer.ereignisEinfuegen(akteur, jahrestag, artikel, artikel.getMenge(), "Artikel aus dem Warenkorb genommen.");
-//						break;
-//					}
-//				}
-//			// Artikelnr nicht im Warenkorb des Users vorhanden
-//			} else if (!it.hasNext()){
-//				ArtikelNichtVerfuegbarException e = new ArtikelNichtVerfuegbarException(artID);
-//				throw e; 
-//			}
-//		}
-//	}
-	
-	
 	/**
 	 * Methode die, die Warenkorb Liste löscht.
 	 * @return Die Artikelliste.
@@ -162,11 +129,19 @@ public class ShopVerwaltung {
 	public Warenkorb gibWarenkorb(Kunde user){
 		return user.getWarenkorb();
 	}	
-
+	/**
+	 * Methode die das Protokoll ausgiebt
+	 * @return
+	 */
 	public List<Ereignis> gibProtokoll() {
 		return erVer.gibProtokoll();
 	}
-	
+	/**
+	 * Methode die einer Liste ändert
+	 * @param nummer
+	 * @param anzahl
+	 * @param akteur
+	 */
 	public void mengeAendern(int nummer, int anzahl, User akteur) {
 		artVer.setArtikelMenge(nummer, anzahl);
 		// was hat er gemacht?
@@ -188,22 +163,36 @@ public class ShopVerwaltung {
 		// aus nummer und anzahl muss ich den rest herausfinden
 		erVer.ereignisEinfuegen(akteur, jahrestag, derWars, anzahl, "Bestandsanzahl geändert.");
 	}
+	/**
+	 * Methode die, die Artikelliste Nach Namen ordnet
+	 */
 	public void artikelNachNamenOrdnen() {
 		Collections.sort(gibAlleArtikel(), new comperatorArtikelName()); 
 	}
-	
+	/**
+	 * Methode die, die Artikelliste Nach Zahlen ordnet
+	 */
 	public void artikelNachZahlenOrdnen() { 
 		Collections.sort(gibAlleArtikel(), new comperatorArtikelNummer());
 	}
-
+	/**
+	 * Methode die einen User löscht
+	 * @param userName
+	 * @param aktuellerBenutzer
+	 */
 	public void loescheUser(int userName, User aktuellerBenutzer) {
 		userVer.loescheUser(userName, aktuellerBenutzer);
 	}
-
+	/**
+	 * Methode die, die Artikelliste ausgiebt
+	 */
 	public void gibArtikellisteAus() {
 		artVer.gibArtikellisteAus();		
 	}
-	
+	/**
+	 * Methode die den WarenkorbInhalt vom User ausgeben soll
+	 * @param user
+	 */
 	public void getWarenkorbInhalt(User user){
 		warkoVer.getWarenkorbInhalt(user);
 	}

@@ -7,11 +7,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import shop.local.domain.ShopVerwaltung;
-import shop.local.valueobjects.Artikel;
-import shop.local.valueobjects.Ereignis;
 import shop.local.valueobjects.Kunde;
 import shop.local.valueobjects.User;
-import shop.local.valueobjects.Warenkorb;
 /**
  * ShopUi: Klasse die das Konsolen Interface für den Shop bereitstellt.
  * 
@@ -35,8 +32,8 @@ public class ShopUi {
 	public static void main(String[] args) {
 		ShopUi shop = new ShopUi();
 		shop.shopVer.fuegeArtikelEin("EINSTEIN", 1.99, null, 12);
-		shop.shopVer.fuegeArtikelEin("ZWEISTEIN", 2.99, null);
-		shop.shopVer.fuegeArtikelEin("DREISTEIN", 3.99, null);
+		shop.shopVer.fuegeArtikelEin("ZWEISTEIN", 2.99, null, 1);
+		shop.shopVer.fuegeArtikelEin("DREISTEIN", 3.99, null, 1);
 		
 		shop.shopVer.fuegeUserEin("Kunde", "123", "Herr", "Axel Schweiss","Elbenweg 3", 1337, "Bruchtal", "Mittelerde");
 		shop.shopVer.fuegeUserEin("Mitarbeiter", "123", "Herr", "Voll iDiot");
@@ -55,7 +52,6 @@ public class ShopUi {
 	 * @throws IOException
 	 */
 	public void run() throws IOException {
-		List<Artikel> ArtikelListe = shopVer.gibAlleArtikel();
 		List<User> UserListe = shopVer.gibAlleUser();
 		do{
 			if(!(aktuellerBenutzer == null)){
@@ -121,14 +117,6 @@ public class ShopUi {
 	private void gibArtikellisteAus() {
 		shopVer.gibArtikellisteAus();
 	}
-	/**
-	 * Methode die, alle Elemente der Benutzerliste (siehe artikel.toString()) in der Konsole ausgibt.
-	 * @param liste
-	 */
-	private void gibBenutzerlisteAus() {
-		shopVer.gibBenutzerlisteAus();
-	}
-
 	/** Methode die den eingeloggten Benutzer zurück gibt. Es wird die vorher abgerufene Userliste, sowie ein String Name
 	 * und ein String Passwort übergeben.
 	 * 
@@ -232,14 +220,13 @@ public class ShopUi {
 				//"b) Artikelbeschreibung aufrufen\n" +
 				"n) Artikel nach Namen ordnen\n" +
 				"f) Artikel nach Nummern ordnen\n" +
-				"c) Artikel Kaufen\n" +
+				"c) Artikel in Warenkorb legen\n" +
 				"d) Artikel aus Warenkorb\n" +
 				"e) Warenkorb leeren\n" +
 				"k) Zur Kasse\n" +
 				"a) Ausloggen");
 		
 			eingabe = liesEingabe();
-			Warenkorb warenkorb = ((Kunde)aktuellerBenutzer).getWarenkorb();
 		switch(eingabe) {
 			case "w": 
 				shopVer.getWarenkorbInhalt(aktuellerBenutzer);
@@ -263,7 +250,7 @@ public class ShopUi {
 				eingabe = liesEingabe();
 				int menge = Integer.parseInt(eingabe);
 				try {
-					shopVer.artikelInWarenkorb(artID, menge, aktuellerBenutzer);
+					shopVer.artikelInWarenkorb(artID, menge, aktuellerBenutzer);			
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

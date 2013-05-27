@@ -29,17 +29,6 @@ public class ShopVerwaltung {
 		warkoVer = new WarenkorbVerwaltung();
 		erVer = new EreignisVerwaltung();
 	}
-	
-	/**
-	 * Methode die einen neuen Artikel einfügt und den Auftrag an die Artikelverwaltung weiterreicht.
-	 * @param titel Titel des einzufügenden Artikels.
-	 * @param nummer Nummer des einzufügenden Artikels.
-	 * @param aktuellerBenutzer 
-	 */
-	public void fuegeArtikelEin(String titel, double d, User akteur)  { // hier fehlt ArtikelExistiertBereitsException
-		artVer.einfuegen(titel, d);
-		//erVer.ereignisEinfuegen(akteur, jahrestag, artVer.getArtikelBestand().get(artVer.getArtikelBestand().size()), menge, "Artikel zum Bestand hinzugefuegt.");
-	}
 	/**
 	 * Methode die einen neuen Artikel einfügt und den Auftrag an die Artikelverwaltung weiterreicht.
 	 * @param titel Titel des einzufügenden Artikels.
@@ -48,8 +37,8 @@ public class ShopVerwaltung {
 	 * @param aktuellerBenutzer 
 	 */
 	public void fuegeArtikelEin(String titel, double d, User akteur, int menge)  { // hier fehlt ArtikelExistiertBereitsException
-		artVer.einfuegen(titel, d, menge);
-		//erVer.ereignisEinfuegen(akteur, jahrestag, artVer.getArtikelBestand().get(artVer.getArtikelBestand().size()), menge, "Artikel zum Bestand hinzugefuegt.");
+		Artikel a = artVer.einfuegen(titel, d, menge);
+		erVer.ereignisEinfuegen(akteur, jahrestag, a, a.getMenge(), "Neuer Artikel erstellt.");
 	}
 	/**
 	 * Methode um einen User einzufügen
@@ -76,9 +65,10 @@ public class ShopVerwaltung {
 	 * @param menge Menge des einzufügenden Artikels
 	 * @throws ArtikelNummerFalsch 
 	 */
-	public void artikelInWarenkorb(int artID, int menge, User akteur) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException {	
+	public void artikelInWarenkorb(int artID, int menge, User akteur) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException {	// wieso ändert sich hier die Menge in der Artikelliste????
 		Artikel a = artVer.findArtikelByNumber(artID);
 		warkoVer.artikelInWarenkorb(a, menge, akteur);
+		// erVer.ereignisEinfuegen(akteur, jahrestag, a, menge, "in den Warenkorb getan."); // hier liegt der fehler
 	}
 	/**
 	 * Methode die einen artikel einliest und an die warenkorb verwaltung durchreicht
@@ -88,6 +78,7 @@ public class ShopVerwaltung {
 	public void artikelAusWarenkorb(int artID, Kunde akteur) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException {	
 		Artikel a = artVer.findArtikelByNumber(artID);
 		warkoVer.artikelAusWarenkorb(a, akteur);
+		erVer.ereignisEinfuegen(akteur, jahrestag, a, a.getMenge(), "Artikel " + a.getName() + " aus dem Warenkorb entfernt.");
 	}
 	/**
 	 * Methode die, die Warenkorb Liste löscht.
@@ -143,7 +134,7 @@ public class ShopVerwaltung {
 	 */
 	public void mengeAendern(int nummer, int anzahl, User akteur) {
 		artVer.setArtikelMenge(nummer, anzahl);
-		// was hat er gemacht?
+		// hier wird nach dem artikelmenge aendern, mit der nummer das artikel objekt herausgesucht
 		List<Artikel> liste2 = artVer.getArtikelBestand();
 		Iterator<Artikel> it = liste2.iterator();
 		Artikel derWars = null;

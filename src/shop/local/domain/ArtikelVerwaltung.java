@@ -12,27 +12,17 @@ public class ArtikelVerwaltung {
 
 	private List<Artikel> artikelBestand = new Vector<Artikel>();
 	private int laufnr = 0;
-	
-	/**
-	 * Methode um einen neuen Artikel in die Liste einzufügen.
-	 * @param titel: Name des Artikels der eingefuegt werden soll.
-	 * @param preis Preis
-	 */
-	public void einfuegen(String titel, double preis) {
-		int nr = bestimmeNr();
-		Artikel einArtikel = new Artikel(titel, nr, preis, 1);
-		artikelBestand.add(einArtikel);
-	}
 	/**
 	 * Methode um einen neuen Artikel in die Liste einzufügen.
 	 * @param titel: Name des Artikels der eingefuegt werden soll.
 	 * @param preis Preis
 	 * @param menge Menge
 	 */
-	public void einfuegen(String titel, double preis, int menge) {
+	public Artikel einfuegen(String titel, double preis, int menge) {
 		int nr = bestimmeNr();
 		Artikel einArtikel = new Artikel(titel, nr, preis, menge);
 		artikelBestand.add(einArtikel);
+		return einArtikel;
 	}
 	/**
 	 * Methode die die aktuelle Artikelliste zurückgibt

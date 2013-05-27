@@ -125,34 +125,10 @@ public class ShopUi {
 	 * Methode die, alle Elemente der Benutzerliste (siehe artikel.toString()) in der Konsole ausgibt.
 	 * @param liste
 	 */
-	private void gibBenutzerlisteAus(List<User> liste) {
-		if(liste.isEmpty()) {
-			System.out.println("Liste ist leer.");
-		} else {
-			Iterator<User> it = liste.iterator();
-			while (it.hasNext()) {
-				User user = it.next();
-				System.out.println(user.toString());
-			}			
-		}
-		System.out.println(" ");
+	private void gibBenutzerlisteAus() {
+		shopVer.gibBenutzerlisteAus();
 	}
-	/**
-	 * Methode die, alle Elemente des Protokolls in der Konsole ausgibt.
-	 * @param liste
-	 */
-	private void gibProtokollAus(List<Ereignis> liste) {
-		if(liste.isEmpty()) {
-			System.out.println("Liste ist leer.");
-		} else {
-			Iterator<Ereignis> it = liste.iterator();
-			while (it.hasNext()) {
-				Ereignis ereignis = it.next();
-				System.out.println(ereignis.toString());
-			}			
-		}
-		System.out.println(" ");
-	}
+
 	/** Methode die den eingeloggten Benutzer zurück gibt. Es wird die vorher abgerufene Userliste, sowie ein String Name
 	 * und ein String Passwort übergeben.
 	 * 
@@ -214,7 +190,7 @@ public class ShopUi {
 				System.out.println("Artikel wurden hinzugefügt!");
 				break;
 			case "u":
-				gibBenutzerlisteAus(shopVer.gibAlleUser());
+				shopVer.gibBenutzerlisteAus();
 				break;
 			case "r": 
 				System.out.println("Waehle deinen Benutzernamen:");
@@ -238,7 +214,7 @@ public class ShopUi {
 				int userName = Integer.parseInt(liesEingabe());
 				shopVer.loescheUser(userName, aktuellerBenutzer);
 			case "p":
-				gibProtokollAus(shopVer.gibProtokoll());
+				shopVer.gibProtokoll();
 				break;
 			case "a":
 				System.out.println("Auf Wiedersehen!");
@@ -307,7 +283,7 @@ public class ShopUi {
 			case "k": zurKasse();
 				break;
 			case "p":
-				gibProtokollAus(shopVer.gibProtokoll());
+				shopVer.gibProtokoll();
 				break;
 			case "a":
 				System.out.println("Auf Wiedersehen!");

@@ -1,5 +1,6 @@
 package shop.local.domain;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -15,10 +16,22 @@ public class EreignisVerwaltung {
 		Ereignis ereignis = new Ereignis(akteur, jahrestag, derWars, anzahl, aktion);
 		protokoll.add(ereignis);
 	}
-	public List<Ereignis> gibProtokoll() {
-		return protokoll;
+	/**
+	 * Methode die, alle Elemente des Protokolls in der Konsole ausgibt.
+	 * @param liste
+	 */
+	public void gibProtokollAus() {
+		if(protokoll.isEmpty()) {
+			System.out.println("Liste ist leer.");
+		} else {
+			Iterator<Ereignis> it = protokoll.iterator();
+			while (it.hasNext()) {
+				Ereignis ereignis = it.next();
+				System.out.println(ereignis.toString());
+			}			
+		}
+		System.out.println(" ");
 	}
-
 	public List<Ereignis> gibEreignisseNachArtikelUndTagen(Artikel a, int anzahlTage) {
 		return null;
 	}

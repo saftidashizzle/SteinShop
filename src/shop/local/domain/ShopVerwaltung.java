@@ -7,7 +7,6 @@ import java.util.List;
 import shop.local.domain.exceptions.ArtikelMengeReichtNichtException;
 import shop.local.domain.exceptions.ArtikelNichtVerfuegbarException;
 import shop.local.valueobjects.Artikel;
-import shop.local.valueobjects.Ereignis;
 import shop.local.valueobjects.Kunde;
 import shop.local.valueobjects.Rechnung;
 import shop.local.valueobjects.User;
@@ -133,8 +132,8 @@ public class ShopVerwaltung {
 	 * Methode die das Protokoll ausgiebt
 	 * @return
 	 */
-	public List<Ereignis> gibProtokoll() {
-		return erVer.gibProtokoll();
+	public void gibProtokoll() {
+		erVer.gibProtokollAus();
 	}
 	/**
 	 * Methode die einer Liste ändert
@@ -188,6 +187,9 @@ public class ShopVerwaltung {
 	 */
 	public void gibArtikellisteAus() {
 		artVer.gibArtikellisteAus();		
+	}
+	public void gibBenutzerlisteAus() {
+		userVer.gibBenutzerlisteAus();
 	}
 	/**
 	 * Methode die den WarenkorbInhalt vom User ausgeben soll

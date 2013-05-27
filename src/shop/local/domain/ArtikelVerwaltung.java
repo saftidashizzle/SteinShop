@@ -7,6 +7,7 @@ import java.util.Vector;
 import shop.local.domain.exceptions.ArtikelNichtVerfuegbarException;
 import shop.local.valueobjects.Artikel;
 
+
 public class ArtikelVerwaltung {
 
 	private List<Artikel> artikelBestand = new Vector<Artikel>();
@@ -14,20 +15,23 @@ public class ArtikelVerwaltung {
 	
 	/**
 	 * Methode um einen neuen Artikel in die Liste einzufügen.
-	 * @param einArtikel der Artikel der eingefügt werden soll.
+	 * @param titel: Name des Artikels der eingefuegt werden soll.
+	 * @param preis Preis
 	 */
-	public void einfuegen(String titel, double d) {
+	public void einfuegen(String titel, double preis) {
 		int nr = bestimmeNr();
-		Artikel einArtikel = new Artikel(titel, nr, d, 1);
+		Artikel einArtikel = new Artikel(titel, nr, preis, 1);
 		artikelBestand.add(einArtikel);
 	}
 	/**
 	 * Methode um einen neuen Artikel in die Liste einzufügen.
-	 * @param einArtikel der Artikel der eingefügt werden soll.
+	 * @param titel: Name des Artikels der eingefuegt werden soll.
+	 * @param preis Preis
+	 * @param menge Menge
 	 */
-	public void einfuegen(String titel, double d, int menge) {
+	public void einfuegen(String titel, double preis, int menge) {
 		int nr = bestimmeNr();
-		Artikel einArtikel = new Artikel(titel, nr, d, menge);
+		Artikel einArtikel = new Artikel(titel, nr, preis, menge);
 		artikelBestand.add(einArtikel);
 	}
 	/**

@@ -1,5 +1,6 @@
 package shop.local.domain;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -49,6 +50,18 @@ public class UserVerwaltung {
 		erst den eingegebenen int abgleichen und user bestimmen
 		*/
 		userBestand.remove(++userName);
+	}
+	public void gibBenutzerlisteAus() {
+		if(userBestand.isEmpty()) {
+			System.out.println("Liste ist leer.");
+		} else {
+			Iterator<User> it = userBestand.iterator();
+			while (it.hasNext()) {
+				User user = it.next();
+				System.out.println(user.toString());
+			}			
+		}
+		System.out.println(" ");
 	}
 
 }

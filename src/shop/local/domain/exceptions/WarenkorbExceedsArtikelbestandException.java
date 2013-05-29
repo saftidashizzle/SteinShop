@@ -1,4 +1,4 @@
-package shop.local.domain;
+package shop.local.domain.exceptions;
 
 public class WarenkorbExceedsArtikelbestandException extends Exception {
  /**

@@ -18,7 +18,8 @@ public class Warenkorb {
 		// Wenn Artikel schon im Warenkorb vorhanden dann Menge erweitern
 		if (warenkorb.containsKey(a)) {
 			int alteMenge = warenkorb.get(a);
-			if (alteMenge+gewuenschteMenge>mengeNochDa) {
+			if (alteMenge+gewuenschteMenge<=mengeNochDa) {
+				System.out.println("Artikel im Warenkorb");
 				warenkorb.put(a, alteMenge + gewuenschteMenge);	
 			} else {
 				throw new WarenkorbExceedsArtikelbestandException();

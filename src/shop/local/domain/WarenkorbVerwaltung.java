@@ -12,7 +12,7 @@ public class WarenkorbVerwaltung {
 	 * @param einArtikel der Artikel der eingefügt werden soll.
 	 * @throws ArtikelMengeReichtNichtException 
 	 */
-	public void artikelInWarenkorb(Artikel einArtikel, int menge, User user, int mengeNochDa) throws ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException {		
+	public void artikelInWarenkorb(Artikel einArtikel, int menge, User user) throws ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException {		
 		// neuen Artikel erstellen, in Warenkorb tun 
 		//Artikel einArtikel= new Artikel(artikel.getName(),artID, artikel.getPreis(), menge);
 		//warkoVer.artikelInWarenkorb(einArtikel, akteur);
@@ -22,12 +22,12 @@ public class WarenkorbVerwaltung {
 		if (user instanceof Kunde) {
 			Kunde k = (Kunde) user;
 			if(menge<=einArtikel.getMenge()){
+				k.getWarenkorb().artikelHinzufuegen(einArtikel, menge, einArtikel.getMenge());
 			} else { // gewollte Menge ist größer als die vorhandene Menge
-				k.getWarenkorb().artikelHinzufuegen(einArtikel, menge, mengeNochDa);
 				ArtikelMengeReichtNichtException e = new ArtikelMengeReichtNichtException(menge, einArtikel.getMenge());
 				throw e;
 			}
-		}
+		}		
 	}
 	/**
 	 * Methode um einen Artikel aus der Liste (warenkorb) zu löschen.

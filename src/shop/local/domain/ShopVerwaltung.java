@@ -75,7 +75,7 @@ public class ShopVerwaltung {
 		Artikel a = artVer.findArtikelByNumber(artID);
 		// überprüfe: sind schon mehr in warenkorb als im bestand?
 		try {		
-			warkoVer.artikelInWarenkorb(a, menge, akteur, a.getMenge());
+			warkoVer.artikelInWarenkorb(a, menge, akteur);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}	

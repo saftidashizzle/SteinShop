@@ -26,7 +26,8 @@ public class WarenkorbVerwaltung {
 			Kunde k = (Kunde) user;
 			if(menge<=einArtikel.getMenge()){
 				if (einArtikel instanceof MehrfachArtikel) {
-					int packungsGroesse = 6; // hier muss ich auf die Methode getPackungsgroesse von Mehrfachartikel zugreifen: Problem nur: ist ein Artikel
+					MehrfachArtikel b = (MehrfachArtikel) einArtikel;
+					int packungsGroesse = b.getPackungsgroesse();
 					if (menge % packungsGroesse == 0) {
 						k.getWarenkorb().artikelHinzufuegen(einArtikel, menge, einArtikel.getMenge());
 					} else {

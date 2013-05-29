@@ -1,6 +1,7 @@
 package shop.local.domain;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -32,13 +33,18 @@ public class ShopVerwaltung {
 	/**
 	 * Methode die einen neuen Artikel einfügt und den Auftrag an die Artikelverwaltung weiterreicht.
 	 * @param titel Titel des einzufügenden Artikels.
-	 * @param nummer Nummer des einzufügenden Artikels.
+	 * @param d Preis des einzufügenden Artikels.
+	 * @param akteur User der die Aktion durchgeführt hat.
 	 * @param menge Menge des einzufügenden Artikels
-	 * @param aktuellerBenutzer 
 	 */
 	public void fuegeArtikelEin(String titel, double d, User akteur, int menge)  { // hier fehlt ArtikelExistiertBereitsException
-		Artikel a = artVer.einfuegen(titel, d, menge);
-		erVer.ereignisEinfuegen(akteur, jahrestag, a, a.getMenge(), "Neuer Artikel erstellt.");
+		try {
+			Artikel a = artVer.einfuegen(titel, d, menge);
+			erVer.ereignisEinfuegen(akteur, jahrestag, a, a.getMenge(), "Neuer Artikel erstellt.");
+		} catch(Exception e) {
+			
+		}
+		
 	}
 	/**
 	 * Methode um einen User einzufügen
@@ -65,10 +71,15 @@ public class ShopVerwaltung {
 	 * @param menge Menge des einzufügenden Artikels
 	 * @throws ArtikelNummerFalsch 
 	 */
-	public void artikelInWarenkorb(int artID, int menge, User akteur) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException {	// wieso ändert sich hier die Menge in der Artikelliste????
+	public void artikelInWarenkorb(int artID, int menge, User akteur) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException {	// wieso ändert sich hier die Menge in der Artikelliste????
 		Artikel a = artVer.findArtikelByNumber(artID);
-		warkoVer.artikelInWarenkorb(a, menge, akteur);
-		// erVer.ereignisEinfuegen(akteur, jahrestag, a, menge, "in den Warenkorb getan."); // hier liegt der fehler
+		// überprüfe: sind schon mehr in warenkorb als im bestand?
+		try {		
+			warkoVer.artikelInWarenkorb(a, menge, akteur, a.getMenge());
+		} catch(Exception e) {
+			e.printStackTrace();
+		}	
+		//erVer.ereignisEinfuegen(akteur, jahrestag, a, menge, "in den Warenkorb getan."); // hier liegt der fehler
 	}
 	/**
 	 * Methode die einen artikel einliest und an die warenkorb verwaltung durchreicht
@@ -86,13 +97,24 @@ public class ShopVerwaltung {
 	 */
 
 	public void warenkorbLeeren(Kunde akteur){
+		
 		akteur.getWarenkorb().leeren();
+		
 	}
 	/** 
 	 * Methode um den Warenkorb einzukaufen.
 	 * @param User aktuellerBenutzer
 	 */
 	public void rechnungErstellen(Kunde akteur){
+		HashMap<Artikel, Integer> warenkorb = akteur.getWarenkorb().getInhalt();
+		if(warenkorb.isEmpty()){
+			System.out.println("Warenkorb ist leer.");
+		} else {
+		//die einzelnen Elemente aus der HashMap durchgehen und ausgeben
+			for(Artikel key : warenkorb.keySet()) {
+				artVer.setArtikelMenge(key.getNummer(), -warenkorb.get(key)); // hier wird zweimal Artikelnummer nicht vorhanden ausgegeben
+		    }
+		}		
 		Rechnung rechnung = new Rechnung(akteur, akteur.getWarenkorb(), 0);
 		warenkorbLeeren(akteur);
 	}

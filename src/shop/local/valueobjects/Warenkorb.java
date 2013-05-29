@@ -3,6 +3,8 @@ package shop.local.valueobjects;
 import java.io.IOException;
 import java.util.HashMap;
 
+import shop.local.domain.WarenkorbExceedsArtikelbestandException;
+
 public class Warenkorb {
 
 	private HashMap<Artikel, Integer> warenkorb = new HashMap<Artikel, Integer>();
@@ -10,15 +12,20 @@ public class Warenkorb {
 	 * Methode, die einen Artikel in den Warenkorb hinzufügt
 	 * @param a ausgewählter Artikel
 	 * @param menge anzahl des ausgewählten Artikels
+	 * @throws WarenkorbExceedsArtikelbestandException 
 	 */
-	public void artikelHinzufuegen(Artikel a, int menge) {
+	public void artikelHinzufuegen(Artikel a, int gewuenschteMenge, int mengeNochDa) throws WarenkorbExceedsArtikelbestandException {
 		// Wenn Artikel schon im Warenkorb vorhanden dann Menge erweitern
 		if (warenkorb.containsKey(a)) {
 			int alteMenge = warenkorb.get(a);
-			warenkorb.put(a, alteMenge + menge);
+			if (alteMenge+gewuenschteMenge>mengeNochDa) {
+				warenkorb.put(a, alteMenge + gewuenschteMenge);	
+			} else {
+				throw new WarenkorbExceedsArtikelbestandException();
+			}
 		} else {
 		// Ansonsten neu in Liste hinzufügen
-			warenkorb.put(a, menge);
+			warenkorb.put(a, gewuenschteMenge);
 		}
 	}	
 	/**

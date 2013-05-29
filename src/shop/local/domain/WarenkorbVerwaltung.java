@@ -12,7 +12,7 @@ public class WarenkorbVerwaltung {
 	 * @param einArtikel der Artikel der eingefügt werden soll.
 	 * @throws ArtikelMengeReichtNichtException 
 	 */
-	public void artikelInWarenkorb(Artikel einArtikel, int menge, User user) throws ArtikelMengeReichtNichtException {		
+	public void artikelInWarenkorb(Artikel einArtikel, int menge, User user, int mengeNochDa) throws ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException {		
 		// neuen Artikel erstellen, in Warenkorb tun 
 		//Artikel einArtikel= new Artikel(artikel.getName(),artID, artikel.getPreis(), menge);
 		//warkoVer.artikelInWarenkorb(einArtikel, akteur);
@@ -22,8 +22,8 @@ public class WarenkorbVerwaltung {
 		if (user instanceof Kunde) {
 			Kunde k = (Kunde) user;
 			if(menge<=einArtikel.getMenge()){
-				k.getWarenkorb().artikelHinzufuegen(einArtikel, menge);
 			} else { // gewollte Menge ist größer als die vorhandene Menge
+				k.getWarenkorb().artikelHinzufuegen(einArtikel, menge, mengeNochDa);
 				ArtikelMengeReichtNichtException e = new ArtikelMengeReichtNichtException(menge, einArtikel.getMenge());
 				throw e;
 			}
@@ -64,7 +64,7 @@ public class WarenkorbVerwaltung {
 		//die einzelnen Elemente aus der HashMap durchgehen und ausgeben
 			for(Artikel key : warenkorb.keySet())
 		    {
-		      System.out.print( key + " | Anzahl: " + warenkorb.get(key) + " | Preis: " + key.getPreis()*warenkorb.get(key) + "\n");
+		      System.out.print(key.getNummer() + key.getName() + key.getPreis() + " | Anzahl: " + warenkorb.get(key) + " | Preis: " + key.getPreis()*warenkorb.get(key) + "\n");
 		    }
 		}
 	}

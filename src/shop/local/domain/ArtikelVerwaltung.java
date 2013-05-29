@@ -18,7 +18,7 @@ public class ArtikelVerwaltung {
 	 * @param preis Preis
 	 * @param menge Menge
 	 */
-	public Artikel einfuegen(String titel, double preis, int menge) {
+	public Artikel einfuegen(String titel, double preis, int menge) throws WarenkorbExceedsArtikelbestandException { 
 		int nr = bestimmeNr();
 		Artikel einArtikel = new Artikel(titel, nr, preis, menge);
 		artikelBestand.add(einArtikel);
@@ -37,15 +37,12 @@ public class ArtikelVerwaltung {
 	 * @param anzahl Wieviel hinzugefügt werden soll.
 	 */
 	public void setArtikelMenge(int nummer, int anzahl) {
-		
 		Iterator<Artikel> it = artikelBestand.iterator();
 		while  (it.hasNext()) {
 			Artikel artikel = it.next();
 			if(artikel.getNummer() == nummer){
 				artikel.setMenge(anzahl + artikel.getMenge());
-			} else {
-				System.out.println("Artikelnummer nicht vorhanden.");
-			}
+			} 
 		}
 	}
 	/**

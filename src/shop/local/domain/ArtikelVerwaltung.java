@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Vector;
 
 import shop.local.domain.exceptions.ArtikelNichtVerfuegbarException;
+import shop.local.domain.exceptions.WarenkorbExceedsArtikelbestandException;
 import shop.local.valueobjects.Artikel;
+import shop.local.valueobjects.MehrfachArtikel;
 
 
 public class ArtikelVerwaltung {
@@ -25,6 +27,18 @@ public class ArtikelVerwaltung {
 		return einArtikel;
 	}
 	/**
+	 * Methode um einen neuen Artikel in die Liste einzufügen.
+	 * @param titel: Name des Artikels der eingefuegt werden soll.
+	 * @param preis Preis
+	 * @param menge Menge
+	 */
+	public MehrfachArtikel einfuegen(String titel, double preis, int menge, int packungsGroesse) throws WarenkorbExceedsArtikelbestandException { 
+		int nr = bestimmeNr();
+		MehrfachArtikel einArtikel = new MehrfachArtikel(titel, nr, preis, menge, packungsGroesse);
+		artikelBestand.add(einArtikel);
+		return einArtikel;
+	}
+	 /**
 	 * Methode die die aktuelle Artikelliste zurückgibt
 	 * @return die aktuelle Artikelliste.
 	 */
@@ -33,6 +47,7 @@ public class ArtikelVerwaltung {
 	}
 	/**
 	 * Methode um die Menge eines Artikels zu ändern.
+	 * int anzahl wird hinzugefügt
 	 * @param nummer Artikelnummer des zu ändernden Artikels.
 	 * @param anzahl Wieviel hinzugefügt werden soll.
 	 */
@@ -41,7 +56,7 @@ public class ArtikelVerwaltung {
 		while  (it.hasNext()) {
 			Artikel artikel = it.next();
 			if(artikel.getNummer() == nummer){
-				artikel.setMenge(anzahl + artikel.getMenge());
+				artikel.setMenge(artikel.getMenge() + anzahl);
 			} 
 		}
 	}

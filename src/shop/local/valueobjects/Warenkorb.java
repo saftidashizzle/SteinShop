@@ -1,9 +1,8 @@
 package shop.local.valueobjects;
 
-import java.io.IOException;
 import java.util.HashMap;
 
-import shop.local.domain.WarenkorbExceedsArtikelbestandException;
+import shop.local.domain.exceptions.WarenkorbExceedsArtikelbestandException;
 
 public class Warenkorb {
 

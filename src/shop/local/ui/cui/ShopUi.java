@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import shop.local.domain.ShopVerwaltung;
+import shop.local.domain.exceptions.ArtikelNichtVerfuegbarException;
+import shop.local.domain.exceptions.LoginFehlgeschlagenException;
 import shop.local.valueobjects.Kunde;
 import shop.local.valueobjects.User;
 /**
@@ -34,6 +36,8 @@ public class ShopUi {
 		shop.shopVer.fuegeArtikelEin("EINSTEIN", 1.99, null, 12);
 		shop.shopVer.fuegeArtikelEin("ZWEISTEIN", 2.99, null, 1);
 		shop.shopVer.fuegeArtikelEin("DREISTEIN", 3.99, null, 1);
+		shop.shopVer.fuegeArtikelEin("SECHSSTEIN", 9.99, null, 48, 6);
+
 		
 		shop.shopVer.fuegeUserEin("Kunde", "123", "Herr", "Axel Schweiss","Elbenweg 3", 1337, "Bruchtal", "Mittelerde");
 		shop.shopVer.fuegeUserEin("Mitarbeiter", "123", "Herr", "Voll iDiot");
@@ -79,7 +83,11 @@ public class ShopUi {
 					String name = liesEingabe();
 					System.out.println("Dein Passwort?");	
 					String passwort = liesEingabe();
-					aktuellerBenutzer = userLogin(UserListe, name, passwort);
+					try {
+						aktuellerBenutzer = userLogin(UserListe, name, passwort);
+					} catch (Exception e) {
+						System.out.println("hat nicht geklappt");
+					}
 				} else if (eingabe.equals("r")) {
 					System.out.println("Waehle deinen Benutzernamen:");
 					String name = liesEingabe();
@@ -126,7 +134,7 @@ public class ShopUi {
 	 * @return gibt das Benutzerobjekt zurück, wenn der Login geklappt hat, ansonsten null
 	 */
 	
-	private User userLogin(List<User> liste, String name, String passwort) {
+	private User userLogin(List<User> liste, String name, String passwort) throws LoginFehlgeschlagenException{
 		Iterator<User> it = liste.iterator();
 		while  (it.hasNext()) {
 			User user = it.next();
@@ -134,9 +142,7 @@ public class ShopUi {
 				return user;
 			}
 		}
-		System.out.println("hat nicht geklappt");
-		return null;
-		// hier throw new PersonExistiertNichtException anstatt return null
+		throw new LoginFehlgeschlagenException();
 	}
 	
 	/**
@@ -283,7 +289,12 @@ public class ShopUi {
 	 * 
 	 */
 	public void zurKasse(){
-		shopVer.rechnungErstellen((Kunde)aktuellerBenutzer);
+		try {
+			shopVer.rechnungErstellen((Kunde)aktuellerBenutzer);
+		} catch (ArtikelNichtVerfuegbarException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	/** Methode die eine Eingabe einliest. Ersetzt in.readLine();
 	 * 

@@ -7,8 +7,10 @@ import java.util.List;
 
 import shop.local.domain.exceptions.ArtikelMengeReichtNichtException;
 import shop.local.domain.exceptions.ArtikelNichtVerfuegbarException;
+import shop.local.domain.exceptions.WarenkorbExceedsArtikelbestandException;
 import shop.local.valueobjects.Artikel;
 import shop.local.valueobjects.Kunde;
+import shop.local.valueobjects.MehrfachArtikel;
 import shop.local.valueobjects.Rechnung;
 import shop.local.valueobjects.User;
 import shop.local.valueobjects.Warenkorb;
@@ -43,8 +45,22 @@ public class ShopVerwaltung {
 			erVer.ereignisEinfuegen(akteur, jahrestag, a, a.getMenge(), "Neuer Artikel erstellt.");
 		} catch(Exception e) {
 			
-		}
-		
+		}	
+	}
+	/**
+	 * Methode die einen neuen MehrfachArtikel einfügt und den Auftrag an die Artikelverwaltung weiterreicht.
+	 * @param titel Titel des einzufügenden Artikels.
+	 * @param d Preis des einzufügenden Artikels.
+	 * @param akteur User der die Aktion durchgeführt hat.
+	 * @param menge Menge des einzufügenden Artikels
+	 */
+	public void fuegeArtikelEin(String titel, double d, User akteur, int menge, int packungsGroesse)  { // hier fehlt ArtikelExistiertBereitsException
+		try {
+			MehrfachArtikel a = artVer.einfuegen(titel, d, menge, packungsGroesse);
+			erVer.ereignisEinfuegen(akteur, jahrestag, a, a.getMenge(), "Neuer Mehrfach-Artikel erstellt.");
+		} catch(Exception e) {
+			
+		}	
 	}
 	/**
 	 * Methode um einen User einzufügen
@@ -71,7 +87,7 @@ public class ShopVerwaltung {
 	 * @param menge Menge des einzufügenden Artikels
 	 * @throws ArtikelNummerFalsch 
 	 */
-	public void artikelInWarenkorb(int artID, int menge, User akteur) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException {	// wieso ändert sich hier die Menge in der Artikelliste????
+	public void artikelInWarenkorb(int artID, int menge, User akteur) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException {	
 		Artikel a = artVer.findArtikelByNumber(artID);
 		// überprüfe: sind schon mehr in warenkorb als im bestand?
 		try {		
@@ -79,7 +95,7 @@ public class ShopVerwaltung {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}	
-		//erVer.ereignisEinfuegen(akteur, jahrestag, a, menge, "in den Warenkorb getan."); // hier liegt der fehler
+		// erVer.ereignisEinfuegen(akteur, jahrestag, a, menge, "in den Warenkorb getan."); // hier liegt der fehler
 	}
 	/**
 	 * Methode die einen artikel einliest und an die warenkorb verwaltung durchreicht
@@ -104,15 +120,19 @@ public class ShopVerwaltung {
 	/** 
 	 * Methode um den Warenkorb einzukaufen.
 	 * @param User aktuellerBenutzer
+	 * @throws ArtikelNichtVerfuegbarException 
 	 */
-	public void rechnungErstellen(Kunde akteur){
+	public void rechnungErstellen(Kunde akteur) throws ArtikelNichtVerfuegbarException{
+		// key == Artikel
 		HashMap<Artikel, Integer> warenkorb = akteur.getWarenkorb().getInhalt();
 		if(warenkorb.isEmpty()){
 			System.out.println("Warenkorb ist leer.");
 		} else {
-		//die einzelnen Elemente aus der HashMap durchgehen und ausgeben
+			// Artikelmenge im Artikelbestand verringern
 			for(Artikel key : warenkorb.keySet()) {
-				artVer.setArtikelMenge(key.getNummer(), -warenkorb.get(key)); // hier wird zweimal Artikelnummer nicht vorhanden ausgegeben
+				// System.out.println("Artikel: " + key.getName() + "Zahl: " + warenkorb.get(key));
+				artVer.setArtikelMenge(key.getNummer(), (~warenkorb.get(key))+1); // hier Fehler!!!!!!!!!!!! negation funktioniert nicht 
+				erVer.ereignisEinfuegen(akteur, jahrestag, key, warenkorb.get(key), "Artikel gekauft. (Rechnung wurde erstellt)");
 		    }
 		}		
 		Rechnung rechnung = new Rechnung(akteur, akteur.getWarenkorb(), 0);

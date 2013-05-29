@@ -2,8 +2,11 @@ package shop.local.domain;
 
 import java.util.HashMap;
 import shop.local.domain.exceptions.ArtikelMengeReichtNichtException;
+import shop.local.domain.exceptions.ArtikelNurInEinheitenVerfügbarException;
+import shop.local.domain.exceptions.WarenkorbExceedsArtikelbestandException;
 import shop.local.valueobjects.Artikel;
 import shop.local.valueobjects.Kunde;
+import shop.local.valueobjects.MehrfachArtikel;
 import shop.local.valueobjects.User;
 
 public class WarenkorbVerwaltung {	
@@ -12,7 +15,7 @@ public class WarenkorbVerwaltung {
 	 * @param einArtikel der Artikel der eingefügt werden soll.
 	 * @throws ArtikelMengeReichtNichtException 
 	 */
-	public void artikelInWarenkorb(Artikel einArtikel, int menge, User user) throws ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException {		
+	public void artikelInWarenkorb(Artikel einArtikel, int menge, User user) throws ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException, ArtikelNurInEinheitenVerfügbarException {		
 		// neuen Artikel erstellen, in Warenkorb tun 
 		//Artikel einArtikel= new Artikel(artikel.getName(),artID, artikel.getPreis(), menge);
 		//warkoVer.artikelInWarenkorb(einArtikel, akteur);
@@ -22,7 +25,16 @@ public class WarenkorbVerwaltung {
 		if (user instanceof Kunde) {
 			Kunde k = (Kunde) user;
 			if(menge<=einArtikel.getMenge()){
-				k.getWarenkorb().artikelHinzufuegen(einArtikel, menge, einArtikel.getMenge());
+				if (einArtikel instanceof MehrfachArtikel) {
+					int packungsGroesse = 6; // hier muss ich auf die Methode getPackungsgroesse von Mehrfachartikel zugreifen: Problem nur: ist ein Artikel
+					if (menge % packungsGroesse == 0) {
+						k.getWarenkorb().artikelHinzufuegen(einArtikel, menge, einArtikel.getMenge());
+					} else {
+						throw new ArtikelNurInEinheitenVerfügbarException(packungsGroesse);
+					}
+				} else {
+					k.getWarenkorb().artikelHinzufuegen(einArtikel, menge, einArtikel.getMenge());
+				}
 			} else { // gewollte Menge ist größer als die vorhandene Menge
 				ArtikelMengeReichtNichtException e = new ArtikelMengeReichtNichtException(menge, einArtikel.getMenge());
 				throw e;
@@ -64,7 +76,7 @@ public class WarenkorbVerwaltung {
 		//die einzelnen Elemente aus der HashMap durchgehen und ausgeben
 			for(Artikel key : warenkorb.keySet())
 		    {
-		      System.out.print(key.getNummer() + key.getName() + key.getPreis() + " | Anzahl: " + warenkorb.get(key) + " | Preis: " + key.getPreis()*warenkorb.get(key) + "\n");
+		      System.out.print(key.getNummer() + " | " + key.getName() + " | " + key.getPreis() + " | Anzahl: " + warenkorb.get(key) + " | Gesamtpreis: " + key.getPreis()*warenkorb.get(key) + "\n");
 		    }
 		}
 	}

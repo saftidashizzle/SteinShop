@@ -95,7 +95,7 @@ public class ShopVerwaltung {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}	
-		// erVer.ereignisEinfuegen(akteur, jahrestag, a, menge, "in den Warenkorb getan."); // hier liegt der fehler
+		erVer.ereignisEinfuegen(akteur, jahrestag, a, menge, "in den Warenkorb getan."); // hier liegt der fehler
 	}
 	/**
 	 * Methode die einen artikel einliest und an die warenkorb verwaltung durchreicht
@@ -131,7 +131,7 @@ public class ShopVerwaltung {
 			// Artikelmenge im Artikelbestand verringern
 			for(Artikel key : warenkorb.keySet()) {
 				// System.out.println("Artikel: " + key.getName() + "Zahl: " + warenkorb.get(key));
-				artVer.setArtikelMenge(key.getNummer(), (~warenkorb.get(key))+1); // hier Fehler!!!!!!!!!!!! negation funktioniert nicht 
+				artVer.setArtikelMenge(key.getNummer(), (~warenkorb.get(key))+1);
 				erVer.ereignisEinfuegen(akteur, jahrestag, key, warenkorb.get(key), "Artikel gekauft. (Rechnung wurde erstellt)");
 		    }
 		}		
@@ -176,6 +176,7 @@ public class ShopVerwaltung {
 	 */
 	public void mengeAendern(int nummer, int anzahl, User akteur) {
 		artVer.setArtikelMenge(nummer, anzahl);
+		
 		// hier wird nach dem artikelmenge aendern, mit der nummer das artikel objekt herausgesucht
 		List<Artikel> liste2 = artVer.getArtikelBestand();
 		Iterator<Artikel> it = liste2.iterator();

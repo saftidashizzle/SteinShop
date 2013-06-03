@@ -27,10 +27,11 @@ public class ArtikelVerwaltung {
 		return einArtikel;
 	}
 	/**
-	 * Methode um einen neuen Artikel in die Liste einzufügen.
+	 * Methode um einen neuen Mehrfachartikel in die Liste einzufügen.
 	 * @param titel: Name des Artikels der eingefuegt werden soll.
 	 * @param preis Preis
 	 * @param menge Menge
+	 * @param packungsGroesse Anzahl der Artikel pro Packung
 	 */
 	public MehrfachArtikel einfuegen(String titel, double preis, int menge, int packungsGroesse) throws WarenkorbExceedsArtikelbestandException { 
 		int nr = bestimmeNr();

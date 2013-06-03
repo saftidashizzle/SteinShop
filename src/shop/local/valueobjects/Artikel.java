@@ -1,3 +1,4 @@
+
 package shop.local.valueobjects;
 
 public class Artikel {
@@ -45,7 +46,7 @@ public class Artikel {
 	}
 	/** 
 	 * Methode die die Nummer des Artikelobjektes zurück gibt.
-	 * @return Die zurückgegebene Nummer.
+	 * @return die zurückgegebene Nummer.
 	 */
 	public int getNummer() {
 		return nummer;
@@ -58,7 +59,7 @@ public class Artikel {
 		return menge;
 	}
 	/**
-	 * Methode die die Menge des Artikelobjektes zurück gibt.
+	 * Methode die die Menge des Artikelobjektes setzt.
 	 * @return Die zurückgegebene Menge.
 	 */
 	public void setMenge(int zahl){

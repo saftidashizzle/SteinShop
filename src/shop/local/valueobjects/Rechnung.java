@@ -6,7 +6,12 @@ public class Rechnung {
 	private Kunde kunde;
 	private Warenkorb warenkorb;
 	private int jahrestag;
-	
+	/**
+	 * Konstruktor: erzeugt eine Rechnung, mit Kunde, Jahrestag/Datum und dem Warenkorb
+	 * @param kunde
+	 * @param warenkorb
+	 * @param jahrestag
+	 */
 	public Rechnung(Kunde kunde, Warenkorb warenkorb, int jahrestag) {
 		this.kunde=kunde;
 		this.jahrestag = jahrestag;

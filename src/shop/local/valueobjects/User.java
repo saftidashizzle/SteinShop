@@ -58,7 +58,10 @@ public abstract class User {
 	public int getNummer() {
 		return nr;
 	}
-
+	/**
+	 * Methode die einen leeren String zurück gibt
+	 * @return
+	 */
 	public String getAdresse() {
 		return null;
 	}

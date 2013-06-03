@@ -42,7 +42,7 @@ public class Warenkorb {
 		warenkorb.clear();
 	}
 	/**
-	 * Methode die den Inhalt des Warenkobs zurückgibt.
+	 * Methode die den Inhalt des Warenkobs zurück gibt.
 	 * @return warenkorb
 	 */
 	public HashMap<Artikel, Integer> getInhalt(){

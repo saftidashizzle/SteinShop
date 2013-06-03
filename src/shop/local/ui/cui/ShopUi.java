@@ -207,6 +207,7 @@ public class ShopUi {
 				System.out.println("Welchen Mitarbeiter willst du löschen?");
 				int userName = Integer.parseInt(liesEingabe());
 				shopVer.loescheUser(userName, aktuellerBenutzer);
+				break;
 			case "p":
 				shopVer.gibProtokoll();
 				break;

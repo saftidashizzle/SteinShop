@@ -49,7 +49,7 @@ public class UserVerwaltung {
 		/*
 		erst den eingegebenen int abgleichen und user bestimmen
 		*/
-		userBestand.remove(++userName);
+		userBestand.remove(--userName);
 	}
 	public void gibBenutzerlisteAus() {
 		if(userBestand.isEmpty()) {

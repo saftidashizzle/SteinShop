@@ -33,10 +33,10 @@ public class ShopUi {
 	
 	public static void main(String[] args) {
 		ShopUi shop = new ShopUi();
-		shop.shopVer.fuegeArtikelEin("EINSTEIN", 1.99, null, 12);
-		shop.shopVer.fuegeArtikelEin("ZWEISTEIN", 2.99, null, 1);
-		shop.shopVer.fuegeArtikelEin("DREISTEIN", 3.99, null, 1);
-		shop.shopVer.fuegeArtikelEin("SECHSSTEIN", 9.99, null, 48, 6);
+//		shop.shopVer.fuegeArtikelEin("EINSTEIN", 1.99, null, 12);
+//		shop.shopVer.fuegeArtikelEin("ZWEISTEIN", 2.99, null, 1);
+//		shop.shopVer.fuegeArtikelEin("DREISTEIN", 3.99, null, 1);
+//		shop.shopVer.fuegeArtikelEin("SECHSSTEIN", 9.99, null, 48, 6);
 
 		
 		shop.shopVer.fuegeUserEin("Kunde", "123", "Herr", "Axel Schweiss","Elbenweg 3", 1337, "Bruchtal", "Mittelerde");
@@ -56,6 +56,11 @@ public class ShopUi {
 	 * @throws IOException
 	 */
 	public void run() throws IOException {
+		try {
+			shopVer.ladeDaten();
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
 		List<User> UserListe = shopVer.gibAlleUser();
 		do{
 			if(!(aktuellerBenutzer == null)){
@@ -114,7 +119,13 @@ public class ShopUi {
 					this.shopVer.fuegeUserEin(name, passwort, anrede, vorUndZuName, strasse, plz, ort, land);
 				}
 			}
-		} while (!eingabe.equals("q"));		
+		} while (!eingabe.equals("q"));
+		try {
+			shopVer.speichereDaten();
+		} catch(Exception e) {
+			System.out.println("Fehler beim speichern der Daten.");
+			e.printStackTrace();
+		}
 	}
 	
 	

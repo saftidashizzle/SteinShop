@@ -1,8 +1,13 @@
 package shop.local.valueobjects;
 
+<<<<<<< HEAD
 import java.util.Date;
 
 public class Ereignis {
+=======
+import java.io.Serializable;
+
+public class Ereignis implements Serializable {
 	private User akteur;
 	private Date datum;
 	private Artikel artikel;

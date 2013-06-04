@@ -1,6 +1,12 @@
 package shop.local.valueobjects;
 
-public class Mitarbeiter extends User {
+import java.io.Serializable;
+
+public class Mitarbeiter extends User implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Konstruktor: erzeugt einen Mitarbeiter
 	 * @param name geerbt von der Klasse User

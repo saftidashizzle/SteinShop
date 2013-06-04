@@ -1,11 +1,16 @@
 package shop.local.valueobjects;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 import shop.local.domain.exceptions.WarenkorbExceedsArtikelbestandException;
 
-public class Warenkorb {
+public class Warenkorb implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private HashMap<Artikel, Integer> warenkorb = new HashMap<Artikel, Integer>();
 	/**
 	 * Methode, die einen Artikel in den Warenkorb hinzufügt

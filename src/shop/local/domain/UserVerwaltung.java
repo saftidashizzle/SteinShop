@@ -1,5 +1,10 @@
 package shop.local.domain;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -15,7 +20,7 @@ import shop.local.valueobjects.User;
  */
 
 
-public class UserVerwaltung {
+public class UserVerwaltung implements Serializable {
 	private List<User> userBestand = new Vector<User>();
 	private int laufnr = 0;
 	/**
@@ -27,10 +32,6 @@ public class UserVerwaltung {
 		User einUser = new Mitarbeiter(name, passwort, nr, anrede, vorUndZuName);
 		userBestand.add(einUser);
 	}
-	/**
-	 * Bestimmen der laufnr eines neu angelegten Nutzers
-	 * @return counter laufnr
-	 */
 	private int bestimmeNr() {
 		int counter;
 		laufnr++;
@@ -44,36 +45,17 @@ public class UserVerwaltung {
 	public List<User> getUserBestand() {
 		return userBestand;
 	}
-	/**
-	 * Methode zum einfuegen eines neuen Kunden
-	 * @param name Benutzername
-	 * @param passwort Passwort
-	 * @param anrede Anrede
-	 * @param vorUndZuName Vor und Nachname
-	 * @param strasse Strasse
-	 * @param plz Postleitzahl
-	 * @param ort Ort
-	 * @param land Land
-	 */
 	public void einfuegen(String name, String passwort, String anrede, String vorUndZuName, String strasse, int plz, String ort, String land) {
 		int nr = bestimmeNr();
 		User einUser = new Kunde(name, passwort, nr, anrede, vorUndZuName, strasse, plz, ort, land);
 		userBestand.add(einUser);		
 	}
-	/**
-	 * Methode zum Löschen eines Users
-	 * @param userName ID der Nutzerkennung
-	 * @param aktuellerBenutzer aktueller Benutzer
-	 */
 	public void loescheUser(int userName, User aktuellerBenutzer) {
 		/*
 		erst den eingegebenen int abgleichen und user bestimmen
 		*/
 		userBestand.remove(--userName);
 	}
-	/**
-	 * Methode zum ausgeben der Benutzerliste auf der Console
-	 */
 	public void gibBenutzerlisteAus() {
 		if(userBestand.isEmpty()) {
 			System.out.println("Liste ist leer.");
@@ -86,5 +68,10 @@ public class UserVerwaltung {
 		}
 		System.out.println(" ");
 	}
+	public void schreibeDaten() throws FileNotFoundException, IOException {
+		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("UserVerwaltung.ser")); 
+		out.writeObject(this);		
+		out.close();
+	}	
 
 }

@@ -1,15 +1,17 @@
 package shop.local.valueobjects;
 
+import java.util.Date;
+
 public class Ereignis {
 	private User akteur;
-	private int jahrestag;
+	private Date datum;
 	private Artikel artikel;
 	private String aktion;
 	private int anzahl;
 	/**
 	 * Konstruktor: erzeugt ein Ereignis
 	 * @param akteur Benutzer
-	 * @param jahrestag	Tag/Datum
+	 * @param datum
 	 * @param artikel
 	 * @param anzahl 
 	 * @param aktion Ob hinzugefügt oder abgezogen
@@ -17,7 +19,7 @@ public class Ereignis {
 	
 	public Ereignis(User akteur, int jahrestag, Artikel artikel, int anzahl	, String aktion) {
 		this.akteur = akteur;
-		this.jahrestag = jahrestag;
+		this.datum = new Date();
 		this.artikel = artikel;
 		this.anzahl = anzahl;
 		this.aktion = aktion;
@@ -26,6 +28,6 @@ public class Ereignis {
 	 * Methode die die bisher angefallenen Ereignisse in einem String übergibt/ausgibt
 	 */
 	public String toString() {
-		return ("Datum: " + jahrestag + " User: " + akteur + " Artikel: " + artikel.getName() + " | Anzahl: " + anzahl + " | " + " Aktion: " + aktion);
+		return ("Datum: " + datum + " User: " + akteur + " Artikel: " + artikel.getName() + " | Anzahl: " + anzahl + " | " + " Aktion: " + aktion);
 	}
 }

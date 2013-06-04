@@ -11,8 +11,8 @@ import shop.local.valueobjects.User;
 public class EreignisVerwaltung {
 	private List<Ereignis> protokoll = new Vector<Ereignis>();
 
-	public void ereignisEinfuegen(User akteur, int jahrestag, Artikel derWars, int anzahl, String aktion) {
-		Ereignis ereignis = new Ereignis(akteur, jahrestag, derWars, anzahl, aktion);
+	public void ereignisEinfuegen(User akteur, int datum, Artikel derWars, int anzahl, String aktion) {
+		Ereignis ereignis = new Ereignis(akteur, datum, derWars, anzahl, aktion);
 		protokoll.add(ereignis);
 	}
 	/**

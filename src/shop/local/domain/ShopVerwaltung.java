@@ -4,10 +4,8 @@ import java.io.BufferedInputStream;
 import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -31,7 +29,6 @@ public class ShopVerwaltung {
 	private UserVerwaltung userVer;
 	private WarenkorbVerwaltung warkoVer;
 	public EreignisVerwaltung erVer;
-	int jahrestag = 0;
 	
 	
 	public ShopVerwaltung() {
@@ -50,7 +47,7 @@ public class ShopVerwaltung {
 	public void fuegeArtikelEin(String titel, double d, User akteur, int menge)  { // hier fehlt ArtikelExistiertBereitsException
 		try {
 			Artikel a = artVer.einfuegen(titel, d, menge);
-			erVer.ereignisEinfuegen(akteur, jahrestag, a, a.getMenge(), "Neuer Artikel erstellt.");
+			erVer.ereignisEinfuegen(akteur, a, a.getMenge(), "Neuer Artikel erstellt.");
 		} catch(Exception e) {
 			
 		}	
@@ -65,7 +62,7 @@ public class ShopVerwaltung {
 	public void fuegeArtikelEin(String titel, double d, User akteur, int menge, int packungsGroesse)  { // hier fehlt ArtikelExistiertBereitsException
 		try {
 			MehrfachArtikel a = artVer.einfuegen(titel, d, menge, packungsGroesse);
-			erVer.ereignisEinfuegen(akteur, jahrestag, a, a.getMenge(), "Neuer Mehrfach-Artikel erstellt.");
+			erVer.ereignisEinfuegen(akteur, a, a.getMenge(), "Neuer Mehrfach-Artikel erstellt.");
 		} catch(Exception e) {
 			
 		}	
@@ -103,7 +100,7 @@ public class ShopVerwaltung {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}	
-		erVer.ereignisEinfuegen(akteur, jahrestag, a, menge, "in den Warenkorb getan."); // hier liegt der fehler
+		erVer.ereignisEinfuegen(akteur, a, menge, "in den Warenkorb getan."); // hier liegt der fehler
 	}
 	/**
 	 * Methode die einen artikel einliest und an die warenkorb verwaltung durchreicht
@@ -113,7 +110,7 @@ public class ShopVerwaltung {
 	public void artikelAusWarenkorb(int artID, Kunde akteur) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException {	
 		Artikel a = artVer.findArtikelByNumber(artID);
 		warkoVer.artikelAusWarenkorb(a, akteur);
-		erVer.ereignisEinfuegen(akteur, jahrestag, a, a.getMenge(), "Artikel " + a.getName() + " aus dem Warenkorb entfernt.");
+		erVer.ereignisEinfuegen(akteur, a, a.getMenge(), "Artikel " + a.getName() + " aus dem Warenkorb entfernt.");
 	}
 	/**
 	 * Methode die, die Warenkorb Liste löscht.
@@ -140,7 +137,7 @@ public class ShopVerwaltung {
 			for(Artikel key : warenkorb.keySet()) {
 				// System.out.println("Artikel: " + key.getName() + "Zahl: " + warenkorb.get(key));
 				artVer.setArtikelMenge(key.getNummer(), (~warenkorb.get(key))+1);
-				erVer.ereignisEinfuegen(akteur, jahrestag, key, warenkorb.get(key), "Artikel gekauft. (Rechnung wurde erstellt)");
+				erVer.ereignisEinfuegen(akteur, key, warenkorb.get(key), "Artikel gekauft. (Rechnung wurde erstellt)");
 		    }
 		}		
 		Rechnung rechnung = new Rechnung(akteur, akteur.getWarenkorb(), 0);
@@ -202,7 +199,7 @@ public class ShopVerwaltung {
 		// am besten auch den artikel gleich als objekt übergeben
 		
 		// aus nummer und anzahl muss ich den rest herausfinden
-		erVer.ereignisEinfuegen(akteur, jahrestag, derWars, anzahl, "Bestandsanzahl geändert.");
+		erVer.ereignisEinfuegen(akteur, derWars, anzahl, "Bestandsanzahl geändert.");
 	}
 	/**
 	 * Methode die, die Artikelliste Nach Namen ordnet

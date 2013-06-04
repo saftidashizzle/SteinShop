@@ -1,7 +1,9 @@
 
 package shop.local.valueobjects;
 
-public class Artikel {
+import java.io.Serializable;
+
+public class Artikel implements Serializable {
 	private String titel;
 	private int nummer;
 	private double preis;

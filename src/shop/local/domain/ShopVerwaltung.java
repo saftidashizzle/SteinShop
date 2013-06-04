@@ -1,5 +1,13 @@
 package shop.local.domain;
 
+import java.io.BufferedInputStream;
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -231,5 +239,38 @@ public class ShopVerwaltung {
 	 */
 	public void getWarenkorbInhalt(User user){
 		warkoVer.getWarenkorbInhalt(user);
+	}
+	public void ladeDaten() throws FileNotFoundException, IOException, ClassNotFoundException {
+		artVer.ladeDaten();
+		//this.ladeUserVerwaltung();
+		erVer.ladeDaten();			
+	
+	}
+	public void speichereDaten() throws FileNotFoundException, IOException {
+		artVer.schreibeDaten();
+		//userVer.schreibeDaten();
+		erVer.schreibeDaten();
+	}
+	public void ladeUserVerwaltung() throws FileNotFoundException, IOException {
+		ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream("UserVerwaltung.ser")));
+		UserVerwaltung u = null;
+		try {  
+			u = (UserVerwaltung) in.readObject();
+		} catch (EOFException e) { // wg. readObject
+			System.out.println("User geladen.");
+			this.userVer = u;
+		} catch (IOException e) {
+			System.out.println(e);
+		} catch (ClassNotFoundException e) { // wg readObject
+			System.out.println(e);
+		} finally {
+			try {
+				if (in!=null) {
+					in.close();
+				} 
+			} catch (IOException e) {
+					e.printStackTrace();
+				}
+		}
 	}
 }

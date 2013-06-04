@@ -1,5 +1,6 @@
 package shop.local.valueobjects;
 
+
 /**
  * Klasse User
  * 

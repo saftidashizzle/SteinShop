@@ -1,6 +1,8 @@
 package shop.local.valueobjects;
 
-public class Ereignis {
+import java.io.Serializable;
+
+public class Ereignis implements Serializable {
 	private User akteur;
 	private int jahrestag;
 	private Artikel artikel;

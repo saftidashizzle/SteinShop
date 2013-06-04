@@ -1,5 +1,13 @@
 package shop.local.domain;
 
+import java.io.BufferedInputStream;
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -27,11 +35,10 @@ public class ArtikelVerwaltung {
 		return einArtikel;
 	}
 	/**
-	 * Methode um einen neuen Mehrfachartikel in die Liste einzufügen.
+	 * Methode um einen neuen Artikel in die Liste einzufügen.
 	 * @param titel: Name des Artikels der eingefuegt werden soll.
 	 * @param preis Preis
 	 * @param menge Menge
-	 * @param packungsGroesse Anzahl der Artikel pro Packung
 	 */
 	public MehrfachArtikel einfuegen(String titel, double preis, int menge, int packungsGroesse) throws WarenkorbExceedsArtikelbestandException { 
 		int nr = bestimmeNr();
@@ -110,5 +117,50 @@ public class ArtikelVerwaltung {
 		counter = laufnr;
 		return counter;
 	}
-	
+	public void schreibeDaten() throws FileNotFoundException, IOException {
+		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Artikel.ser")); 
+		// hier schleife in der dir jeweiligen objekte (artikel, user, ereignisse durchgegangen werden
+		
+		Iterator<Artikel> it = artikelBestand.iterator();
+		// Artikel erstellen
+		Artikel artikel = null;
+		// Artikelverzeichnis durchlaufen
+		int count = 0;
+		while (it.hasNext()) {
+			artikel = it.next();
+			// artikel in Datei speichern
+			out.writeObject(artikel);
+			count ++;
+		}
+		System.out.println(count + " Artikel gespeichert.");
+		// muss aufgerufen werden, bevor der datenstrom zur eingabe verwendet werden soll
+		out.close();
+	}
+	public void ladeDaten() throws FileNotFoundException, IOException, ClassNotFoundException {
+		int count = 0;
+		ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream("Artikel.ser")));
+		artikelBestand.clear();
+		try {  
+			Artikel a = null;
+			for(;;) {
+				a = (Artikel) in.readObject();
+				count++;
+				artikelBestand.add(a);
+			}
+		} catch (EOFException e) { // wg. readObject
+			System.out.println("Es wurden " + count + " Artikel geladen.");
+		} catch (IOException e) {
+			System.out.println(e);
+		} catch (ClassNotFoundException e) { // wg readObject
+			System.out.println(e);
+		} finally {
+			try {
+				if (in!=null) {
+					in.close();
+				} 
+			} catch (IOException e) {
+					e.printStackTrace();
+				}
+		}
+	}	
 }

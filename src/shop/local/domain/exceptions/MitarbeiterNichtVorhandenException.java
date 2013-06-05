@@ -2,11 +2,11 @@ package shop.local.domain.exceptions;
 /**
  * Exception, die eine Fehleingabe des zu löschenden Mitarbeiters mitteilt
  */
-public class MitarbeiterLoeschenFehlerException extends Exception {
+public class MitarbeiterNichtVorhandenException extends Exception {
 	
 	private static final long serialVersionUID = 1L;
 
-	public MitarbeiterLoeschenFehlerException() {
+	public MitarbeiterNichtVorhandenException() {
 		super("Zu löschender Mitarbeiter nicht vorhanden");
 	}
 }

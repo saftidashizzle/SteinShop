@@ -12,9 +12,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import shop.local.domain.exceptions.ArtikelAngabenInkorrektException;
+import shop.local.domain.exceptions.ArtikelMengeInkorrektException;
 import shop.local.domain.exceptions.ArtikelMengeReichtNichtException;
 import shop.local.domain.exceptions.ArtikelNichtVerfuegbarException;
+import shop.local.domain.exceptions.InkorrekteRegWerteException;
+import shop.local.domain.exceptions.MitarbeiterNichtVorhandenException;
 import shop.local.domain.exceptions.WarenkorbExceedsArtikelbestandException;
+import shop.local.domain.exceptions.WarenkorbIstLeerException;
 import shop.local.valueobjects.Artikel;
 import shop.local.valueobjects.Kunde;
 import shop.local.valueobjects.MehrfachArtikel;
@@ -45,13 +50,9 @@ public class ShopVerwaltung {
 	 * @param akteur User der die Aktion durchgeführt hat.
 	 * @param menge Menge des einzufügenden Artikels
 	 */
-	public void fuegeArtikelEin(String titel, double d, User akteur, int menge)  { // hier fehlt ArtikelExistiertBereitsException
-		try {
+	public void fuegeArtikelEin(String titel, double d, User akteur, int menge)  throws ArtikelAngabenInkorrektException{ // hier fehlt ArtikelExistiertBereitsException
 			Artikel a = artVer.einfuegen(titel, d, menge);
 			erVer.ereignisEinfuegen(akteur, a, a.getMenge(), "Neuer Artikel erstellt.");
-		} catch(Exception e) {
-			
-		}	
 	}
 	/**
 	 * Methode die einen neuen MehrfachArtikel einfügt und den Auftrag an die Artikelverwaltung weiterreicht.
@@ -60,20 +61,16 @@ public class ShopVerwaltung {
 	 * @param akteur User der die Aktion durchgeführt hat.
 	 * @param menge Menge des einzufügenden Artikels
 	 */
-	public void fuegeArtikelEin(String titel, double d, User akteur, int menge, int packungsGroesse)  { // hier fehlt ArtikelExistiertBereitsException
-		try {
+	public void fuegeArtikelEin(String titel, double d, User akteur, int menge, int packungsGroesse) throws ArtikelAngabenInkorrektException {
 			MehrfachArtikel a = artVer.einfuegen(titel, d, menge, packungsGroesse);
 			erVer.ereignisEinfuegen(akteur, a, a.getMenge(), "Neuer Mehrfach-Artikel erstellt.");
-		} catch(Exception e) {
-			
-		}	
 	}
 	/**
 	 * Methode um einen User einzufügen
 	 * @param name Name des einzufügenden Users.
 	 * @param passwort Passwort des einzufügenden User.
 	 */
-	public void fuegeUserEin(String name, String passwort, String anrede, String vorUndZuName)  { // hier fehlt ArtikelExistiertBereitsException
+	public void fuegeUserEin(String name, String passwort, String anrede, String vorUndZuName)  throws InkorrekteRegWerteException{
 		userVer.einfuegen(name, passwort, anrede, vorUndZuName);	
 	}
 	/**
@@ -82,7 +79,7 @@ public class ShopVerwaltung {
 	 * @param passwort Passwort des einzufügenden User.
 	 * @param angestellt Boolean, ob der neue Nutzer ein Mitarbeiter ist. True: Mitarbeiter, False: Kunde.
 	 */
-	public void fuegeUserEin(String name, String passwort, String anrede, String vorUndZuName, String strasse, int plz, String ort, String land)  { // hier fehlt ArtikelExistiertBereitsException
+	public void fuegeUserEin(String name, String passwort, String anrede, String vorUndZuName, String strasse, int plz, String ort, String land) throws InkorrekteRegWerteException { 
 		userVer.einfuegen(name, passwort, anrede, vorUndZuName, strasse, plz, ort, land);	
 	}
 	/**
@@ -116,9 +113,10 @@ public class ShopVerwaltung {
 	/**
 	 * Methode die, die Warenkorb Liste löscht.
 	 * @return Die Artikelliste.
+	 * @throws WarenkorbIstLeerException 
 	 */
 
-	public void warenkorbLeeren(Kunde akteur){
+	public void warenkorbLeeren(Kunde akteur) throws WarenkorbIstLeerException{
 		
 		akteur.getWarenkorb().leeren();
 		
@@ -128,11 +126,11 @@ public class ShopVerwaltung {
 	 * @param User aktuellerBenutzer
 	 * @throws ArtikelNichtVerfuegbarException 
 	 */
-	public void rechnungErstellen(Kunde akteur) throws ArtikelNichtVerfuegbarException{
+	public void rechnungErstellen(Kunde akteur) throws ArtikelNichtVerfuegbarException, WarenkorbIstLeerException, ArtikelMengeInkorrektException{
 		// key == Artikel
 		HashMap<Artikel, Integer> warenkorb = akteur.getWarenkorb().getInhalt();
 		if(warenkorb.isEmpty()){
-			System.out.println("Warenkorb ist leer.");
+			throw new WarenkorbIstLeerException();
 		} else {
 			// Artikelmenge im Artikelbestand verringern
 			for(Artikel key : warenkorb.keySet()) {
@@ -142,7 +140,7 @@ public class ShopVerwaltung {
 		    }
 		}		
 		Rechnung rechnung = new Rechnung(akteur, akteur.getWarenkorb(), 0);
-		warenkorbLeeren(akteur);
+			warenkorbLeeren(akteur);
 	}
 	
 	/** 
@@ -180,8 +178,8 @@ public class ShopVerwaltung {
 	 * @param anzahl
 	 * @param akteur
 	 */
-	public void mengeAendern(int nummer, int anzahl, User akteur) {
-		artVer.setArtikelMenge(nummer, anzahl);
+	public void mengeAendern(int nummer, int anzahl, User akteur) throws ArtikelMengeInkorrektException{
+		artVer.setArtikelMenge(nummer, anzahl);		
 		
 		// hier wird nach dem artikelmenge aendern, mit der nummer das artikel objekt herausgesucht
 		List<Artikel> liste2 = artVer.getArtikelBestand();
@@ -219,7 +217,7 @@ public class ShopVerwaltung {
 	 * @param userName
 	 * @param aktuellerBenutzer
 	 */
-	public void loescheUser(int userName, User aktuellerBenutzer) {
+	public void loescheUser(int userName, User aktuellerBenutzer) throws MitarbeiterNichtVorhandenException{
 		userVer.loescheUser(userName, aktuellerBenutzer);
 	}
 	/**

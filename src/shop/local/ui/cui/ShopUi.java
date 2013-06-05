@@ -8,6 +8,7 @@ import java.util.List;
 
 import shop.local.domain.ShopVerwaltung;
 import shop.local.domain.exceptions.ArtikelNichtVerfuegbarException;
+import shop.local.domain.exceptions.InkorrekteRegWerteException;
 import shop.local.domain.exceptions.LoginFehlgeschlagenException;
 import shop.local.valueobjects.Kunde;
 import shop.local.valueobjects.User;
@@ -91,32 +92,14 @@ public class ShopUi {
 					try {
 						aktuellerBenutzer = userLogin(UserListe, name, passwort);
 					} catch (Exception e) {
-						System.out.println("hat nicht geklappt");
+						System.out.println(e);
 					}
 				} else if (eingabe.equals("r")) {
-					System.out.println("Waehle deinen Benutzernamen:");
-					String name = liesEingabe();
-					String passwort;
-					String passwort1;
-					do {
-						System.out.println("Waehle dein Passwort:");
-						passwort = liesEingabe();
-						System.out.println("Eingabe Wiederholen:");
-						passwort1 = liesEingabe();
-					} while (!passwort.equals(passwort1));
-					System.out.println("Anrede:");
-					String anrede = liesEingabe();
-					System.out.println("Vor- und Zu-Name:");
-					String vorUndZuName = liesEingabe();
-					System.out.println("Straße und Hausnr:");
-					String strasse = liesEingabe();
-					System.out.println("Postleitzahl");
-					int plz = Integer.parseInt(liesEingabe());
-					System.out.println("Ort:");
-					String ort = liesEingabe();
-					System.out.println("Land:");
-					String land = liesEingabe();
-					this.shopVer.fuegeUserEin(name, passwort, anrede, vorUndZuName, strasse, plz, ort, land);
+					try {
+						userRegistrieren();
+					} catch (Exception e) {
+						System.out.println(e);
+					}					
 				}
 			}
 		} while (!eingabe.equals("q"));
@@ -127,7 +110,31 @@ public class ShopUi {
 			e.printStackTrace();
 		}
 	}
-	
+	public void userRegistrieren() throws InkorrekteRegWerteException, IOException {
+		System.out.println("Waehle deinen Benutzernamen:");
+		String name = liesEingabe();
+		String passwort;
+		String passwort1;
+		do {
+			System.out.println("Waehle dein Passwort:");
+			passwort = liesEingabe();
+			System.out.println("Eingabe Wiederholen:");
+			passwort1 = liesEingabe();
+		} while (!passwort.equals(passwort1));
+		System.out.println("Anrede:");
+		String anrede = liesEingabe();
+		System.out.println("Vor- und Zu-Name:");
+		String vorUndZuName = liesEingabe();
+		System.out.println("Straße und Hausnr:");
+		String strasse = liesEingabe();
+		System.out.println("Postleitzahl");
+		int plz = Integer.parseInt(liesEingabe());
+		System.out.println("Ort:");
+		String ort = liesEingabe();
+		System.out.println("Land:");
+		String land = liesEingabe();
+		this.shopVer.fuegeUserEin(name, passwort, anrede, vorUndZuName, strasse, plz, ort, land);
+	}
 	
 	/**
 	 * Methode die, alle Elemente der Artikelliste (siehe artikel.toString()) in der Konsole ausgibt.
@@ -188,11 +195,15 @@ public class ShopUi {
 				eingabe = liesEingabe();
 				double preis = Double.parseDouble(eingabe);
 				System.out.println("wird angelegt!");
-				if (p!=0) {
-					shopVer.fuegeArtikelEin(name, preis, aktuellerBenutzer, menge, p); // mehrfachartikel
-				} else if (mehrfach.equals("n")) {
-					shopVer.fuegeArtikelEin(name, preis, aktuellerBenutzer, menge);
-				} 
+				try {					
+					if (p!=0) {
+						shopVer.fuegeArtikelEin(name, preis, aktuellerBenutzer, menge, p); // mehrfachartikel
+					} else if (mehrfach.equals("n")) {
+						shopVer.fuegeArtikelEin(name, preis, aktuellerBenutzer, menge);
+					} 
+				} catch (Exception e) {
+					System.out.println(e);
+				}
 				break;
 			case "m":
 				System.out.println("Artikelliste:");
@@ -203,7 +214,11 @@ public class ShopUi {
 				System.out.println("Wieviele moechtest du hinzufügen?");
 				eingabe = liesEingabe();
 				int anzahl = Integer.parseInt(eingabe);
-				shopVer.mengeAendern(nummer, anzahl, aktuellerBenutzer);
+				try{
+					shopVer.mengeAendern(nummer, anzahl, aktuellerBenutzer);
+				} catch (Exception e) {
+					System.out.println(e);
+				}
 				System.out.println("Artikel wurden hinzugefügt!");
 				break;
 			case "u":
@@ -224,12 +239,22 @@ public class ShopUi {
 				String anrede = liesEingabe();
 				System.out.println("Vor- und Zu-Name:");
 				String vorUndZuName = liesEingabe();
-				this.shopVer.fuegeUserEin(benutzername, passwort, anrede, vorUndZuName);
+				try{
+					this.shopVer.fuegeUserEin(benutzername, passwort, anrede, vorUndZuName);
+				}
+				catch(Exception e) {
+					System.out.println(e);				
+				}
 				break;
 			case "d":
 				System.out.println("Welchen Mitarbeiter willst du löschen?");
 				int userName = Integer.parseInt(liesEingabe());
-				shopVer.loescheUser(userName, aktuellerBenutzer);
+				try{
+					shopVer.loescheUser(userName, aktuellerBenutzer);
+				}
+				catch(Exception e) {
+					System.out.println(e);				
+				}
 				break;
 			case "p":
 				shopVer.gibProtokoll();
@@ -282,7 +307,7 @@ public class ShopUi {
 				try {
 					shopVer.artikelInWarenkorb(artID, menge, aktuellerBenutzer);			
 				} catch (Exception e) {
-					e.printStackTrace();
+					System.out.println(e);
 				}
 				break;
 			case "d": 
@@ -292,10 +317,15 @@ public class ShopUi {
 				try {
 					shopVer.artikelAusWarenkorb(artID, (Kunde)aktuellerBenutzer);
 				} catch (Exception e) {
-					e.printStackTrace();
+					System.out.println(e);
 				}
 				break;
-			case "e": shopVer.warenkorbLeeren((Kunde)aktuellerBenutzer);
+			case "e":
+				try {
+					shopVer.warenkorbLeeren((Kunde)aktuellerBenutzer);
+				} catch (Exception e) {
+					System.out.println(e);
+				}
 				break;
 			case "k": zurKasse();
 				break;
@@ -315,9 +345,8 @@ public class ShopUi {
 	public void zurKasse(){
 		try {
 			shopVer.rechnungErstellen((Kunde)aktuellerBenutzer);
-		} catch (ArtikelNichtVerfuegbarException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 	}
 	/** Methode die eine Eingabe einliest. Ersetzt in.readLine();

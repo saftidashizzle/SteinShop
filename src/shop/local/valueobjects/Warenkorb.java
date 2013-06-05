@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 import shop.local.domain.exceptions.WarenkorbExceedsArtikelbestandException;
+import shop.local.domain.exceptions.WarenkorbIstLeerException;
 
 public class Warenkorb implements Serializable {
 
@@ -43,8 +44,13 @@ public class Warenkorb implements Serializable {
 	/**
 	 * Methode die, die Liste leert.
 	 */
-	public void leeren() {
-		warenkorb.clear();
+	public void leeren() throws WarenkorbIstLeerException {
+		if(!warenkorb.isEmpty()){
+			warenkorb.clear();
+		}
+		else{
+			throw new WarenkorbIstLeerException();
+		}
 	}
 	/**
 	 * Methode die den Inhalt des Warenkobs zurück gibt.

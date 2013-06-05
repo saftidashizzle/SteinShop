@@ -13,6 +13,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import shop.local.domain.exceptions.ArtikelAngabenInkorrektException;
+import shop.local.domain.exceptions.ArtikelMengeInkorrektException;
 import shop.local.domain.exceptions.ArtikelNichtVerfuegbarException;
 import shop.local.domain.exceptions.WarenkorbExceedsArtikelbestandException;
 import shop.local.valueobjects.Artikel;
@@ -29,11 +31,16 @@ public class ArtikelVerwaltung implements Serializable {
 	 * @param preis Preis
 	 * @param menge Menge
 	 */
-	public Artikel einfuegen(String titel, double preis, int menge) throws WarenkorbExceedsArtikelbestandException { 
-		int nr = bestimmeNr();
-		Artikel einArtikel = new Artikel(titel, nr, preis, menge);
-		artikelBestand.add(einArtikel);
-		return einArtikel;
+	public Artikel einfuegen(String titel, double preis, int menge) throws ArtikelAngabenInkorrektException{ 
+		if(preis>0||menge>0){
+			throw new ArtikelAngabenInkorrektException();
+		}
+		else{
+			int nr = bestimmeNr();
+			Artikel einArtikel = new Artikel(titel, nr, preis, menge);
+			artikelBestand.add(einArtikel);
+			return einArtikel;
+		}
 	}
 	/**
 	 * Methode um einen neuen Artikel in die Liste einzufügen.
@@ -41,11 +48,16 @@ public class ArtikelVerwaltung implements Serializable {
 	 * @param preis Preis
 	 * @param menge Menge
 	 */
-	public MehrfachArtikel einfuegen(String titel, double preis, int menge, int packungsGroesse) throws WarenkorbExceedsArtikelbestandException { 
-		int nr = bestimmeNr();
-		MehrfachArtikel einArtikel = new MehrfachArtikel(titel, nr, preis, menge, packungsGroesse);
-		artikelBestand.add(einArtikel);
-		return einArtikel;
+	public MehrfachArtikel einfuegen(String titel, double preis, int menge, int packungsGroesse) throws ArtikelAngabenInkorrektException{ 
+		if(preis<=0||menge<=0){
+			throw new ArtikelAngabenInkorrektException();
+		}
+		else{
+			int nr = bestimmeNr();
+			MehrfachArtikel einArtikel = new MehrfachArtikel(titel, nr, preis, menge, packungsGroesse);
+			artikelBestand.add(einArtikel);
+			return einArtikel;
+		}
 	}
 	 /**
 	 * Methode die die aktuelle Artikelliste zurückgibt
@@ -60,7 +72,7 @@ public class ArtikelVerwaltung implements Serializable {
 	 * @param nummer Artikelnummer des zu ändernden Artikels.
 	 * @param anzahl Wieviel hinzugefügt werden soll.
 	 */
-	public void setArtikelMenge(int nummer, int anzahl) {
+	public void setArtikelMenge(int nummer, int anzahl) throws ArtikelMengeInkorrektException{
 		Iterator<Artikel> it = artikelBestand.iterator();
 		while  (it.hasNext()) {
 			Artikel artikel = it.next();

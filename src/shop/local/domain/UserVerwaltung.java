@@ -13,6 +13,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import shop.local.domain.exceptions.ArtikelNichtVerfuegbarException;
+import shop.local.domain.exceptions.InkorrekteRegWerteException;
+import shop.local.domain.exceptions.MitarbeiterNichtVorhandenException;
 import shop.local.valueobjects.Artikel;
 import shop.local.valueobjects.Kunde;
 import shop.local.valueobjects.Mitarbeiter;
@@ -50,16 +53,23 @@ public class UserVerwaltung implements Serializable {
 	public List<User> getUserBestand() {
 		return userBestand;
 	}
-	public void einfuegen(String name, String passwort, String anrede, String vorUndZuName, String strasse, int plz, String ort, String land) {
-		int nr = bestimmeNr();
-		User einUser = new Kunde(name, passwort, nr, anrede, vorUndZuName, strasse, plz, ort, land);
-		userBestand.add(einUser);		
+	public void einfuegen(String name, String passwort, String anrede, String vorUndZuName, String strasse, int plz, String ort, String land) throws InkorrekteRegWerteException{
+		if(plz>99999 || plz<10000){
+			throw new InkorrekteRegWerteException();
+		}
+		else {
+			int nr = bestimmeNr();
+			User einUser = new Kunde(name, passwort, nr, anrede, vorUndZuName, strasse, plz, ort, land);
+			userBestand.add(einUser);
+		}
 	}
-	public void loescheUser(int userName, User aktuellerBenutzer) {
-		/*
-		erst den eingegebenen int abgleichen und user bestimmen
-		*/
-		userBestand.remove(--userName);
+	public void loescheUser(int userName, User aktuellerBenutzer) throws MitarbeiterNichtVorhandenException{
+		if(findUserByNumber(userName)!=null){
+			userBestand.remove(--userName);
+		}		
+		else{
+			throw new MitarbeiterNichtVorhandenException();
+		}
 	}
 	public void gibBenutzerlisteAus() {
 		if(userBestand.isEmpty()) {
@@ -97,6 +107,22 @@ public class UserVerwaltung implements Serializable {
 		System.out.println(count + " User gespeichert.");
 		// muss aufgerufen werden, bevor der datenstrom zur eingabe verwendet werden soll
 		out.close();
+	}
+	public User findUserByNumber(int artID) throws MitarbeiterNichtVorhandenException {
+		Iterator<User> it = userBestand.iterator();
+		// Artikel erstellen
+		User user = null;
+		// Artikelverzeichnis durchlaufen
+		while (it.hasNext()) {
+			user = it.next();
+			// gesuchte Artikel ID gefunden
+			if(artID==user.getNummer()){
+				return user;				
+			} else if (!(artID==user.getNummer())&&!it.hasNext()){ // gesuchte Artikel ID nicht gefunden
+				throw new MitarbeiterNichtVorhandenException(); 
+			}
+		}
+		return null;
 	}
 	public void ladeDaten() throws FileNotFoundException, IOException, ClassNotFoundException {
 		int count = 0;

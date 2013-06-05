@@ -3,6 +3,8 @@ package shop.local.valueobjects;
 
 import java.io.Serializable;
 
+import shop.local.domain.exceptions.ArtikelMengeInkorrektException;
+
 public class Artikel implements Serializable {
 	private String titel;
 	private int nummer;
@@ -64,8 +66,13 @@ public class Artikel implements Serializable {
 	 * Methode die die Menge des Artikelobjektes setzt.
 	 * @return Die zurückgegebene Menge.
 	 */
-	public void setMenge(int zahl){
-		menge = zahl;
+	public void setMenge(int zahl) throws ArtikelMengeInkorrektException{
+		if(zahl>=0){
+			menge = zahl;
+		}
+		else{
+			throw new ArtikelMengeInkorrektException();
+		}
 	}
 	/**
 	 * Methode die den Preis des Artikelobjektes zurück gibt.

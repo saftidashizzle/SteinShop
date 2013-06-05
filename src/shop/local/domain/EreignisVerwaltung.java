@@ -1,6 +1,6 @@
 package shop.local.domain;
 
-import java.io.BufferedInputStream;
+
 import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -44,7 +44,7 @@ public class EreignisVerwaltung {
 	}
 	public void ladeDaten() throws FileNotFoundException, IOException, ClassNotFoundException {
 		int count = 0;
-		ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream("Ereignisse.ser")));
+		ObjectInputStream in = new ObjectInputStream(new FileInputStream("Ereignisse.ser"));
 		protokoll.clear();
 		try {  
 			Ereignis er = null;

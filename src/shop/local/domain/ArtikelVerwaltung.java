@@ -1,6 +1,6 @@
 package shop.local.domain;
 
-import java.io.BufferedInputStream;
+
 import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -153,7 +153,7 @@ public class ArtikelVerwaltung implements Serializable {
 	}
 	public void ladeDaten() throws FileNotFoundException, IOException, ClassNotFoundException {
 		int count = 0;
-		ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream("Artikel.ser")));
+		ObjectInputStream in = new ObjectInputStream(new FileInputStream("Artikel.ser"));
 		artikelBestand.clear();
 		try {  
 			Artikel a = null;

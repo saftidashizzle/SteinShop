@@ -1,7 +1,6 @@
 package shop.local.domain;
 
 
-import java.io.BufferedInputStream;
 import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -237,7 +236,7 @@ public class ShopVerwaltung {
 		warkoVer.getWarenkorbInhalt(user);
 	}
 	public void ladeDaten() throws FileNotFoundException, IOException, ClassNotFoundException {
-		artVer.ladeDaten(); //funktioniert, bis darauf das laufnr nicht gespeichert wird
+		artVer.ladeDaten(); //funktioniert
 		userVer.ladeDaten(); // user objekte
 //		this.ladeUserVerwaltung();
 		//this.ladeArtikelVerwaltung();
@@ -275,7 +274,7 @@ public class ShopVerwaltung {
 		}
 	}*/
 	public void ladeArtikelVerwaltung() throws FileNotFoundException, IOException {
-		ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream("ArtikelVerwaltung.ser")));
+		ObjectInputStream in = new ObjectInputStream(new FileInputStream("ArtikelVerwaltung.ser"));
 		ArtikelVerwaltung a = null;
 		try {  
 			a = (ArtikelVerwaltung) in.readObject();

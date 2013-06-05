@@ -176,28 +176,16 @@ public class ShopVerwaltung {
 	 * @param nummer
 	 * @param anzahl
 	 * @param akteur
+	 * @throws ArtikelNichtVerfuegbarException 
 	 */
-	public void mengeAendern(int nummer, int anzahl, User akteur) throws ArtikelMengeInkorrektException{
-		artVer.setArtikelMenge(nummer, anzahl);		
-		
-		// hier wird nach dem artikelmenge aendern, mit der nummer das artikel objekt herausgesucht
-		List<Artikel> liste2 = artVer.getArtikelBestand();
-		Iterator<Artikel> it = liste2.iterator();
-		Artikel derWars = null;
-		while  (it.hasNext()) {
-			Artikel artikel = it.next();
-			if(artikel.getNummer() == nummer){
-				derWars = artikel;
-			}
-		}		
-		// user  heraussuchen, jahrestag bestimmen
-		// artikel heraussuchen und anzahl bestimmen
-		// ich muss hier in die klasse die artikelliste bekommen aus der artikelverwaltung und
-		// es muss auch übergeben werden, wer die änderung vollzogen hat, am besten gleich als objekt
-		// am besten auch den artikel gleich als objekt übergeben
-		
-		// aus nummer und anzahl muss ich den rest herausfinden
-		erVer.ereignisEinfuegen(akteur, derWars, anzahl, "Bestandsanzahl geändert.");
+	public void mengeAendern(int nummer, int anzahl, User akteur) throws ArtikelMengeInkorrektException, ArtikelNichtVerfuegbarException{
+		Artikel derWars = artVer.findArtikelByNumber(nummer);
+		if (derWars != null) {
+			artVer.setArtikelMenge(nummer, anzahl);		
+	
+			// aus nummer und anzahl muss ich den rest herausfinden
+			erVer.ereignisEinfuegen(akteur, derWars, anzahl, "Bestandsanzahl geändert.");
+		}
 	}
 	/**
 	 * Methode die, die Artikelliste Nach Namen ordnet

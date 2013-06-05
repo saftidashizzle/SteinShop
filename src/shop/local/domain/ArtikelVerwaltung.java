@@ -127,10 +127,11 @@ public class ArtikelVerwaltung implements Serializable {
 	 * @return laufnr zuverwendende Artikel Id
 	 */
 	private int bestimmeNr() {
-		int counter;
-		laufnr++;
-		counter = laufnr;
-		return counter;
+//		int counter;
+//		laufnr++;
+//		counter = laufnr;
+//		return counter;
+		return ++laufnr;
 	}
 	public void schreibeDaten() throws FileNotFoundException, IOException {
 		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Artikel.ser")); 
@@ -161,7 +162,8 @@ public class ArtikelVerwaltung implements Serializable {
 				a = (Artikel) in.readObject();
 				count++;
 				artikelBestand.add(a);
-				this.laufnr = count;
+				if (a.getNummer() > this.laufnr)
+					this.laufnr = a.getNummer();
 			}
 		} catch (EOFException e) { // wg. readObject
 			System.out.println("Es wurden " + count + " Artikel geladen.");

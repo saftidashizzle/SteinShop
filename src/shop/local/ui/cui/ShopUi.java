@@ -7,7 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import shop.local.domain.ShopVerwaltung;
-import shop.local.domain.exceptions.ArtikelNichtVerfuegbarException;
 import shop.local.domain.exceptions.InkorrekteRegWerteException;
 import shop.local.domain.exceptions.LoginFehlgeschlagenException;
 import shop.local.valueobjects.Kunde;

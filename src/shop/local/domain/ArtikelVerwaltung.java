@@ -179,10 +179,10 @@ public class ArtikelVerwaltung implements Serializable {
 				}
 		}
 	}
-	public void schreibeDaten2() throws FileNotFoundException, IOException {
-		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("ArtikelVerwaltung.ser")); 
-		out.writeObject(this);		
-		out.close();
-		System.out.println("Artikel Verwaltung gespeichert.");
-	}
+//	public void schreibeDaten2() throws FileNotFoundException, IOException {
+//		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("ArtikelVerwaltung.ser")); 
+//		out.writeObject(this);		
+//		out.close();
+//		System.out.println("Artikel Verwaltung gespeichert.");
+//	}
 }

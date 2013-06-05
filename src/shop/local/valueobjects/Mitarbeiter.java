@@ -1,8 +1,7 @@
 package shop.local.valueobjects;
 
-import java.io.Serializable;
 
-public class Mitarbeiter extends User implements Serializable {
+public class Mitarbeiter extends User {
 	/**
 	 * 
 	 */

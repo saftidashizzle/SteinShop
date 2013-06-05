@@ -1,9 +1,7 @@
 package shop.local.valueobjects;
 
-import java.io.Serializable;
 
-
-public class Kunde extends User implements Serializable {
+public class Kunde extends User{
 	private String strasseUndHausnr;
 	private int plz;
 	private String ort;

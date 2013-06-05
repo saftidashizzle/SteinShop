@@ -76,11 +76,11 @@ public class EreignisVerwaltung {
 		Iterator<Ereignis> it = protokoll.iterator();
 		// Artikel erstellen
 		Ereignis er = null;
-		// Artikelverzeichnis durchlaufen
+		// Ereignisse durchlaufen
 		int count = 0;
 		while (it.hasNext()) {
 			er = it.next();
-			// artikel in Datei speichern
+			// Ereignis in Datei speichern
 			out.writeObject(er);
 			count ++;
 		}

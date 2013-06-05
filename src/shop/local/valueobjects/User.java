@@ -1,5 +1,7 @@
 package shop.local.valueobjects;
 
+import java.io.Serializable;
+
 
 /**
  * Klasse User
@@ -9,7 +11,7 @@ package shop.local.valueobjects;
  */
 
 
-public abstract class User {
+public abstract class User implements Serializable {
 	protected String name;
 	protected String passwort;
 	protected int nr;

@@ -1,5 +1,6 @@
 package shop.local.domain;
 
+
 import java.io.BufferedInputStream;
 import java.io.EOFException;
 import java.io.FileInputStream;
@@ -238,24 +239,54 @@ public class ShopVerwaltung {
 		warkoVer.getWarenkorbInhalt(user);
 	}
 	public void ladeDaten() throws FileNotFoundException, IOException, ClassNotFoundException {
-		artVer.ladeDaten();
-		//this.ladeUserVerwaltung();
+		artVer.ladeDaten(); //funktioniert, bis darauf das laufnr nicht gespeichert wird
+		userVer.ladeDaten(); // user objekte
+//		this.ladeUserVerwaltung();
+		//this.ladeArtikelVerwaltung();
 		erVer.ladeDaten();			
 	
 	}
 	public void speichereDaten() throws FileNotFoundException, IOException {
 		artVer.schreibeDaten();
-		//userVer.schreibeDaten();
+		//artVer.schreibeDaten2(); // artikel verwaltung
+		userVer.schreibeDaten2(); //user objekte
+//		userVer.schreibeDaten(); // user verwaltung
 		erVer.schreibeDaten();
 	}
-	public void ladeUserVerwaltung() throws FileNotFoundException, IOException {
+/*	public void ladeUserVerwaltung() throws FileNotFoundException, IOException {
 		ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream("UserVerwaltung.ser")));
 		UserVerwaltung u = null;
 		try {  
 			u = (UserVerwaltung) in.readObject();
-		} catch (EOFException e) { // wg. readObject
-			System.out.println("User geladen.");
 			this.userVer = u;
+			System.out.println("User Verwaltung geladen.");
+		} catch (EOFException e) { // wg. readObject
+			System.out.println("Fehler beim Laden der User Verwaltung.");
+		} catch (IOException e) {
+			System.out.println(e);
+		} catch (ClassNotFoundException e) { // wg readObject
+			System.out.println(e);
+		} finally {
+			try {
+				if (in!=null) {
+					in.close();
+				} 
+			} catch (IOException e) {
+					e.printStackTrace();
+				}
+		}
+	}*/
+	public void ladeArtikelVerwaltung() throws FileNotFoundException, IOException {
+		ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream("ArtikelVerwaltung.ser")));
+		ArtikelVerwaltung a = null;
+		try {  
+			a = (ArtikelVerwaltung) in.readObject();
+			this.artVer = a;
+			System.out.println("Artikel Verwaltung geladen.");
+		} catch (EOFException e) { // wg. readObject
+//			this.artVer = a;
+//			System.out.println("Artikel Verwaltung geladen.");
+			System.out.println("Fehler beim laden der Artikel Verwaltung.");
 		} catch (IOException e) {
 			System.out.println(e);
 		} catch (ClassNotFoundException e) { // wg readObject
@@ -271,3 +302,4 @@ public class ShopVerwaltung {
 		}
 	}
 }
+

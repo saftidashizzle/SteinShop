@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -18,10 +19,10 @@ import shop.local.valueobjects.Artikel;
 import shop.local.valueobjects.MehrfachArtikel;
 
 
-public class ArtikelVerwaltung {
+public class ArtikelVerwaltung implements Serializable {
 
 	private List<Artikel> artikelBestand = new Vector<Artikel>();
-	private int laufnr = 0;
+	private int laufnr;
 	/**
 	 * Methode um einen neuen Artikel in die Liste einzufügen.
 	 * @param titel: Name des Artikels der eingefuegt werden soll.
@@ -100,8 +101,10 @@ public class ArtikelVerwaltung {
 			Iterator<Artikel> it = artikelBestand.iterator();
 			while (it.hasNext()) {
 				Artikel artikel = it.next();
-				if (!(artikel.getMenge() == 0)) {
+				if (!(artikel.getMenge() <= 0)) {
 					System.out.println(artikel.toString());
+				} else {
+					artikel = null;
 				}
 			}			
 		}
@@ -146,6 +149,7 @@ public class ArtikelVerwaltung {
 				a = (Artikel) in.readObject();
 				count++;
 				artikelBestand.add(a);
+				this.laufnr = count;
 			}
 		} catch (EOFException e) { // wg. readObject
 			System.out.println("Es wurden " + count + " Artikel geladen.");
@@ -162,5 +166,11 @@ public class ArtikelVerwaltung {
 					e.printStackTrace();
 				}
 		}
-	}	
+	}
+	public void schreibeDaten2() throws FileNotFoundException, IOException {
+		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("ArtikelVerwaltung.ser")); 
+		out.writeObject(this);		
+		out.close();
+		System.out.println("Artikel Verwaltung gespeichert.");
+	}
 }

@@ -39,9 +39,9 @@ public class ShopUi {
 //		shop.shopVer.fuegeArtikelEin("SECHSSTEIN", 9.99, null, 48, 6);
 
 		
-		shop.shopVer.fuegeUserEin("Kunde", "123", "Herr", "Axel Schweiss","Elbenweg 3", 1337, "Bruchtal", "Mittelerde");
-		shop.shopVer.fuegeUserEin("Mitarbeiter", "123", "Herr", "Voll iDiot");
-		shop.shopVer.fuegeUserEin("Rupert", "123", "Herr", "Rupert Tunnichtgut", "Haufenweg 2", 7353, "Hodenhausen", "DA WO ES STINKT");		
+//		shop.shopVer.fuegeUserEin("Kunde", "123", "Herr", "Axel Schweiss","Elbenweg 3", 1337, "Bruchtal", "Mittelerde");
+//		shop.shopVer.fuegeUserEin("Mitarbeiter", "123", "Herr", "Voll iDiot");
+//		shop.shopVer.fuegeUserEin("Rupert", "123", "Herr", "Rupert Tunnichtgut", "Haufenweg 2", 7353, "Hodenhausen", "DA WO ES STINKT");		
 		
 		try {
 			shop.run();
@@ -171,6 +171,14 @@ public class ShopUi {
 		eingabe = liesEingabe();
 		switch(eingabe) {
 			case "n": 	
+				System.out.println("Moechtes du einen Mehrfachartikel speichern? (y für ja und n für nein");
+				String mehrfach = liesEingabe();
+				int p = 0;
+				if (mehrfach.equals("y")) {
+					System.out.println("Bitte gib die Portionsgröße ein.");
+					String portion = liesEingabe();
+					p = Integer.parseInt(portion);
+				}
 				System.out.println("Name des Artikels: ");
 				String name = liesEingabe();
 				System.out.println("Menge: ");
@@ -180,7 +188,11 @@ public class ShopUi {
 				eingabe = liesEingabe();
 				double preis = Double.parseDouble(eingabe);
 				System.out.println("wird angelegt!");
-				shopVer.fuegeArtikelEin(name, preis, aktuellerBenutzer, menge);
+				if (p!=0) {
+					shopVer.fuegeArtikelEin(name, preis, aktuellerBenutzer, menge, p); // mehrfachartikel
+				} else if (mehrfach.equals("n")) {
+					shopVer.fuegeArtikelEin(name, preis, aktuellerBenutzer, menge);
+				} 
 				break;
 			case "m":
 				System.out.println("Artikelliste:");

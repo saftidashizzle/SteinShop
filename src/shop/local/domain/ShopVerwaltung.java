@@ -216,8 +216,8 @@ public class ShopVerwaltung {
 	 * @param userName
 	 * @param aktuellerBenutzer
 	 */
-	public void loescheUser(int userName, User aktuellerBenutzer) throws MitarbeiterNichtVorhandenException{
-		userVer.loescheUser(userName, aktuellerBenutzer);
+	public void loescheUser(int userNr, User aktuellerBenutzer) throws MitarbeiterNichtVorhandenException{
+		userVer.loescheUser(userNr, aktuellerBenutzer);
 	}
 	/**
 	 * Methode die, die Artikelliste ausgiebt

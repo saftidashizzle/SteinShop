@@ -34,15 +34,10 @@ public class ShopUi {
 	public static void main(String[] args) {
 		ShopUi shop = new ShopUi();
 //		shop.shopVer.fuegeArtikelEin("EINSTEIN", 1.99, null, 12);
-//		shop.shopVer.fuegeArtikelEin("ZWEISTEIN", 2.99, null, 1);
-//		shop.shopVer.fuegeArtikelEin("DREISTEIN", 3.99, null, 1);
 //		shop.shopVer.fuegeArtikelEin("SECHSSTEIN", 9.99, null, 48, 6);
 
-		
 //		shop.shopVer.fuegeUserEin("Kunde", "123", "Herr", "Axel Schweiss","Elbenweg 3", 1337, "Bruchtal", "Mittelerde");
-//		shop.shopVer.fuegeUserEin("Mitarbeiter", "123", "Herr", "Voll iDiot");
-//		shop.shopVer.fuegeUserEin("Rupert", "123", "Herr", "Rupert Tunnichtgut", "Haufenweg 2", 7353, "Hodenhausen", "DA WO ES STINKT");		
-		
+//		shop.shopVer.fuegeUserEin("Mitarbeiter", "123", "Herr", "Voll iDiot");		
 		try {
 			shop.run();
 		}
@@ -55,60 +50,82 @@ public class ShopUi {
 	 * Methode, die in der Main am Anfang ausgeführt wird und das ganze Programm zum Laufen bringt.
 	 * @throws IOException
 	 */
-	public void run() throws IOException {
+	public void run() {
 		try {
 			shopVer.ladeDaten();
-		} catch (ClassNotFoundException e1) {
-			e1.printStackTrace();
-		}
-		List<User> UserListe = shopVer.gibAlleUser();
-		do{
-			if(!(aktuellerBenutzer == null)){
-				System.out.println("Herzlich Willkommen im Stein-Shop\n" +
-				"wir wünschen einen angenehmen Aufenthalt\n" +
-				"und ein steinhartes Kauferlebnis.\n");
-				do {
-					System.out.println("Artikelliste:");
-					gibArtikellisteAus();
-					if(aktuellerBenutzer.getAdresse()==null) {
-						menueMitarbeiter();
-					} else {
-						menueKunde();
-					}
-		
-				} while (!eingabe.equals("a"));
-				aktuellerBenutzer = null;
-			} else {
-				System.out.println("e) Einloggen\n" +
-						"r) Registriere Kunden Account\n" +
-						"q) Beenden");
-				eingabe = liesEingabe();
-				if(eingabe.equals("e")){
-					System.out.println("Dein Benutzername?");
-					String name = liesEingabe();
-					System.out.println("Dein Passwort?");	
-					String passwort = liesEingabe();
-					try {
-						aktuellerBenutzer = userLogin(UserListe, name, passwort);
-					} catch (Exception e) {
-						System.out.println(e);
-					}
-				} else if (eingabe.equals("r")) {
-					try {
-						userRegistrieren();
-					} catch (Exception e) {
-						System.out.println(e);
-					}					
-				}
-			}
-		} while (!eingabe.equals("q"));
-		try {
+			gibMenue();
 			shopVer.speichereDaten();
-		} catch(Exception e) {
-			System.out.println("Fehler beim speichern der Daten.");
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Methode die Unterscheidet ob man eingeloggt ist oder nicht und dementsprechend das entsprechende Menue darstellt
+	 * @throws IOException
+	 */
+	private void gibMenue() throws IOException {
+		do{
+			if(!(aktuellerBenutzer == null)){
+				eingeloggt();
+			} else {
+				menueNichtEingeloggt();
+			}
+		} while (!eingabe.equals("q"));
+	}
+	/**
+	 * Methode die das Menue fuer nicht angemeldete User zeigt.
+	 * @throws IOException
+	 */
+	private void menueNichtEingeloggt() throws IOException {
+		List<User> UserListe = shopVer.gibAlleUser();
+		System.out.println("e) Einloggen\n" +
+				"r) Registriere Kunden Account\n" +
+				"q) Beenden");
+		eingabe = liesEingabe();
+		if(eingabe.equals("e")){
+			System.out.println("Dein Benutzername?");
+			String name = liesEingabe();
+			System.out.println("Dein Passwort?");	
+			String passwort = liesEingabe();
+			try {
+				aktuellerBenutzer = userLogin(UserListe, name, passwort);
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		} else if (eingabe.equals("r")) {
+			try {
+				userRegistrieren();
+			} catch (Exception e) {
+				System.out.println(e);
+			}					
+		}
+	}
+	/**
+	 * Methode die, die Willkommensnachricht ausgibt und und je nachdem ob der angemeldete Benutzer
+	 * Kunde oder Mitarbeiter ist, entscheidet welches Menue sie anzeigt.
+	 * @throws IOException
+	 */
+	private void eingeloggt() throws IOException {
+		System.out.println("Herzlich Willkommen im Stein-Shop\n" +
+		"wir wünschen einen angenehmen Aufenthalt\n" +
+		"und ein steinhartes Kauferlebnis.\n");
+		do {
+			System.out.println("Artikelliste:");
+			gibArtikellisteAus(); 
+			if(!(aktuellerBenutzer instanceof Kunde)) {
+				menueMitarbeiter();
+			} else {
+				menueKunde();
+			}
+		} while (!eingabe.equals("a"));
+		aktuellerBenutzer = null;
+	}
+	/** Methode mit der sich ein neuer Kunde registrieren kann
+	 * 
+	 * @throws InkorrekteRegWerteException
+	 * @throws IOException
+	 */
+
 	public void userRegistrieren() throws InkorrekteRegWerteException, IOException {
 		System.out.println("Waehle deinen Benutzernamen:");
 		String name = liesEingabe();
@@ -134,7 +151,6 @@ public class ShopUi {
 		String land = liesEingabe();
 		this.shopVer.fuegeUserEin(name, passwort, anrede, vorUndZuName, strasse, plz, ort, land);
 	}
-	
 	/**
 	 * Methode die, alle Elemente der Artikelliste (siehe artikel.toString()) in der Konsole ausgibt.
 	 * @param liste
@@ -150,7 +166,6 @@ public class ShopUi {
 	 * @param passwort Passwort der Person, die sich einloggen möchte
 	 * @return gibt das Benutzerobjekt zurück, wenn der Login geklappt hat, ansonsten null
 	 */
-	
 	private User userLogin(List<User> liste, String name, String passwort) throws LoginFehlgeschlagenException{
 		Iterator<User> it = liste.iterator();
 		while  (it.hasNext()) {
@@ -161,7 +176,6 @@ public class ShopUi {
 		}
 		throw new LoginFehlgeschlagenException();
 	}
-	
 	/**
 	 * Methode, die ein Mitarbeiter-spezifisches Menue ausgibt.
 	 * @throws IOException
@@ -177,83 +191,19 @@ public class ShopUi {
 		eingabe = liesEingabe();
 		switch(eingabe) {
 			case "n": 	
-				System.out.println("Moechtes du einen Mehrfachartikel speichern? (y für ja und n für nein");
-				String mehrfach = liesEingabe();
-				int p = 0;
-				if (mehrfach.equals("y")) {
-					System.out.println("Bitte gib die Portionsgröße ein.");
-					String portion = liesEingabe();
-					p = Integer.parseInt(portion);
-				}
-				System.out.println("Name des Artikels: ");
-				String name = liesEingabe();
-				System.out.println("Menge: ");
-				eingabe = liesEingabe();
-				int menge = Integer.parseInt(eingabe);
-				System.out.println("Preis: ");
-				eingabe = liesEingabe();
-				double preis = Double.parseDouble(eingabe);
-				System.out.println("wird angelegt!");
-				try {					
-					if (p!=0) {
-						shopVer.fuegeArtikelEin(name, preis, aktuellerBenutzer, menge, p); // mehrfachartikel
-					} else if (mehrfach.equals("n")) {
-						shopVer.fuegeArtikelEin(name, preis, aktuellerBenutzer, menge);
-					} 
-				} catch (Exception e) {
-					System.out.println(e);
-				}
+				neuenArtikelAnlegen();
 				break;
 			case "m":
-				System.out.println("Artikelliste:");
-				gibArtikellisteAus();
-				System.out.println("Artikelnummer des zu ändernden Artikel eingeben.");
-				eingabe = liesEingabe();
-				int nummer = Integer.parseInt(eingabe);
-				System.out.println("Wieviele moechtest du hinzufügen?");
-				eingabe = liesEingabe();
-				int anzahl = Integer.parseInt(eingabe);
-				try{
-					shopVer.mengeAendern(nummer, anzahl, aktuellerBenutzer);
-				} catch (Exception e) {
-					System.out.println(e);
-				}
-				System.out.println("Artikel wurden hinzugefügt!");
+				artikelmengeAendern();
 				break;
 			case "u":
 				shopVer.gibBenutzerlisteAus();
 				break;
 			case "r": 
-				System.out.println("Waehle deinen Benutzernamen:");
-				String benutzername = liesEingabe();
-				String passwort;
-				String passwort1;
-				do {
-					System.out.println("Waehle dein Passwort:");
-					passwort = liesEingabe();
-					System.out.println("Eingabe Wiederholen:");
-					passwort1 = liesEingabe();
-				} while (!passwort.equals(passwort1));
-				System.out.println("Anrede:");
-				String anrede = liesEingabe();
-				System.out.println("Vor- und Zu-Name:");
-				String vorUndZuName = liesEingabe();
-				try{
-					this.shopVer.fuegeUserEin(benutzername, passwort, anrede, vorUndZuName);
-				}
-				catch(Exception e) {
-					System.out.println(e);				
-				}
+				mitarbeiterErstellen();
 				break;
 			case "d":
-				System.out.println("Welchen Mitarbeiter willst du löschen?");
-				int userName = Integer.parseInt(liesEingabe());
-				try{
-					shopVer.loescheUser(userName, aktuellerBenutzer);
-				}
-				catch(Exception e) {
-					System.out.println(e);				
-				}
+				benutzerLoeschen();
 				break;
 			case "p":
 				shopVer.gibProtokoll();
@@ -264,11 +214,91 @@ public class ShopUi {
 			default: System.out.println("Falsche Eingabe.");
 		}
 	}
+	/** Methode um einen User zu löschen
+	 * 
+	 * @throws IOException
+	 */
+	private void benutzerLoeschen() throws IOException {
+		System.out.println("Welchen Mitarbeiter willst du löschen?");
+		int userNr = Integer.parseInt(liesEingabe());
+		try{
+			shopVer.loescheUser(userNr, aktuellerBenutzer);
+		}
+		catch(Exception e) {
+			System.out.println(e);				
+		}
+	}
+
+	private void mitarbeiterErstellen() throws IOException {
+		System.out.println("Waehle deinen Benutzernamen:");
+		String benutzername = liesEingabe();
+		String passwort;
+		String passwort1;
+		do {
+			System.out.println("Waehle dein Passwort:");
+			passwort = liesEingabe();
+			System.out.println("Eingabe Wiederholen:");
+			passwort1 = liesEingabe();
+		} while (!passwort.equals(passwort1));
+		System.out.println("Anrede:");
+		String anrede = liesEingabe();
+		System.out.println("Vor- und Zu-Name:");
+		String vorUndZuName = liesEingabe();
+		try{
+			this.shopVer.fuegeUserEin(benutzername, passwort, anrede, vorUndZuName);
+		}
+		catch(Exception e) {
+			System.out.println(e);				
+		}
+	}
+	private void artikelmengeAendern() throws IOException {
+		System.out.println("Artikelliste:");
+		gibArtikellisteAus();
+		System.out.println("Artikelnummer des zu ändernden Artikel eingeben.");
+		eingabe = liesEingabe();
+		int nummer = Integer.parseInt(eingabe);
+		System.out.println("Wieviele moechtest du hinzufügen?");
+		eingabe = liesEingabe();
+		int anzahl = Integer.parseInt(eingabe);
+		try{
+			shopVer.mengeAendern(nummer, anzahl, aktuellerBenutzer);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		System.out.println("Artikel wurden hinzugefügt!");
+	}
+	private void neuenArtikelAnlegen() throws IOException {
+		System.out.println("Moechtes du einen Mehrfachartikel speichern? (y für ja und n für nein");
+		String mehrfach = liesEingabe();
+		int p = 0;
+		if (mehrfach.equals("y")) {
+			System.out.println("Bitte gib die Portionsgröße ein.");
+			String portion = liesEingabe();
+			p = Integer.parseInt(portion);
+		}
+		System.out.println("Name des Artikels: ");
+		String name = liesEingabe();
+		System.out.println("Menge: ");
+		eingabe = liesEingabe();
+		int menge = Integer.parseInt(eingabe);
+		System.out.println("Preis: ");
+		eingabe = liesEingabe();
+		double preis = Double.parseDouble(eingabe);
+		System.out.println("wird angelegt!");
+		try {					
+			if (p!=0) {
+				shopVer.fuegeArtikelEin(name, preis, aktuellerBenutzer, menge, p); // mehrfachartikel
+			} else if (mehrfach.equals("n")) {
+				shopVer.fuegeArtikelEin(name, preis, aktuellerBenutzer, menge);
+			} 
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
 	/**
 	 * Methode, die ein Kunden-spezifisches Menue ausgibt.
 	 * @throws IOException
 	 */
-
 	public void menueKunde() throws IOException{
 		System.out.println("w) Zum Warenkorb\n" +
 				//"b) Artikelbeschreibung aufrufen\n" +

@@ -29,7 +29,6 @@ import shop.local.valueobjects.Warenkorb;
 
 
 public class ShopVerwaltung {
-
 	private ArtikelVerwaltung artVer;
 	private UserVerwaltung userVer;
 	private WarenkorbVerwaltung warkoVer;

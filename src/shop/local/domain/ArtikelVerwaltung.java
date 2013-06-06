@@ -25,6 +25,7 @@ public class ArtikelVerwaltung implements Serializable {
 
 	private List<Artikel> artikelBestand = new Vector<Artikel>();
 	private int laufnr;
+	
 	/**
 	 * Methode um einen neuen Artikel in die Liste einzufügen.
 	 * @param titel: Name des Artikels der eingefuegt werden soll.

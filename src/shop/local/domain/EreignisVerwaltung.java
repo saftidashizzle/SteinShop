@@ -8,6 +8,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -40,7 +42,33 @@ public class EreignisVerwaltung {
 		System.out.println(" ");
 	}
 	public List<Ereignis> gibEreignisseNachArtikelUndTagen(Artikel a, int anzahlTage) {
-		return null;
+		// jetzt fehlt noch die zeit komponente
+		// in einer schleife alle date's der ereignisse nacheinander durchgehen
+		// mit .getDay den Tag bekommen
+		// gucken, sobald ein monat (zum test eine woche) vergangen ist, dann mit dem ausgeben aufhoeren
+		List<Ereignis> liste = null;
+		Iterator<Ereignis> it = protokoll.iterator();
+		Ereignis er = null;
+
+		Calendar heute = Calendar.getInstance();
+		Calendar ereignis = new GregorianCalendar();
+		
+		long zeitVergangen = ereignis.getTime().getTime() - heute.getTime().getTime();  // Differenz in ms
+		long inTagen = Math.round( (double)zeitVergangen / (24. * 60.*60.*1000.) ); // Zeit Differenz in Tagen
+		
+			while (it.hasNext()) {
+				er = it.next();
+				ereignis.setTime(er.getDate());                      // zweiter Zeitpunkt
+				// wenn ereignis in dem zeitraum liegt, in die liste
+				if(inTagen>30){
+					return liste;
+				} else {
+					liste.add(er); 
+				}
+			}
+			return null;
+			
+	
 	}
 	public void ladeDaten() throws FileNotFoundException, IOException, ClassNotFoundException {
 		int count = 0;

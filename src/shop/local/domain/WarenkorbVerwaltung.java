@@ -54,14 +54,10 @@ public class WarenkorbVerwaltung {
 	 * @param nummer Artikelnummer des zu ändernden Artikels.
 	 * @param anzahl Wieviel hinzugefügt werden soll.
 	 */
-	public void setArtikelMenge(int nummer, int anzahl, User user) {
-//		Iterator<Artikel> it = getWarenkorb(user).iterator();
-//		while  (it.hasNext()) {
-//			Artikel artikel = it.next();
-//			if(artikel.getNummer() == nummer){
-//				artikel.setMenge(anzahl + artikel.getMenge());
-//			} 
-//		}
+	public void setArtikelMenge(Artikel a, int anzahl, Kunde user) {
+		HashMap<Artikel, Integer> w = user.getWarenkorb().getInhalt();
+		int alteMenge = w.remove(a);
+		w.put(a, alteMenge+anzahl);
 	}
 	/**
 	 * Methode um den Warenkorbinhalt auszugeben.

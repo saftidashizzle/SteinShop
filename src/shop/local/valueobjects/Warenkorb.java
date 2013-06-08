@@ -59,5 +59,4 @@ public class Warenkorb implements Serializable {
 	public HashMap<Artikel, Integer> getInhalt(){
 		return warenkorb;
 	}
-	
 }

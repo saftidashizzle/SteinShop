@@ -27,10 +27,13 @@ import java.util.Date;
 			this.anzahl = anzahl;
 			this.aktion = aktion;
 		}
+		public Date getDate() {
+			return this.datum;
+		}
 		/**
 		 * Methode die die bisher angefallenen Ereignisse in einem String übergibt/ausgibt
 		 */
 		public String toString() {
-			return ("Datum: " + datum + " User: " + akteur + " Artikel: " + artikel.getName() + " | Anzahl: " + anzahl + " | " + " Aktion: " + aktion);
+			return ("Datum: " + this.datum + " User: " + akteur + " Artikel: " + artikel.getName() + " | Anzahl: " + anzahl + " | " + " Aktion: " + aktion);
 		}
 }

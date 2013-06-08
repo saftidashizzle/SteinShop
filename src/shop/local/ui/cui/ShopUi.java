@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import shop.local.domain.ShopVerwaltung;
+import shop.local.domain.exceptions.ArtikelNichtVerfuegbarException;
 import shop.local.domain.exceptions.InkorrekteRegWerteException;
 import shop.local.domain.exceptions.LoginFehlgeschlagenException;
 import shop.local.valueobjects.Kunde;
@@ -186,7 +187,8 @@ public class ShopUi {
 				"u) Alle Benutzer anzeigen\n" +
 				"r) Neuen Mitarbeiter registrieren\n" +
 				"d) Mitarbeiter löschen\n" + 
-				"p) Protokoll anzeigen\n" + 
+				"p) Protokoll anzeigen\n" +
+				"c) Artikelmengenverlauf der letzten 30 Tage anzeigen lassen" + 
 				"a) Ausloggen");
 		eingabe = liesEingabe();
 		switch(eingabe) {
@@ -207,6 +209,17 @@ public class ShopUi {
 				break;
 			case "p":
 				shopVer.gibProtokoll();
+				break;
+			case "c":
+				System.out.println("Welchen Artikel?");
+				int artID = Integer.parseInt(liesEingabe());
+				System.out.println("Wieviel Tage zurück?");
+				int anzahlTage = Integer.parseInt(liesEingabe());
+				try {
+					shopVer.einkaufsVerlauf(artID, anzahlTage);
+				} catch (ArtikelNichtVerfuegbarException e) {
+					System.out.println(e);
+				}
 				break;
 			case "a":
 				System.out.println("Auf Wiedersehen!");
@@ -268,14 +281,9 @@ public class ShopUi {
 		System.out.println("Artikel wurden hinzugefügt!");
 	}
 	private void neuenArtikelAnlegen() throws IOException {
-		System.out.println("Moechtes du einen Mehrfachartikel speichern? (y für ja und n für nein");
+		System.out.println("Moechtes du einen Mehrfachartikel speichern? (j für ja und n für nein)");
 		String mehrfach = liesEingabe();
 		int p = 0;
-		if (mehrfach.equals("y")) {
-			System.out.println("Bitte gib die Portionsgröße ein.");
-			String portion = liesEingabe();
-			p = Integer.parseInt(portion);
-		}
 		System.out.println("Name des Artikels: ");
 		String name = liesEingabe();
 		System.out.println("Menge: ");
@@ -284,13 +292,19 @@ public class ShopUi {
 		System.out.println("Preis: ");
 		eingabe = liesEingabe();
 		double preis = Double.parseDouble(eingabe);
-		System.out.println("wird angelegt!");
-		try {					
-			if (p!=0) {
+		try {		
+			if (mehrfach.equals("j")) {
+				System.out.println("Bitte gib die Portionsgröße ein.");
+				String portion = liesEingabe();
+				p = Integer.parseInt(portion);
 				shopVer.fuegeArtikelEin(name, preis, aktuellerBenutzer, menge, p); // mehrfachartikel
 			} else if (mehrfach.equals("n")) {
 				shopVer.fuegeArtikelEin(name, preis, aktuellerBenutzer, menge);
-			} 
+	
+			} else {
+				throw new IOException("Bitte entscheide dich für ja oder nein.");
+			}
+			System.out.println("wird angelegt!");			
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -301,6 +315,7 @@ public class ShopUi {
 	 */
 	public void menueKunde() throws IOException{
 		System.out.println("w) Zum Warenkorb\n" +
+				"m) Artikelmenge im Warenkorb ändern\n" +
 				//"b) Artikelbeschreibung aufrufen\n" +
 				"n) Artikel nach Namen ordnen\n" +
 				"f) Artikel nach Nummern ordnen\n" +
@@ -316,6 +331,21 @@ public class ShopUi {
 				shopVer.getWarenkorbInhalt(aktuellerBenutzer);
 				//gibArtikellisteAus();
 				break;
+			case "m": 
+				System.out.println("Von welchem Artikel möchtest du die Menge ändern?");
+				eingabe = liesEingabe();
+				int artID = Integer.parseInt(eingabe);
+				System.out.println("Wieviel möchtest du hinzufügen oder abziehen?");
+				eingabe = liesEingabe();
+				int menge = Integer.parseInt(eingabe);
+				try {
+					shopVer.artikelMengeImWarenkorbAendern(artID, menge, (Kunde)aktuellerBenutzer);
+				} catch (Exception e) {
+					System.out.println(e);
+				}
+				
+				//gibArtikellisteAus();
+				break;
 //			case "b": 
 //				System.out.println("Welchen Artikel?");
 //				eingabe = liesEingabe();
@@ -329,10 +359,10 @@ public class ShopUi {
 			case "c": 
 				System.out.println("Welchen Artikel kaufen?");
 				eingabe = liesEingabe();
-				int artID = Integer.parseInt(eingabe);
+				artID = Integer.parseInt(eingabe);
 				System.out.println("Wieviele davon?");
 				eingabe = liesEingabe();
-				int menge = Integer.parseInt(eingabe);
+				menge = Integer.parseInt(eingabe);
 				try {
 					shopVer.artikelInWarenkorb(artID, menge, aktuellerBenutzer);			
 				} catch (Exception e) {

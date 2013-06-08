@@ -82,12 +82,6 @@ public class UserVerwaltung implements Serializable {
 		}
 		System.out.println(" ");
 	}
-	public void schreibeDaten() throws FileNotFoundException, IOException {
-		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("UserVerwaltung.ser")); 
-		out.writeObject(this);		
-		out.close();
-		System.out.println("UserVerwaltung gespeichert.");
-	}
 	public void schreibeDaten2() throws FileNotFoundException, IOException {
 		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("User.ser")); 
 		// hier schleife in der dir jeweiligen objekte (artikel, user, ereignisse durchgegangen werden
@@ -133,6 +127,8 @@ public class UserVerwaltung implements Serializable {
 				u = (User) in.readObject();
 				count++;
 				userBestand.add(u);
+				if (u.getNummer() > this.laufnr)
+					this.laufnr = u.getNummer();
 			}
 		} catch (EOFException e) { // wg. readObject
 			System.out.println("Es wurden " + count + " User geladen.");

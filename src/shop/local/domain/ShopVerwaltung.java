@@ -20,6 +20,7 @@ import shop.local.domain.exceptions.MitarbeiterNichtVorhandenException;
 import shop.local.domain.exceptions.WarenkorbExceedsArtikelbestandException;
 import shop.local.domain.exceptions.WarenkorbIstLeerException;
 import shop.local.valueobjects.Artikel;
+import shop.local.valueobjects.Ereignis;
 import shop.local.valueobjects.Kunde;
 import shop.local.valueobjects.MehrfachArtikel;
 import shop.local.valueobjects.Rechnung;
@@ -133,7 +134,9 @@ public class ShopVerwaltung {
 			// Artikelmenge im Artikelbestand verringern
 			for(Artikel key : warenkorb.keySet()) {
 				// System.out.println("Artikel: " + key.getName() + "Zahl: " + warenkorb.get(key));
-				artVer.setArtikelMenge(key.getNummer(), (~warenkorb.get(key))+1);
+				
+				artVer.setArtikelMenge(key.getNummer(), (~warenkorb.get(key))+1); 
+
 				erVer.ereignisEinfuegen(akteur, key, warenkorb.get(key), "Artikel gekauft. (Rechnung wurde erstellt)");
 		    }
 		}		
@@ -225,65 +228,40 @@ public class ShopVerwaltung {
 	public void ladeDaten() throws FileNotFoundException, IOException, ClassNotFoundException {
 		artVer.ladeDaten(); //funktioniert
 		userVer.ladeDaten(); // user objekte
-//		this.ladeUserVerwaltung();
-		//this.ladeArtikelVerwaltung();
 		erVer.ladeDaten();			
 	
 	}
 	public void speichereDaten() throws FileNotFoundException, IOException {
 		artVer.schreibeDaten();
-		//artVer.schreibeDaten2(); // artikel verwaltung
 		userVer.schreibeDaten2(); //user objekte
 //		userVer.schreibeDaten(); // user verwaltung
 		erVer.schreibeDaten();
 	}
-/*	public void ladeUserVerwaltung() throws FileNotFoundException, IOException {
-		ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream("UserVerwaltung.ser")));
-		UserVerwaltung u = null;
-		try {  
-			u = (UserVerwaltung) in.readObject();
-			this.userVer = u;
-			System.out.println("User Verwaltung geladen.");
-		} catch (EOFException e) { // wg. readObject
-			System.out.println("Fehler beim Laden der User Verwaltung.");
-		} catch (IOException e) {
-			System.out.println(e);
-		} catch (ClassNotFoundException e) { // wg readObject
-			System.out.println(e);
-		} finally {
-			try {
-				if (in!=null) {
-					in.close();
-				} 
-			} catch (IOException e) {
-					e.printStackTrace();
-				}
+	/**
+	 * Methode die Artikelmenge im Warenkorb ändert
+	 * @param artID
+	 * @param menge bei positiv: hinzufügen, negativ verringern
+	 * @param akteur
+	 * @throws ArtikelNichtVerfuegbarException
+	 */
+	public void artikelMengeImWarenkorbAendern(int artID, int menge, Kunde akteur) throws ArtikelNichtVerfuegbarException {			
+		Artikel a = artVer.findArtikelByNumber(artID);
+		warkoVer.setArtikelMenge(a, menge, akteur);
+	}
+	public void einkaufsVerlauf(int artID, int anzahlTage) throws ArtikelNichtVerfuegbarException {
+		// gibt die artikelmenge des artikels zurueck
+		Artikel a = artVer.findArtikelByNumber(artID);
+		// die soll ich verwenden und bauen
+		List<Ereignis> liste = erVer.gibEreignisseNachArtikelUndTagen(a, anzahlTage); // Liste von Ereignissen
+		if(liste.isEmpty()) {
+			System.out.println("Liste ist leer.");
+		} else {
+			Iterator<Ereignis> it = liste.iterator();
+			while (it.hasNext()) {
+				Ereignis ereignis = it.next();
+				System.out.println(ereignis.toString());
+			}			
 		}
-	}*/
-	public void ladeArtikelVerwaltung() throws FileNotFoundException, IOException {
-		ObjectInputStream in = new ObjectInputStream(new FileInputStream("ArtikelVerwaltung.ser"));
-		ArtikelVerwaltung a = null;
-		try {  
-			a = (ArtikelVerwaltung) in.readObject();
-			this.artVer = a;
-			System.out.println("Artikel Verwaltung geladen.");
-		} catch (EOFException e) { // wg. readObject
-//			this.artVer = a;
-//			System.out.println("Artikel Verwaltung geladen.");
-			System.out.println("Fehler beim laden der Artikel Verwaltung.");
-		} catch (IOException e) {
-			System.out.println(e);
-		} catch (ClassNotFoundException e) { // wg readObject
-			System.out.println(e);
-		} finally {
-			try {
-				if (in!=null) {
-					in.close();
-				} 
-			} catch (IOException e) {
-					e.printStackTrace();
-				}
-		}
+		System.out.println(" ");
 	}
 }
-

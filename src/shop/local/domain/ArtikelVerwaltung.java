@@ -33,10 +33,9 @@ public class ArtikelVerwaltung implements Serializable {
 	 * @param menge Menge
 	 */
 	public Artikel einfuegen(String titel, double preis, int menge) throws ArtikelAngabenInkorrektException{ 
-		if(preis>0||menge>0){
+		if(preis<=0||menge<=0) {
 			throw new ArtikelAngabenInkorrektException();
-		}
-		else{
+		} else {
 			int nr = bestimmeNr();
 			Artikel einArtikel = new Artikel(titel, nr, preis, menge);
 			artikelBestand.add(einArtikel);
@@ -128,10 +127,6 @@ public class ArtikelVerwaltung implements Serializable {
 	 * @return laufnr zuverwendende Artikel Id
 	 */
 	private int bestimmeNr() {
-//		int counter;
-//		laufnr++;
-//		counter = laufnr;
-//		return counter;
 		return ++laufnr;
 	}
 	public void schreibeDaten() throws FileNotFoundException, IOException {
@@ -182,10 +177,4 @@ public class ArtikelVerwaltung implements Serializable {
 				}
 		}
 	}
-//	public void schreibeDaten2() throws FileNotFoundException, IOException {
-//		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("ArtikelVerwaltung.ser")); 
-//		out.writeObject(this);		
-//		out.close();
-//		System.out.println("Artikel Verwaltung gespeichert.");
-//	}
 }

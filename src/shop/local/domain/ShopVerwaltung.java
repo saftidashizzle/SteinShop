@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -139,7 +140,7 @@ public class ShopVerwaltung {
 				erVer.ereignisEinfuegen(akteur, key, warenkorb.get(key), "Artikel gekauft. (Rechnung wurde erstellt)");
 		    }
 		}		
-		Rechnung rechnung = new Rechnung(akteur, akteur.getWarenkorb(), 0);
+		Rechnung rechnung = new Rechnung(akteur, akteur.getWarenkorb(), new Date());
 			warenkorbLeeren(akteur);
 	}
 	

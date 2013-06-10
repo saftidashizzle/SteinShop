@@ -184,11 +184,12 @@ public class ShopUi {
 	public void menueMitarbeiter() throws IOException {
 		System.out.println("n) neuen Artikel anlegen \n" +
 				"m) Artikelmenge aendern\n" +
+				"l) Artikel löschen\n" +
 				"u) Alle Benutzer anzeigen\n" +
 				"r) Neuen Mitarbeiter registrieren\n" +
 				"d) Mitarbeiter löschen\n" + 
 				"p) Protokoll anzeigen\n" +
-				"c) Artikelmengenverlauf der letzten 30 Tage anzeigen lassen" + 
+				"c) Artikelmengenverlauf der letzten 30 Tage anzeigen lassen\n" + 
 				"a) Ausloggen");
 		eingabe = liesEingabe();
 		switch(eingabe) {
@@ -197,6 +198,9 @@ public class ShopUi {
 				break;
 			case "m":
 				artikelmengeAendern();
+				break;
+			case "l":
+				artikelLoeschen();
 				break;
 			case "u":
 				shopVer.gibBenutzerlisteAus();
@@ -227,6 +231,21 @@ public class ShopUi {
 			default: System.out.println("Falsche Eingabe.");
 		}
 	}
+	/** Methode um einen Artikel zu löschen
+	 * 
+	 * @throws IOException
+	 */
+	private void artikelLoeschen() throws IOException {
+		System.out.println("Welchen Artikel willst du löschen?");
+		int artID = Integer.parseInt(liesEingabe());
+		try{
+			shopVer.loescheArtikel(artID, aktuellerBenutzer);
+		}
+		catch(Exception e) {
+			System.out.println(e);				
+		}
+	}
+
 	/** Methode um einen User zu löschen
 	 * 
 	 * @throws IOException

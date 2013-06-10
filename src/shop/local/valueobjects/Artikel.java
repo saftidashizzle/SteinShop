@@ -69,8 +69,7 @@ public class Artikel implements Serializable {
 	public void setMenge(int zahl) throws ArtikelMengeInkorrektException{
 		if(zahl>=0){
 			menge = zahl;
-		}
-		else{
+		} else {
 			throw new ArtikelMengeInkorrektException();
 		}
 	}

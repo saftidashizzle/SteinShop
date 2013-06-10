@@ -134,8 +134,7 @@ public class ShopVerwaltung {
 			// Artikelmenge im Artikelbestand verringern
 			for(Artikel key : warenkorb.keySet()) {
 				// System.out.println("Artikel: " + key.getName() + "Zahl: " + warenkorb.get(key));
-				
-				artVer.setArtikelMenge(key.getNummer(), (~warenkorb.get(key))+1); 
+				artVer.setArtikelMenge(key.getNummer(), (warenkorb.get(key)*-(1))); 
 
 				erVer.ereignisEinfuegen(akteur, key, warenkorb.get(key), "Artikel gekauft. (Rechnung wurde erstellt)");
 		    }
@@ -263,5 +262,16 @@ public class ShopVerwaltung {
 			}			
 		}
 		System.out.println(" ");
+	}
+	/**
+	 * Methode um einen Artikel aus dem Bestand zu löschen
+	 * @param artID
+	 * @param User aktuellerBenutzer
+	 * @throws ArtikelNichtVerfuegbarException
+	 */
+	public void loescheArtikel(int artID, User aktuellerBenutzer) throws ArtikelNichtVerfuegbarException{
+		Artikel a = artVer.findArtikelByNumber(artID);
+		erVer.ereignisEinfuegen(aktuellerBenutzer, a, a.getMenge(), "Artikel gelöscht.");
+		artVer.loescheArtikel(a);		
 	}
 }

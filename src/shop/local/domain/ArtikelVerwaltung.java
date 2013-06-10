@@ -77,7 +77,7 @@ public class ArtikelVerwaltung implements Serializable {
 		while  (it.hasNext()) {
 			Artikel artikel = it.next();
 			if(artikel.getNummer() == nummer){
-				artikel.setMenge(artikel.getMenge() + anzahl);
+				artikel.setMenge((artikel.getMenge() + anzahl));
 			} 
 		}
 	}
@@ -116,7 +116,7 @@ public class ArtikelVerwaltung implements Serializable {
 				if (!(artikel.getMenge() <= 0)) {
 					System.out.println(artikel.toString());
 				} else {
-					artikel = null;
+					artikel = null;					
 				}
 			}			
 		}
@@ -175,6 +175,18 @@ public class ArtikelVerwaltung implements Serializable {
 			} catch (IOException e) {
 					e.printStackTrace();
 				}
+		}
+	}
+	/**
+	 * löscht Artikel aus dem Artikelbestand
+	 * @param artID Artikel Id des zu löschenden Artikels
+	 * @throws ArtikelNichtVerfuegbarException
+	 */
+	public void loescheArtikel(Artikel a) throws ArtikelNichtVerfuegbarException{
+		if (artikelBestand.contains(a)) {
+			artikelBestand.remove(a);
+		} else {
+			throw new ArtikelNichtVerfuegbarException(a.getNummer());
 		}
 	}
 }

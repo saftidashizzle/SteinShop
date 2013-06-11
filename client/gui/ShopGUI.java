@@ -14,6 +14,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -36,6 +37,8 @@ import valueobjects.MehrfachArtikel;
 import valueobjects.Mitarbeiter;
 import valueobjects.Rechnung;
 import valueobjects.User;
+import de.root1.simon.exceptions.EstablishConnectionFailed;
+import de.root1.simon.exceptions.LookupFailedException;
 import domain.comperatorArtikelName;
 import domain.exceptions.ArtikelAngabenInkorrektException;
 import domain.exceptions.ArtikelMengeInkorrektException;
@@ -111,8 +114,8 @@ public class ShopGUI extends JFrame {
 			
 			try {
 				connection.connectToServer();
-			} catch (Exception e) {
-				// hier kein message dialog weil die exceptions keine message definiert haben
+			} catch (UnknownHostException | LookupFailedException | EstablishConnectionFailed e) {
+				JOptionPane.showMessageDialog(null, e.getMessage()); 
 				e.printStackTrace();
 			}
 			

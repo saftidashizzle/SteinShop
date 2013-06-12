@@ -1,54 +1,55 @@
 package shop.local.ui.gui;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.awt.Menu;
 import java.awt.MenuBar;
 import java.awt.MenuItem;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Iterator;
+import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.border.TitledBorder;
-import javax.swing.text.DefaultCaret;
-
-import de.hsb.fuhrpark.fahrzeuge.Kfz;
-import de.hsb.fuhrpark.ui.gui.AddKfzComponent;
 
 import shop.local.domain.ShopVerwaltung;
-import shop.local.valueobjects.Artikel;
+import shop.local.domain.exceptions.InkorrekteRegWerteException;
+import shop.local.domain.exceptions.LoginFehlgeschlagenException;
 import shop.local.valueobjects.User;
 
 
 public class ShopGUI extends JFrame {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5711673086933143461L;
 	ShopVerwaltung shopVer;
 	User aktuellerBenutzer;
 	
 	// fuer die menue leiste
 	private MenuItem menuItemQuit;
+	private LoginPanel loginPanel;
+	private RegPanel regPanel;
+	private PlatzhalterPanel pl1;
+	private PlatzhalterPanel pl2;
+	private PlatzhalterPanel pl3;
+	private WarenkorbPanel warenkorbPanel;
+	private ArtikelPanel artikelPanel;
 	
-	// Graphische Auflistung der Kfz-Objekte in der Garage
-	private JList<Artikel> artikellist;
 	// Zusammengesetzte Komponente zum Hinzufügen eines Kfz
 	// private AddKfzComponent addkfzcomp;
 	// Textbereich für Lognachrichten
-	private JTextArea logarea;	
 	
 	public ShopGUI() {
 		super("SteinShop");
 		shopVer = new ShopVerwaltung();
 		aktuellerBenutzer = null;
-		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		
 		// Fenstergröße einstellen
-		this.setSize(640, 480);
+		this.setSize(800, 600);
 		
 		// Initialisieren der Komponenten des Fensters
 		this.initComponents();
@@ -82,7 +83,7 @@ public class ShopGUI extends JFrame {
 		try {
 			shopVer.ladeDaten();
 			//gibMenue(); wuerde das anfangsmenue liefern
-			shopVer.speichereDaten();
+			// shopVer.speichereDaten();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -111,62 +112,102 @@ public class ShopGUI extends JFrame {
 		// Wir initialisieren nun das Layout des Fensters: Damit strukturieren wir
 		// das Fenster und können Unterbereiche definieren. In diesem Beispiel
 		// verwende ich ein GridLayout mit zwei Spalten, die das Fenster vertikal aufteilen sollen
-		this.setLayout(new BorderLayout());
+		this.setLayout(new BorderLayout());		
+		
+		loginPanel = new LoginPanel();
+		this.add(loginPanel, BorderLayout.CENTER);
+		regPanel = new RegPanel();
+		this.add(regPanel, BorderLayout.EAST);
+		
+		warenkorbPanel = new WarenkorbPanel();
+		artikelPanel = new ArtikelPanel();
 		
 		
+		pl1 = new PlatzhalterPanel();
+		this.add(pl1, BorderLayout.NORTH);
+		pl3 = new PlatzhalterPanel();
+		this.add(pl3, BorderLayout.WEST);
+		pl2 = new PlatzhalterPanel();
+		this.add(pl2, BorderLayout.SOUTH);
+	}
+	/**
+	 * Initialisieren und registrieren aller Listener und Event-Handler
+	 */
+	public void initListeners() {
+		// Diese Listener definiere ich als anonyme Klassen!
+		// Das bedeutet, dass ihre Klassendefinition quasi einfach so in
+		// dieser Methode steht. Damit vermeide ich, für jede Kleinigkeit
+		// und jeden Listener eine einzelne Klasse schreiben zu müssen.
 		
+		// Diese Selbst-Referenz führe ich ein, um innerhalb der Listener-Implementierungen
+		// auf die GUI zugreifen zu können. Alternativ könnte man auch jedes mal "GarageGUI.this" schreiben!
+		final ShopGUI frame = this;
 		
+		// Quit-Listener für das "Datei"-Menü
+		ActionListener listenerQuit = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				// Anwendung beenden
+				frame.setVisible(false);
+				frame.dispose();
+			}
+		};
+		menuItemQuit.addActionListener(listenerQuit);
 		
-		// Linkes Unterfenster: Hier kommt eine Liste der Kfz-Objekte in der Garage hin
-		JPanel leftpanel = new JPanel();
-		leftpanel.setLayout(new BorderLayout());
-		TitledBorder tborder = BorderFactory.createTitledBorder("Kfz in der Garage");
-		leftpanel.setBorder(tborder);
-		
-		// Listen in Java Swing sind parametrisierte Objekte der Klasse JList
-		kfzlist = new JList<Kfz>();
-		
-		// Wir verpacken die Liste in eine JScrollPane, die uns ermöglicht, zu scrollen (duh!)
-		// Die JList geben wir der Scrollpane als Parameter mit
-		JScrollPane leftscroll = new JScrollPane(kfzlist);
-		leftscroll.setAutoscrolls(true);
-		
-		// JList-Objekte gehören zu den Swing-Komponenten, die strikt auf das Model-View-Controller-Konzept gepolt sind,
-		// deshalb liegt der Datensatz, den eine JList anzeigen soll, in einer anderen Klasse gekapselt, dem "ListModel".
-		// Das werden wir an dieser Stelle noch nicht füllen, das kommt später!
-		
-		// Scrollpane mit JList zum linken Unterfenster hinzufügen
-		leftpanel.add(leftscroll);
-		
-		// Hinzufügen zum Hauptfenster
-		this.add(leftpanel);
-		
-		// Rechtes Unterfenster: Wird nochmals aufgeteilt in zwei Bereiche für eine selbstgebaute
-		// Komponente, mit der Kfz hinzugefügt werden können, und einen Textbereich ähnlich eines Logs
-		JPanel rightpanel = new JPanel();
-		rightpanel.setLayout(new BorderLayout());
-		
-		// Oben kommt unsere eigene Komponente hin
-		addkfzcomp = new AddKfzComponent();
-		rightpanel.add(addkfzcomp, BorderLayout.NORTH);
-		
-		// Darunter die Textarea
-		logarea = new JTextArea();
-		// Definiere Eigenschaften der Textarea: Nicht editierbar, deaktiviert, etc.
-		TitledBorder logborder = BorderFactory.createTitledBorder("Log");
-		logarea.setBorder(logborder);
-		logarea.setEditable(false);
-		logarea.setFocusable(false);
-		logarea.setBackground(null);
-		// Auto-scrolling, wenn neuer Text dazukommt
-		DefaultCaret caret = (DefaultCaret) logarea.getCaret();
-		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-		
-		// Wir kapseln auch die Textarea in eine JScrollPane
-		JScrollPane rightscroll = new JScrollPane(logarea);
-		rightpanel.add(rightscroll, BorderLayout.CENTER);
-		
-		// Hinzufügen zum Hauptfenster
-		this.add(rightpanel);
+		// Event Listener für Login Button
+		ActionListener listenerLogin = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				List<User> UserListe = shopVer.gibAlleUser();
+				String name = loginPanel.getUserName();
+				String pw = loginPanel.getPasswort();
+				try {
+					aktuellerBenutzer = userLogin(UserListe, name, pw);
+					System.out.println("Hat geklappt.");
+					frame.getContentPane().remove(loginPanel);
+					frame.getContentPane().remove(regPanel);
+					frame.add(warenkorbPanel, BorderLayout.EAST);
+					frame.add(artikelPanel, BorderLayout.CENTER);
+					frame.getContentPane().invalidate();
+					frame.getContentPane().validate();
+				} catch (Exception e) {
+					System.out.println(e);
+				}
+			}
+		};
+		loginPanel.addActionListenerLogin(listenerLogin);
+	
+		// Event Listener für Registrier Button von regPanel
+		ActionListener listenerReg = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				if(regPanel.getPw1().equals(regPanel.getPw2())) {
+					try {
+						frame.shopVer.fuegeUserEin(regPanel.getUserName(), regPanel.getPw1(), regPanel.getAnrede(), regPanel.getName(), regPanel.getStr(), Integer.parseInt(regPanel.getPlz()), regPanel.getOrt(), regPanel.getLand());
+						System.out.println("Benutzer erstellt.");
+						} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InkorrekteRegWerteException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} else {
+					System.out.println("Passwort stimmt nicht überein.");
+				}
+			}
+		};
+		regPanel.addActionListenerReg(listenerReg);
+	}
+	
+	private User userLogin(List<User> liste, String name, String passwort) throws LoginFehlgeschlagenException{
+		Iterator<User> it = liste.iterator();
+		while  (it.hasNext()) {
+			User user = it.next();
+			if(user.getName().equals(name) && (user.getPasswort().equals(passwort))){
+				return user;
+			}
+		}
+		throw new LoginFehlgeschlagenException();
 	}
 }

@@ -1,4 +1,4 @@
-package shop.local.ui.cui;
+package shop.local.ui;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,21 +19,21 @@ import shop.local.valueobjects.User;
  *
  */
 
-public class ShopUi {
+public class ShopCUI {
 	private ShopVerwaltung shopVer;
 	private	User aktuellerBenutzer;
 	private String eingabe;
 	private BufferedReader in;
 
 
-	public ShopUi() { // Konstruktor
+	public ShopCUI() { // Konstruktor
 		shopVer = new ShopVerwaltung();
 		aktuellerBenutzer = null;
 		in = new BufferedReader(new InputStreamReader(System.in));
 	}
 	
 	public static void main(String[] args) {
-		ShopUi shop = new ShopUi();
+		ShopCUI shop = new ShopCUI();
 //		shop.shopVer.fuegeArtikelEin("EINSTEIN", 1.99, null, 12);
 //		shop.shopVer.fuegeArtikelEin("SECHSSTEIN", 9.99, null, 48, 6);
 

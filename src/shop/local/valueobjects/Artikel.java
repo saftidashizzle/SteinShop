@@ -80,4 +80,9 @@ public class Artikel implements Serializable {
 	public double getPreis(){
 		return preis;
 	}
+
+	public String getPackungs() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

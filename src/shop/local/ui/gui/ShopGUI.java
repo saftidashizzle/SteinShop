@@ -6,17 +6,19 @@ import java.awt.MenuBar;
 import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import shop.local.domain.ShopVerwaltung;
 import shop.local.domain.exceptions.InkorrekteRegWerteException;
 import shop.local.domain.exceptions.LoginFehlgeschlagenException;
+import shop.local.valueobjects.Artikel;
+import shop.local.valueobjects.Kunde;
+import shop.local.valueobjects.Mitarbeiter;
 import shop.local.valueobjects.User;
 
 
@@ -32,10 +34,11 @@ public class ShopGUI extends JFrame {
 	// fuer die menue leiste
 	private MenuItem menuItemQuit;
 	private LoginPanel loginPanel;
+	private MitarbeiterMenuPanel mitarbeiterMenuPanel;
+	private KundeMenuPanel kundeMenuPanel;
 	private RegPanel regPanel;
-	private PlatzhalterPanel pl1;
-	private PlatzhalterPanel pl2;
-	private PlatzhalterPanel pl3;
+	private TopPanel topPanel;
+	private BottomPanel botPanel;
 	private WarenkorbPanel warenkorbPanel;
 	private ArtikelPanel artikelPanel;
 	
@@ -119,16 +122,29 @@ public class ShopGUI extends JFrame {
 		regPanel = new RegPanel();
 		this.add(regPanel, BorderLayout.EAST);
 		
+		kundeMenuPanel = new KundeMenuPanel();
 		warenkorbPanel = new WarenkorbPanel();
 		artikelPanel = new ArtikelPanel();
+		artikelLaden();
+		mitarbeiterMenuPanel = new MitarbeiterMenuPanel();
 		
 		
-		pl1 = new PlatzhalterPanel();
-		this.add(pl1, BorderLayout.NORTH);
-		pl3 = new PlatzhalterPanel();
-		this.add(pl3, BorderLayout.WEST);
-		pl2 = new PlatzhalterPanel();
-		this.add(pl2, BorderLayout.SOUTH);
+		topPanel = new TopPanel();
+		this.add(topPanel, BorderLayout.NORTH);
+		botPanel = new BottomPanel();
+		this.add(botPanel, BorderLayout.SOUTH);
+	}
+	private void artikelLaden() {
+		List<Artikel> liste = shopVer.gibAlleArtikel();
+		Iterator<Artikel> it = liste.iterator();
+		while  (it.hasNext()) {
+			Artikel a = it.next();
+			artikelPanel.artikelListe.add(new JLabel("" + a.getNummer()));
+			artikelPanel.artikelListe.add(new JLabel(a.getName()));
+			artikelPanel.artikelListe.add(new JLabel("" + a.getMenge()));
+			artikelPanel.artikelListe.add(new JLabel("" + a.getPreis()));
+			artikelPanel.artikelListe.add(new JLabel("PACKUNGSGROESSE"));
+		}
 	}
 	/**
 	 * Initialisieren und registrieren aller Listener und Event-Handler
@@ -163,11 +179,18 @@ public class ShopGUI extends JFrame {
 				String pw = loginPanel.getPasswort();
 				try {
 					aktuellerBenutzer = userLogin(UserListe, name, pw);
-					System.out.println("Hat geklappt.");
-					frame.getContentPane().remove(loginPanel);
-					frame.getContentPane().remove(regPanel);
-					frame.add(warenkorbPanel, BorderLayout.EAST);
-					frame.add(artikelPanel, BorderLayout.CENTER);
+					if (aktuellerBenutzer instanceof Kunde) {
+						frame.getContentPane().remove(loginPanel);
+						frame.getContentPane().remove(regPanel);
+						frame.add(kundeMenuPanel, BorderLayout.WEST);
+						frame.add(artikelPanel, BorderLayout.CENTER);
+						frame.add(warenkorbPanel, BorderLayout.EAST);
+					} else if(aktuellerBenutzer instanceof Mitarbeiter) {
+						frame.getContentPane().remove(loginPanel);
+						frame.getContentPane().remove(regPanel);
+						frame.add(mitarbeiterMenuPanel, BorderLayout.WEST);
+						frame.add(artikelPanel, BorderLayout.CENTER);
+					}
 					frame.getContentPane().invalidate();
 					frame.getContentPane().validate();
 				} catch (Exception e) {
@@ -198,6 +221,32 @@ public class ShopGUI extends JFrame {
 			}
 		};
 		regPanel.addActionListenerReg(listenerReg);
+		
+		// Event Listener für Logout Button 
+				ActionListener listenerLogout = new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent ae) {
+						
+						if (aktuellerBenutzer instanceof Kunde) {
+							aktuellerBenutzer = null;
+							frame.getContentPane().remove(kundeMenuPanel);
+							frame.getContentPane().remove(warenkorbPanel);
+							frame.getContentPane().remove(artikelPanel);
+							frame.add(loginPanel, BorderLayout.CENTER);
+							frame.add(regPanel, BorderLayout.EAST);
+						} else {
+							aktuellerBenutzer = null;
+							frame.getContentPane().remove(mitarbeiterMenuPanel);
+							frame.getContentPane().remove(artikelPanel);
+							frame.add(loginPanel, BorderLayout.CENTER);
+							frame.add(regPanel, BorderLayout.EAST);
+						}
+						frame.getContentPane().invalidate();
+						frame.getContentPane().validate();
+					}
+				};
+				kundeMenuPanel.addActionListenerLogout(listenerLogout);
+				mitarbeiterMenuPanel.addActionListenerLogout(listenerLogout);			
 	}
 	
 	private User userLogin(List<User> liste, String name, String passwort) throws LoginFehlgeschlagenException{

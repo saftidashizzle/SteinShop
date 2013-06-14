@@ -8,15 +8,30 @@ import javax.swing.JPanel;
 
 public class KundeMenuPanel extends JPanel {
 	private JButton logoutButton;
+	private JButton artikelInWarenkorbButton;
+	private JButton artikelNachNamenButton;
+	private JButton artikelNachNummernButton;
+	private JButton artikelEntfernenButton;
+	private JButton warenkorbLeerenButton;
+	private JButton Button;
 	public KundeMenuPanel(){
 		super();
 		this.setLayout(new GridLayout(6,1));
 		
-		this.add(new JButton("Artikelmenge im Warenkorb ändern"));
-		this.add(new JButton("Artikel nach Namen ordnen"));
-		this.add(new JButton("Artikel nach Nummern ordnen"));
-		this.add(new JButton("Artikel aus Warenkorb entfernen"));
-		this.add(new JButton("Warenkorb leeren"));
+		artikelInWarenkorbButton = new JButton("Artikelmenge im Warenkorb ändern");
+		this.add(artikelInWarenkorbButton);
+		
+		artikelNachNamenButton = new JButton("Artikel nach Namen ordnen");
+		this.add(artikelNachNamenButton);
+		
+		artikelNachNummernButton = new JButton("Artikel nach Nummern ordnen"); 
+		this.add(artikelNachNummernButton);
+		
+		artikelEntfernenButton = new JButton("Artikel aus Warenkorb entfernen"); 
+		this.add(artikelEntfernenButton);
+		
+		warenkorbLeerenButton = new JButton("Warenkorb leeren");
+		this.add(warenkorbLeerenButton);
 		
 		logoutButton = new JButton("Logout");
 		this.add(logoutButton);

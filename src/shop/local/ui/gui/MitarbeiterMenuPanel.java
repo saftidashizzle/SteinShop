@@ -8,15 +8,35 @@ import javax.swing.JPanel;
 
 public class MitarbeiterMenuPanel extends JPanel {
 	private JButton logoutButton;
+	private JButton artikelAnlegenButton;
+	private JButton mengeAendernButton; 
+	private JButton artikelLoeschenButton;
+	private JButton mitarbeiterLoeschenButton;
+	private JButton artikelProtokollButton;
+	private JButton mitarbeiterRegistrierenButton;
+	
 	public MitarbeiterMenuPanel() {
 		super();
 		this.setLayout(new GridLayout(7,1));
-		this.add(new JButton("Neuen Artikel anlegen"));
-		this.add(new JButton("Artikelmenge ändern"));
-		this.add(new JButton("Artikel löschen"));
-		this.add(new JButton("Artikel löschen"));
-		this.add(new JButton("Mitarbeiter löschen"));
-		this.add(new JButton("Artikelmengenverlauf für bestimmten Artikel anzeigen"));
+		
+		artikelAnlegenButton = new JButton("Neuen Artikel anlegen");
+		this.add(artikelAnlegenButton);
+		
+		mengeAendernButton = new JButton("Artikelmenge ändern");
+		this.add(mengeAendernButton);
+		
+		artikelLoeschenButton = new JButton("Artikel löschen");
+		this.add(artikelLoeschenButton);
+		
+		mitarbeiterRegistrierenButton = new JButton("Mitarbeiter registrieren");
+		this.add(mitarbeiterRegistrierenButton);
+		
+		mitarbeiterLoeschenButton = new JButton("Mitarbeiter löschen");
+		this.add(mitarbeiterLoeschenButton);
+		
+		artikelProtokollButton = new JButton("Artikelmengenverlauf für bestimmten Artikel anzeigen");
+		this.add(artikelProtokollButton);
+		
 		logoutButton = new JButton("Logout");
 		this.add(logoutButton);
 

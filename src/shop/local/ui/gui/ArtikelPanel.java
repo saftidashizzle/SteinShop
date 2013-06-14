@@ -2,40 +2,64 @@ package shop.local.ui.gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import shop.local.valueobjects.Artikel;
+
 
 public class ArtikelPanel extends JPanel {
 	JPanel artikelListe;
-	public ArtikelPanel() {
+	JPanel titelZeile;
+	public ArtikelPanel(List<Artikel> liste) {
 		super();
 		
 		this.setLayout(new BorderLayout());
 		
-		this.add(new JLabel("Artikelliste"), BorderLayout.NORTH);
-	
+		
 		artikelListe = new JPanel();
-		artikelListe.setLayout(new GridLayout(2,5));	
-		this.add(artikelListe, BorderLayout.CENTER);
+		titelZeile = new JPanel();
+		
+		artikelListe.setLayout(new GridLayout(liste.size(),5));	
+		titelZeile.setLayout(new GridLayout(1,5));
 		
 		// Artikelliste erstellen
-		artikelListe.add(new JLabel("Nummer"));
-		artikelListe.add(new JLabel("Name"));
-		artikelListe.add(new JLabel("Anzahl"));
-		artikelListe.add(new JLabel("Einzelpreis"));
-		artikelListe.add(new JLabel("Packungsgröße"));
-		
+		titelZeile.add(new JLabel("Nummer"));
+		titelZeile.add(new JLabel("Name"));
+		titelZeile.add(new JLabel("Anzahl"));
+		titelZeile.add(new JLabel("Einzelpreis"));
+		titelZeile.add(new JLabel("Packungsgröße"));
+
 		// Artikel laden
-		artikelListe.add(new JLabel("2"));
-		artikelListe.add(new JLabel("ZWEISTEIN"));
-		artikelListe.add(new JLabel("10"));
-		artikelListe.add(new JLabel("10"));
-		artikelListe.add(new JLabel("1"));
+		Iterator<Artikel> it = liste.iterator();
+		while  (it.hasNext()) {
+			Artikel a = it.next();
+			artikelListe.add(new JLabel("" + a.getNummer()));
+			artikelListe.add(new JLabel(a.getName()));
+			artikelListe.add(new JLabel("" + a.getMenge()));
+			artikelListe.add(new JLabel("" + a.getPreis()));
+			artikelListe.add(new JLabel("PACKUNGSGROESSE"));
+		}
+//		for (Artikel a : liste){
+//			artikelListe.add(new JLabel("" + a.getNummer()));
+//			artikelListe.add(new JLabel(a.getName()));
+//			artikelListe.add(new JLabel("" + a.getMenge()));
+//			artikelListe.add(new JLabel("" + a.getPreis()));
+//			artikelListe.add(new JLabel("PACKUNGSGROESSE"));
+//		}
 		
 		
-		this.add(artikelListe, BorderLayout.NORTH);
+//		artikelListe.add(new JLabel("2"));
+//		artikelListe.add(new JLabel("ZWEISTEIN"));
+//		artikelListe.add(new JLabel("10"));
+//		artikelListe.add(new JLabel("10"));
+//		artikelListe.add(new JLabel("1"));
+		
+		this.add(titelZeile, BorderLayout.NORTH);
+		this.add(artikelListe, BorderLayout.CENTER);
 		
 	}
 }

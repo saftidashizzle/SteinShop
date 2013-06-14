@@ -1,6 +1,8 @@
 package shop.local.ui.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.Menu;
 import java.awt.MenuBar;
 import java.awt.MenuItem;
@@ -10,8 +12,10 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import shop.local.domain.ShopVerwaltung;
 import shop.local.domain.exceptions.InkorrekteRegWerteException;
@@ -41,18 +45,21 @@ public class ShopGUI extends JFrame {
 	private BottomPanel botPanel;
 	private WarenkorbPanel warenkorbPanel;
 	private ArtikelPanel artikelPanel;
+	private MitarbeiterPanel mitarbeiterPanel;
+	private BenutzerPanel benutzerPanel;
+	private ProtokollPanel protokollPanel;
+	private List<Artikel> artikelListe;
 	
-	// Zusammengesetzte Komponente zum Hinzufügen eines Kfz
-	// private AddKfzComponent addkfzcomp;
 	// Textbereich für Lognachrichten
 	
 	public ShopGUI() {
 		super("SteinShop");
 		shopVer = new ShopVerwaltung();
 		aktuellerBenutzer = null;
+
 		
 		// Fenstergröße einstellen
-		this.setSize(800, 600);
+		this.setSize(1024, 768);
 		
 		// Initialisieren der Komponenten des Fensters
 		this.initComponents();
@@ -60,6 +67,9 @@ public class ShopGUI extends JFrame {
 		// Initialisieren der Listener für die interaktiven Komponenten
 		// (Versehen von Buttons, Menüeinträgen etc. mit "Leben")
 		this.initListeners();
+		
+		// Optimale Anordnung bewirken
+		this.pack();
 		
 		// Zuletzt schalten wir den Frame auf "sichtbar"
 		this.setVisible(true);
@@ -115,36 +125,38 @@ public class ShopGUI extends JFrame {
 		// Wir initialisieren nun das Layout des Fensters: Damit strukturieren wir
 		// das Fenster und können Unterbereiche definieren. In diesem Beispiel
 		// verwende ich ein GridLayout mit zwei Spalten, die das Fenster vertikal aufteilen sollen
-		this.setLayout(new BorderLayout());		
+		this.setLayout(new BorderLayout(10,10));		
+		
+		JPanel duoPanel = new JPanel();
+		duoPanel.setLayout(new GridLayout(2,1));
 		
 		loginPanel = new LoginPanel();
-		this.add(loginPanel, BorderLayout.CENTER);
+		duoPanel.add(new JLabel("Herzlich Willkommen, Bla Bla Bla!"));
+		duoPanel.add(loginPanel);
+		this.add(duoPanel, BorderLayout.CENTER);
 		regPanel = new RegPanel();
 		this.add(regPanel, BorderLayout.EAST);
 		
+
+		artikelListe = shopVer.gibAlleArtikel();
+		
 		kundeMenuPanel = new KundeMenuPanel();
+		kundeMenuPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		warenkorbPanel = new WarenkorbPanel();
-		artikelPanel = new ArtikelPanel();
-		artikelLaden();
+		warenkorbPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		artikelPanel = new ArtikelPanel(artikelListe);
+		artikelPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		mitarbeiterMenuPanel = new MitarbeiterMenuPanel();
+		mitarbeiterMenuPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		mitarbeiterPanel = new MitarbeiterPanel(artikelListe, shopVer.gibAlleUser());
+		mitarbeiterPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+
 		
 		
 		topPanel = new TopPanel();
 		this.add(topPanel, BorderLayout.NORTH);
 		botPanel = new BottomPanel();
 		this.add(botPanel, BorderLayout.SOUTH);
-	}
-	private void artikelLaden() {
-		List<Artikel> liste = shopVer.gibAlleArtikel();
-		Iterator<Artikel> it = liste.iterator();
-		while  (it.hasNext()) {
-			Artikel a = it.next();
-			artikelPanel.artikelListe.add(new JLabel("" + a.getNummer()));
-			artikelPanel.artikelListe.add(new JLabel(a.getName()));
-			artikelPanel.artikelListe.add(new JLabel("" + a.getMenge()));
-			artikelPanel.artikelListe.add(new JLabel("" + a.getPreis()));
-			artikelPanel.artikelListe.add(new JLabel("PACKUNGSGROESSE"));
-		}
 	}
 	/**
 	 * Initialisieren und registrieren aller Listener und Event-Handler
@@ -189,10 +201,18 @@ public class ShopGUI extends JFrame {
 						frame.getContentPane().remove(loginPanel);
 						frame.getContentPane().remove(regPanel);
 						frame.add(mitarbeiterMenuPanel, BorderLayout.WEST);
-						frame.add(artikelPanel, BorderLayout.CENTER);
+						frame.add(mitarbeiterPanel, BorderLayout.CENTER);
+						//tabs hinzufügen
+						
+						
+//						mitarbeiterPanel.addTab("Benutzerliste", benutzerPanel);
+//						mitarbeiterPanel.addTab("Artikelliste", artikelPanel);
+//						mitarbeiterPanel.addTab("Ereignisliste", protokollPanel);
+//						frame.mitarbeiterPanel.setMnemonicAt(2, KeyEvent.VK_3);
 					}
 					frame.getContentPane().invalidate();
 					frame.getContentPane().validate();
+					frame.pack();
 				} catch (Exception e) {
 					System.out.println(e);
 				}
@@ -223,30 +243,41 @@ public class ShopGUI extends JFrame {
 		regPanel.addActionListenerReg(listenerReg);
 		
 		// Event Listener für Logout Button 
-				ActionListener listenerLogout = new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent ae) {
-						
-						if (aktuellerBenutzer instanceof Kunde) {
-							aktuellerBenutzer = null;
-							frame.getContentPane().remove(kundeMenuPanel);
-							frame.getContentPane().remove(warenkorbPanel);
-							frame.getContentPane().remove(artikelPanel);
-							frame.add(loginPanel, BorderLayout.CENTER);
-							frame.add(regPanel, BorderLayout.EAST);
-						} else {
-							aktuellerBenutzer = null;
-							frame.getContentPane().remove(mitarbeiterMenuPanel);
-							frame.getContentPane().remove(artikelPanel);
-							frame.add(loginPanel, BorderLayout.CENTER);
-							frame.add(regPanel, BorderLayout.EAST);
-						}
-						frame.getContentPane().invalidate();
-						frame.getContentPane().validate();
-					}
-				};
-				kundeMenuPanel.addActionListenerLogout(listenerLogout);
-				mitarbeiterMenuPanel.addActionListenerLogout(listenerLogout);			
+		ActionListener listenerLogout = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				
+				if (aktuellerBenutzer instanceof Kunde) {
+					aktuellerBenutzer = null;
+					frame.getContentPane().remove(kundeMenuPanel);
+					frame.getContentPane().remove(warenkorbPanel);
+					frame.getContentPane().remove(artikelPanel);
+					frame.add(loginPanel, BorderLayout.CENTER);
+					frame.add(regPanel, BorderLayout.EAST);
+				} else {
+					aktuellerBenutzer = null;
+					frame.getContentPane().remove(mitarbeiterMenuPanel);
+					frame.getContentPane().remove(mitarbeiterPanel);
+					frame.add(loginPanel, BorderLayout.CENTER);
+					frame.add(regPanel, BorderLayout.EAST);
+				}
+				frame.getContentPane().invalidate();
+				frame.getContentPane().validate();
+				frame.pack();
+			}
+		};
+		kundeMenuPanel.addActionListenerLogout(listenerLogout);
+		mitarbeiterMenuPanel.addActionListenerLogout(listenerLogout);
+		
+//		public void initListenerKunde() {
+//			// Listener für Artikel in Warenkorb Button
+//			ActionListener listenerArtikelInWarenkorb = new ActionListener() {
+//				@Override
+//				public void actionPerformed(ActionEvent ae) {
+//				
+//			};
+//			kundeMenuPanel..addActionListenerLogout(listenerLogout);
+//		}
 	}
 	
 	private User userLogin(List<User> liste, String name, String passwort) throws LoginFehlgeschlagenException{

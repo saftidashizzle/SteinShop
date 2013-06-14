@@ -58,7 +58,7 @@ public class Kunde extends User{
 	 * @return die Strasse und Hausnr
 	 */
 	public String getAdresse() {
-		return strasseUndHausnr;
+		return strasseUndHausnr + "\n" + plz + "\n" + ort + "\n" + land;
 	}
 	/**
 	 * Methode die den aktuellen Warenkorb zurückgibt

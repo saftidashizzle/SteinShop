@@ -41,7 +41,7 @@ public class ArtikelPanel extends JPanel {
 			artikelListe.add(new JLabel(a.getName()));
 			artikelListe.add(new JLabel("" + a.getMenge()));
 			artikelListe.add(new JLabel("" + a.getPreis()));
-			artikelListe.add(new JLabel("PACKUNGSGROESSE"));
+			artikelListe.add(new JLabel("" + a.getPackungsgroesse()));
 		}
 //		for (Artikel a : liste){
 //			artikelListe.add(new JLabel("" + a.getNummer()));

@@ -1,8 +1,8 @@
 package shop.local.ui.gui;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.GridLayout;
 import java.awt.Menu;
 import java.awt.MenuBar;
 import java.awt.MenuItem;
@@ -14,7 +14,6 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import shop.local.domain.ShopVerwaltung;
@@ -47,9 +46,14 @@ public class ShopGUI extends JFrame {
 	private WarenkorbPanel warenkorbPanel;
 	private ArtikelPanel artikelPanel;
 	private MitarbeiterPanel mitarbeiterPanel;
+	private NewArtPanel newArtPanel;
 	private List<Artikel> artikelListe;
 	private List<User> userListe;
 	private List<Ereignis> ereignisListe;
+	private JPanel eastPanel;
+	private JPanel westPanel;
+	private JPanel centerPanel;
+    private CardLayout cardLayout = new CardLayout();
 
 	
 	// Textbereich für Lognachrichten
@@ -135,29 +139,58 @@ public class ShopGUI extends JFrame {
 		// verwende ich ein GridLayout mit zwei Spalten, die das Fenster vertikal aufteilen sollen
 		this.setLayout(new BorderLayout(10,10));		
 		
-		JPanel duoPanel = new JPanel();
-		duoPanel.setLayout(new GridLayout(2,1));
-		
+		// CardLayout erstellen fuer CENTER
+		centerPanel = new JPanel();
+		centerPanel.setLayout(cardLayout);
+		// login panel erstellen und hinzufuegen
 		loginPanel = new LoginPanel();
-		duoPanel.add(new JLabel("Herzlich Willkommen, Bla Bla Bla!"));
-		duoPanel.add(loginPanel);
-		this.add(duoPanel, BorderLayout.CENTER);
-		regPanel = new RegPanel();
-		this.add(regPanel, BorderLayout.EAST);
-		
-		kundeMenuPanel = new KundeMenuPanel();
-		kundeMenuPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		warenkorbPanel = new WarenkorbPanel();
-		warenkorbPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		artikelPanel = new ArtikelPanel(artikelListe);
-		artikelPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		mitarbeiterMenuPanel = new MitarbeiterMenuPanel();
-		mitarbeiterMenuPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		centerPanel.add(loginPanel);
+		// mitarbeiterPanel (tabs) erstellen und hinzufuegen
 		mitarbeiterPanel = new MitarbeiterPanel(artikelListe, userListe, ereignisListe);
 		mitarbeiterPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		centerPanel.add(mitarbeiterPanel);
+		// ArtikelPanel fuer Kunde erstellen und hinzufuegen
+		artikelPanel = new ArtikelPanel(artikelListe);
+		artikelPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		centerPanel.add(artikelPanel);		
+		// CenterPanel hinzufügen
+		this.add(centerPanel, BorderLayout.CENTER);
+		
+
+		// CardLayout erstellen fuer EAST
+		eastPanel = new JPanel();
+		eastPanel.setLayout(cardLayout);
+		// Registrierpanel erstellen und hinzufügen
+		regPanel = new RegPanel();
+		eastPanel.add(regPanel);
+		// Warenkorb Panel erstellen und hinzufügen
+		warenkorbPanel = new WarenkorbPanel();
+		warenkorbPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		eastPanel.add(warenkorbPanel);
+		// EastPanel hinzufügen
+		this.add(eastPanel, BorderLayout.EAST);
 
 		
 		
+		//CardLayout erstellen fuer WEST
+		westPanel = new JPanel();
+		westPanel.setLayout(cardLayout);
+		// KundenMenu erstellen und hinzufügen
+		kundeMenuPanel = new KundeMenuPanel();
+		kundeMenuPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		westPanel.add(kundeMenuPanel);
+		// Mitarbeiter Menü erstellen und hinzufügen
+		mitarbeiterMenuPanel = new MitarbeiterMenuPanel();
+		mitarbeiterMenuPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		westPanel.add(mitarbeiterMenuPanel);
+		// WestPanel hinzufügen
+		this.add(westPanel, BorderLayout.WEST);
+		westPanel.setVisible(false);
+		
+
+
+		
+		// Top Panel und Bot Panel erstellen und hinzufügen
 		topPanel = new TopPanel();
 		this.add(topPanel, BorderLayout.NORTH);
 		botPanel = new BottomPanel();
@@ -197,16 +230,13 @@ public class ShopGUI extends JFrame {
 				try {
 					aktuellerBenutzer = userLogin(UserListe, name, pw);
 					if (aktuellerBenutzer instanceof Kunde) {
-						frame.getContentPane().remove(loginPanel);
-						frame.getContentPane().remove(regPanel);
-						frame.add(kundeMenuPanel, BorderLayout.WEST);
-						frame.add(artikelPanel, BorderLayout.CENTER);
-						frame.add(warenkorbPanel, BorderLayout.EAST);
+						frame.cardLayout.last(centerPanel);
+						frame.westPanel.setVisible(true);						
 					} else if(aktuellerBenutzer instanceof Mitarbeiter) {
-						frame.getContentPane().remove(loginPanel);
-						frame.getContentPane().remove(regPanel);
-						frame.add(mitarbeiterMenuPanel, BorderLayout.WEST);
-						frame.add(mitarbeiterPanel, BorderLayout.CENTER);
+						frame.westPanel.setVisible(true);
+						frame.eastPanel.setVisible(false);
+						frame.cardLayout.next(westPanel);
+						frame.cardLayout.next(centerPanel);
 					}
 					frame.getContentPane().invalidate();
 					frame.getContentPane().validate();
@@ -242,21 +272,11 @@ public class ShopGUI extends JFrame {
 		ActionListener listenerLogout = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				
-				if (aktuellerBenutzer instanceof Kunde) {
-					aktuellerBenutzer = null;
-					frame.getContentPane().remove(kundeMenuPanel);
-					frame.getContentPane().remove(warenkorbPanel);
-					frame.getContentPane().remove(artikelPanel);
-					frame.add(loginPanel, BorderLayout.CENTER);
-					frame.add(regPanel, BorderLayout.EAST);
-				} else {
-					aktuellerBenutzer = null;
-					frame.getContentPane().remove(mitarbeiterMenuPanel);
-					frame.getContentPane().remove(mitarbeiterPanel);
-					frame.add(loginPanel, BorderLayout.CENTER);
-					frame.add(regPanel, BorderLayout.EAST);
-				}
+				aktuellerBenutzer = null;
+				frame.eastPanel.setVisible(true);
+				frame.cardLayout.first(eastPanel);
+				frame.cardLayout.first(centerPanel);
+				frame.westPanel.setVisible(false);
 				frame.getContentPane().invalidate();
 				frame.getContentPane().validate();
 				frame.pack();
@@ -264,16 +284,37 @@ public class ShopGUI extends JFrame {
 		};
 		kundeMenuPanel.addActionListenerLogout(listenerLogout);
 		mitarbeiterMenuPanel.addActionListenerLogout(listenerLogout);
-		
-//		public void initListenerKunde() {
-//			// Listener für Artikel in Warenkorb Button
-//			ActionListener listenerArtikelInWarenkorb = new ActionListener() {
-//				@Override
-//				public void actionPerformed(ActionEvent ae) {
-//				
-//			};
-//			kundeMenuPanel..addActionListenerLogout(listenerLogout);
-//		}
+		// Listener für Kunden und Mitarbeitermenü initialisieren
+		initListenerMitarbeiter();
+	}
+//	public void initListenerKunde() {
+	//	// Listener für Artikel in Warenkorb Button
+	//	ActionListener listenerArtikelInWarenkorb = new ActionListener() {
+	//		@Override
+	//		public void actionPerformed(ActionEvent ae) {
+	//		
+	//	};
+	//	kundeMenuPanel..addActionListenerLogout(listenerLogout);
+//	}
+	
+	/**
+	 * Methode um alle Listener für das Mitarbeiter Menü zu initialisieren
+	 */
+	public void initListenerMitarbeiter() {
+		final ShopGUI frame = this;
+		// 	Listener für neuen Artikel anlegen
+		ActionListener listenerNewArt = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				frame.getContentPane().remove(mitarbeiterMenuPanel);
+				newArtPanel = new NewArtPanel();
+				frame.add(newArtPanel, BorderLayout.CENTER);
+				frame.getContentPane().invalidate();
+				frame.getContentPane().validate();
+				frame.pack();
+			}
+		};
+		mitarbeiterMenuPanel.addActionListenerNewArt(listenerNewArt);
 	}
 	
 	private User userLogin(List<User> liste, String name, String passwort) throws LoginFehlgeschlagenException{

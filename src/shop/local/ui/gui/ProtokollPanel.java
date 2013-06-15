@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneLayout;
 
 import shop.local.valueobjects.Ereignis;
 
@@ -29,18 +31,28 @@ public class ProtokollPanel extends JPanel {
 		JLabel lblNewLabel_2 = new JLabel("User");
 		titelZeile.add(lblNewLabel_2);
 		
-		JLabel lblNewLabel_3 = new JLabel("Anzahl");
+		JLabel lblNewLabel_3 = new JLabel("Artikel");
 		titelZeile.add(lblNewLabel_3);
+		
+		JLabel lblNewLabel_4 = new JLabel("Anzahl");
+		titelZeile.add(lblNewLabel_4);
 		
 		JLabel lblNewLabel = new JLabel("Aktion");
 		titelZeile.add(lblNewLabel);
 		
-		
-		//JScrollPane ereignisListe = new JScrollPane();
-		// ereignisListe.setLayout(new ScrollPaneLayout())
 		JPanel ereignisListe = new JPanel();
+		ereignisListe.setLayout(new GridLayout(liste.size(), 5));
+		
+//		JScrollPane ereignisListe = new JScrollPane();
+//		ereignisListe.setLayout(new ScrollPaneLayout());				
+		for (Ereignis a : liste){
+			ereignisListe.add(new JLabel(a.getDate().toString()));
+			ereignisListe.add(new JLabel(a.getUser().getName()));
+			ereignisListe.add(new JLabel(a.getArtikel().getName()));
+			ereignisListe.add(new JLabel("" + a.getMenge()));
+			ereignisListe.add(new JLabel(a.getAktion()));
+		}
 		add(ereignisListe, BorderLayout.CENTER);
-		ereignisListe.setLayout(new GridLayout(1, 4, 0, 0));
 	}
 
 }

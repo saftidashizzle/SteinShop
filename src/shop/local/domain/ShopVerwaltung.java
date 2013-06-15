@@ -95,7 +95,7 @@ public class ShopVerwaltung {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}	
-		erVer.ereignisEinfuegen(akteur, a, menge, "in den Warenkorb getan."); // hier liegt der fehler
+//		erVer.ereignisEinfuegen(akteur, a, menge, "in den Warenkorb getan.");
 	}
 	/**
 	 * Methode die einen artikel einliest und an die warenkorb verwaltung durchreicht

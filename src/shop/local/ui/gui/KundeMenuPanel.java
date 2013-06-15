@@ -7,19 +7,26 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class KundeMenuPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1550997639417571062L;
 	private JButton logoutButton;
 	private JButton artikelInWarenkorbButton;
 	private JButton artikelNachNamenButton;
 	private JButton artikelNachNummernButton;
 	private JButton artikelEntfernenButton;
 	private JButton warenkorbLeerenButton;
-	private JButton Button;
+	private JButton artikelmengeAendernButton;
 	public KundeMenuPanel(){
 		super();
-		this.setLayout(new GridLayout(6,1));
+		this.setLayout(new GridLayout(7,1));
 		
-		artikelInWarenkorbButton = new JButton("Artikelmenge im Warenkorb ändern");
+		artikelInWarenkorbButton = new JButton("Artikel in Warenkorb legen");
 		this.add(artikelInWarenkorbButton);
+		
+		artikelmengeAendernButton = new JButton("Artikelmenge im Warenkorb ändern");
+		this.add(artikelmengeAendernButton);
 		
 		artikelNachNamenButton = new JButton("Artikel nach Namen ordnen");
 		this.add(artikelNachNamenButton);
@@ -35,17 +42,6 @@ public class KundeMenuPanel extends JPanel {
 		
 		logoutButton = new JButton("Logout");
 		this.add(logoutButton);
-		/*	w) Zum Warenkorb
-			m) Artikelmenge im Warenkorb ändern
-			n) Artikel nach Namen ordnen
-			f) Artikel nach Nummern ordnen
-			c) Artikel in Warenkorb legen
-			d) Artikel aus Warenkorb
-			e) Warenkorb leeren
-			k) Zur Kasse
-			a) Ausloggen
-
-		 */
 		
 	}
 

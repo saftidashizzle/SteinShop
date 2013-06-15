@@ -27,8 +27,40 @@ import java.util.Date;
 			this.anzahl = anzahl;
 			this.aktion = aktion;
 		}
+		/**
+		 * Methode die den Artikel liefert
+		 * @return Der Artikel
+		 */
+		public Artikel getArtikel() {
+			return this.artikel;
+		}
+		/**
+		 * Methode id das Datum liefert
+		 * @return Das Datum
+		 */
 		public Date getDate() {
 			return this.datum;
+		}
+		/**
+		 * Methode die den Usernamen liefert
+		 * @return User akteur
+		 */
+		public User getUser() {
+			return akteur;
+		}
+		/**
+		 * Methode die die veränderte Anzahl liefert
+		 * @return int Anzahl
+		 */
+		public int getMenge() {
+			return anzahl;
+		}
+		/**
+		 * Methode die die Aktion liefert
+		 * @return String die Aktion
+		 */
+		public String getAktion() {
+			return aktion;
 		}
 		/**
 		 * Methode die die bisher angefallenen Ereignisse in einem String übergibt/ausgibt

@@ -7,6 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class MitarbeiterMenuPanel extends JPanel {
+
+	private static final long serialVersionUID = 4773311197532823467L;
 	private JButton logoutButton;
 	private JButton artikelAnlegenButton;
 	private JButton mengeAendernButton; 
@@ -43,5 +45,8 @@ public class MitarbeiterMenuPanel extends JPanel {
 	}
 	public void addActionListenerLogout(ActionListener a) {
 		this.logoutButton.addActionListener(a);
+	}
+	public void addActionListenerNewArt(ActionListener a) {
+		this.artikelAnlegenButton.addActionListener(a);
 	}
 }

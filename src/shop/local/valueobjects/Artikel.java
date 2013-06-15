@@ -81,8 +81,7 @@ public class Artikel implements Serializable {
 		return preis;
 	}
 
-	public String getPackungs() {
-		// TODO Auto-generated method stub
-		return null;
+	public int getPackungsgroesse() {
+		return 1;
 	}
 }

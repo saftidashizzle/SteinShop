@@ -21,6 +21,7 @@ import shop.local.domain.ShopVerwaltung;
 import shop.local.domain.exceptions.InkorrekteRegWerteException;
 import shop.local.domain.exceptions.LoginFehlgeschlagenException;
 import shop.local.valueobjects.Artikel;
+import shop.local.valueobjects.Ereignis;
 import shop.local.valueobjects.Kunde;
 import shop.local.valueobjects.Mitarbeiter;
 import shop.local.valueobjects.User;
@@ -46,9 +47,10 @@ public class ShopGUI extends JFrame {
 	private WarenkorbPanel warenkorbPanel;
 	private ArtikelPanel artikelPanel;
 	private MitarbeiterPanel mitarbeiterPanel;
-	private BenutzerPanel benutzerPanel;
-	private ProtokollPanel protokollPanel;
 	private List<Artikel> artikelListe;
+	private List<User> userListe;
+	private List<Ereignis> ereignisListe;
+
 	
 	// Textbereich für Lognachrichten
 	
@@ -56,7 +58,14 @@ public class ShopGUI extends JFrame {
 		super("SteinShop");
 		shopVer = new ShopVerwaltung();
 		aktuellerBenutzer = null;
-
+		try {
+			shopVer.ladeDaten();
+			artikelListe = shopVer.gibAlleArtikel();
+			userListe = shopVer.gibAlleUser();
+			ereignisListe = shopVer.gibProtokollListe();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		// Fenstergröße einstellen
 		this.setSize(1024, 768);
@@ -78,7 +87,6 @@ public class ShopGUI extends JFrame {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		ShopGUI shop = new ShopGUI();
 		try {
 			shop.run();
@@ -94,7 +102,7 @@ public class ShopGUI extends JFrame {
 	 */
 	public void run() {
 		try {
-			shopVer.ladeDaten();
+			
 			//gibMenue(); wuerde das anfangsmenue liefern
 			// shopVer.speichereDaten();
 		} catch (Exception e) {
@@ -137,9 +145,6 @@ public class ShopGUI extends JFrame {
 		regPanel = new RegPanel();
 		this.add(regPanel, BorderLayout.EAST);
 		
-
-		artikelListe = shopVer.gibAlleArtikel();
-		
 		kundeMenuPanel = new KundeMenuPanel();
 		kundeMenuPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		warenkorbPanel = new WarenkorbPanel();
@@ -148,7 +153,7 @@ public class ShopGUI extends JFrame {
 		artikelPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		mitarbeiterMenuPanel = new MitarbeiterMenuPanel();
 		mitarbeiterMenuPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		mitarbeiterPanel = new MitarbeiterPanel(artikelListe, shopVer.gibAlleUser());
+		mitarbeiterPanel = new MitarbeiterPanel(artikelListe, userListe, ereignisListe);
 		mitarbeiterPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
 		
@@ -202,13 +207,6 @@ public class ShopGUI extends JFrame {
 						frame.getContentPane().remove(regPanel);
 						frame.add(mitarbeiterMenuPanel, BorderLayout.WEST);
 						frame.add(mitarbeiterPanel, BorderLayout.CENTER);
-						//tabs hinzufügen
-						
-						
-//						mitarbeiterPanel.addTab("Benutzerliste", benutzerPanel);
-//						mitarbeiterPanel.addTab("Artikelliste", artikelPanel);
-//						mitarbeiterPanel.addTab("Ereignisliste", protokollPanel);
-//						frame.mitarbeiterPanel.setMnemonicAt(2, KeyEvent.VK_3);
 					}
 					frame.getContentPane().invalidate();
 					frame.getContentPane().validate();
@@ -229,10 +227,8 @@ public class ShopGUI extends JFrame {
 						frame.shopVer.fuegeUserEin(regPanel.getUserName(), regPanel.getPw1(), regPanel.getAnrede(), regPanel.getName(), regPanel.getStr(), Integer.parseInt(regPanel.getPlz()), regPanel.getOrt(), regPanel.getLand());
 						System.out.println("Benutzer erstellt.");
 						} catch (NumberFormatException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (InkorrekteRegWerteException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				} else {

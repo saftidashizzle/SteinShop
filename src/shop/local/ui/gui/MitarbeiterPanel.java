@@ -9,10 +9,16 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import shop.local.valueobjects.Artikel;
+import shop.local.valueobjects.Ereignis;
 import shop.local.valueobjects.User;
 
 public class MitarbeiterPanel extends JPanel {
-    public MitarbeiterPanel(List<Artikel> artikelListe, List<User> benutzerListe) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8768799264538074055L;
+
+	public MitarbeiterPanel(List<Artikel> artikelListe, List<User> benutzerListe, List<Ereignis> protokoll) {
         super(new GridLayout(1, 1));
         
         JTabbedPane tabbedPane = new JTabbedPane();
@@ -26,7 +32,7 @@ public class MitarbeiterPanel extends JPanel {
         tabbedPane.addTab("Benutzerliste", benutzerPanel);
         tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
         
-        ProtokollPanel protokollPanel = new ProtokollPanel();
+        ProtokollPanel protokollPanel = new ProtokollPanel(protokoll);
         tabbedPane.addTab("Ereignisliste", protokollPanel);
         tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
         

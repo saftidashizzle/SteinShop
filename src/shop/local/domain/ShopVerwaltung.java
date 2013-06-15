@@ -1,11 +1,8 @@
 package shop.local.domain;
 
 
-import java.io.EOFException;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -172,6 +169,13 @@ public class ShopVerwaltung {
 	 */
 	public void gibProtokoll() {
 		erVer.gibProtokollAus();
+	}
+	/**
+	 * Methode die das Protokoll ausgiebt
+	 * @return
+	 */
+	public List<Ereignis> gibProtokollListe() {
+		return erVer.gibProtokollListe();
 	}
 	/**
 	 * Methode die einer Liste ändert

@@ -2,13 +2,20 @@ package shop.local.ui.gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+
+import shop.local.valueobjects.Ereignis;
 
 public class ProtokollPanel extends JPanel {
-	public ProtokollPanel() {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2332524247825957602L;
+
+	public ProtokollPanel(List<Ereignis> liste) {
 		super();
 		setLayout(new BorderLayout(0, 0));
 		

@@ -116,4 +116,7 @@ public class EreignisVerwaltung {
 		// muss aufgerufen werden, bevor der datenstrom zur eingabe verwendet werden soll
 		out.close();
 	}
+	public List<Ereignis> gibProtokollListe() {
+		return protokoll;
+	}
 }

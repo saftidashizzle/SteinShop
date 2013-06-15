@@ -37,19 +37,36 @@ public class ShopGUI extends JFrame {
 	
 	// fuer die menue leiste
 	private MenuItem menuItemQuit;
+	// Start
 	private LoginPanel loginPanel;
+	private RegPanel regPanel;
+	// Menues
 	private MitarbeiterMenuPanel mitarbeiterMenuPanel;
 	private KundeMenuPanel kundeMenuPanel;
-	private RegPanel regPanel;
+	// Top und Bot
 	private TopPanel topPanel;
 	private BottomPanel botPanel;
+	// East
 	private WarenkorbPanel warenkorbPanel;
+	// Center
 	private ArtikelPanel artikelPanel;
 	private MitarbeiterPanel mitarbeiterPanel;
+	// West, Mitarbeitermenue
 	private NewArtPanel newArtPanel;
+	private ArtikelmengeAendernPanel artMengPanel;
+	private ArtikelLoeschenPanel artDelPanel;
+	private MitarbeiterRegistrierenPanel mitRegPanel;
+	private UserLoeschenPanel usrDelPanel;
+	// West, Kundenmenue
+	private ArtikelInWarenkorbPanel artInWPanel;
+	private ArtikelmengeImWarenkorbPanel artMengeInWPanel;
+	private ArtikelAusWarenkorbPanel artAusWPanel;
+	
+	// Listen
 	private List<Artikel> artikelListe;
 	private List<User> userListe;
 	private List<Ereignis> ereignisListe;
+	// Grobe RichtungsPanels
 	private JPanel eastPanel;
 	private JPanel westPanel;
 	private JPanel centerPanel;
@@ -72,7 +89,7 @@ public class ShopGUI extends JFrame {
 		}
 		
 		// Fenstergröße einstellen
-		this.setSize(1024, 768);
+		this.setSize(800, 600);
 		
 		// Initialisieren der Komponenten des Fensters
 		this.initComponents();
@@ -144,15 +161,15 @@ public class ShopGUI extends JFrame {
 		centerPanel.setLayout(cardLayout);
 		// login panel erstellen und hinzufuegen
 		loginPanel = new LoginPanel();
-		centerPanel.add(loginPanel);
+		centerPanel.add(loginPanel, "loginPanel");
 		// mitarbeiterPanel (tabs) erstellen und hinzufuegen
 		mitarbeiterPanel = new MitarbeiterPanel(artikelListe, userListe, ereignisListe);
 		mitarbeiterPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		centerPanel.add(mitarbeiterPanel);
+		centerPanel.add(mitarbeiterPanel, "mitarbeiterPanel");
 		// ArtikelPanel fuer Kunde erstellen und hinzufuegen
 		artikelPanel = new ArtikelPanel(artikelListe);
 		artikelPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		centerPanel.add(artikelPanel);		
+		centerPanel.add(artikelPanel, "artikelPanel");		
 		// CenterPanel hinzufügen
 		this.add(centerPanel, BorderLayout.CENTER);
 		
@@ -162,11 +179,11 @@ public class ShopGUI extends JFrame {
 		eastPanel.setLayout(cardLayout);
 		// Registrierpanel erstellen und hinzufügen
 		regPanel = new RegPanel();
-		eastPanel.add(regPanel);
+		eastPanel.add(regPanel, "regPanel");
 		// Warenkorb Panel erstellen und hinzufügen
 		warenkorbPanel = new WarenkorbPanel();
 		warenkorbPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		eastPanel.add(warenkorbPanel);
+		eastPanel.add(warenkorbPanel, "warenkorbPanel");
 		// EastPanel hinzufügen
 		this.add(eastPanel, BorderLayout.EAST);
 
@@ -178,17 +195,44 @@ public class ShopGUI extends JFrame {
 		// KundenMenu erstellen und hinzufügen
 		kundeMenuPanel = new KundeMenuPanel();
 		kundeMenuPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		westPanel.add(kundeMenuPanel);
+		westPanel.add(kundeMenuPanel, "kundeMenu");
 		// Mitarbeiter Menü erstellen und hinzufügen
 		mitarbeiterMenuPanel = new MitarbeiterMenuPanel();
 		mitarbeiterMenuPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		westPanel.add(mitarbeiterMenuPanel);
+		westPanel.add(mitarbeiterMenuPanel, "mitarbeiterMenu");
+		
+		// ****** Kundenmenue ********
+		// Panel für neuen Artikel erstellen
+		newArtPanel = new NewArtPanel();
+		westPanel.add(newArtPanel, "newArtPanel");
+		// Panel für Artikelmenge ändern erstellen
+		artMengPanel = new ArtikelmengeAendernPanel();
+		westPanel.add(artMengPanel, "artMengPanel");
+		// Panel für Artikel löschen erstellen
+		artDelPanel = new ArtikelLoeschenPanel();
+		westPanel.add(artDelPanel, "artDelPanel");
+		// Panel für Mitarbeiter Registrieren
+		mitRegPanel = new MitarbeiterRegistrierenPanel();
+		westPanel.add(mitRegPanel, "mitRegPanel");
+		//Panel für User löschen
+		usrDelPanel = new UserLoeschenPanel();
+		westPanel.add(usrDelPanel, "usrDelPanel");
+		
+		// ******* Mitarbeitermenue *******
+		// Panel für Artikel in Warenkorb
+		artInWPanel = new ArtikelInWarenkorbPanel();
+		westPanel.add(artInWPanel, "artInWPanel");
+		// Panel für Artikelmenge ändern
+		artMengeInWPanel = new ArtikelmengeImWarenkorbPanel();
+		westPanel.add(artMengeInWPanel, "artMengeInWPanel");
+		// Panel für Artikel aus Warenkorb
+		artAusWPanel = new ArtikelAusWarenkorbPanel();
+		westPanel.add(artAusWPanel, "artAusWPanel");
+		
+		
 		// WestPanel hinzufügen
 		this.add(westPanel, BorderLayout.WEST);
 		westPanel.setVisible(false);
-		
-
-
 		
 		// Top Panel und Bot Panel erstellen und hinzufügen
 		topPanel = new TopPanel();
@@ -230,16 +274,16 @@ public class ShopGUI extends JFrame {
 				try {
 					aktuellerBenutzer = userLogin(UserListe, name, pw);
 					if (aktuellerBenutzer instanceof Kunde) {
-						frame.cardLayout.last(centerPanel);
+						frame.cardLayout.show(westPanel, "kundeMenu");
+						frame.cardLayout.show(centerPanel, "artikelPanel");
+						frame.cardLayout.show(eastPanel, "warenkorbPanel");
 						frame.westPanel.setVisible(true);						
 					} else if(aktuellerBenutzer instanceof Mitarbeiter) {
 						frame.westPanel.setVisible(true);
 						frame.eastPanel.setVisible(false);
-						frame.cardLayout.next(westPanel);
-						frame.cardLayout.next(centerPanel);
+						frame.cardLayout.show(westPanel, "mitarbeiterMenu");
+						frame.cardLayout.show(centerPanel, "mitarbeiterPanel");
 					}
-					frame.getContentPane().invalidate();
-					frame.getContentPane().validate();
 					frame.pack();
 				} catch (Exception e) {
 					System.out.println(e);
@@ -274,47 +318,152 @@ public class ShopGUI extends JFrame {
 			public void actionPerformed(ActionEvent ae) {
 				aktuellerBenutzer = null;
 				frame.eastPanel.setVisible(true);
-				frame.cardLayout.first(eastPanel);
-				frame.cardLayout.first(centerPanel);
+				frame.cardLayout.show(eastPanel, "regPanel");
+				frame.cardLayout.show(centerPanel, "loginPanel");
 				frame.westPanel.setVisible(false);
-				frame.getContentPane().invalidate();
-				frame.getContentPane().validate();
 				frame.pack();
 			}
 		};
 		kundeMenuPanel.addActionListenerLogout(listenerLogout);
 		mitarbeiterMenuPanel.addActionListenerLogout(listenerLogout);
+		
 		// Listener für Kunden und Mitarbeitermenü initialisieren
 		initListenerMitarbeiter();
+		initListenerKunde();
 	}
-//	public void initListenerKunde() {
-	//	// Listener für Artikel in Warenkorb Button
-	//	ActionListener listenerArtikelInWarenkorb = new ActionListener() {
-	//		@Override
-	//		public void actionPerformed(ActionEvent ae) {
-	//		
-	//	};
-	//	kundeMenuPanel..addActionListenerLogout(listenerLogout);
-//	}
+	/**
+	 * Methode um alle Listener für das Kunden Menü zu initialisieren
+	 */
+	public void initListenerKunde() {
+		final ShopGUI frame = this;
+//	 	Listener für Zurück Button
+		ActionListener listenerBack = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				frame.cardLayout.show(westPanel, "kundeMenu");
+				frame.pack();
+			}
+		};
+		artInWPanel.addActionListenerBack(listenerBack);
+		artMengeInWPanel.addActionListenerBack(listenerBack);
+		artAusWPanel.addActionListenerBack(listenerBack);
+		// Listener für Artikel in Warenkorb Button
+		ActionListener listenerArtikelInWarenkorb = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				frame.cardLayout.show(westPanel, "artInWPanel");
+			}
+		};
+		kundeMenuPanel.addActionListenerArtInW(listenerArtikelInWarenkorb);
+		
+		// Listener für Artikelmenge im Warenkorb ändern
+		ActionListener listenerArtikelmenge = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				frame.cardLayout.show(westPanel, "artMengeInWPanel");
+			}
+		};
+		kundeMenuPanel.addActionListenerArtMenge(listenerArtikelmenge);
+		
+		// Listener für Artikel aus Warenkorb entfernen
+		ActionListener listenerArtikelAusWarenkorb = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				frame.cardLayout.show(westPanel, "artAusWPanel");
+			}
+		};
+		kundeMenuPanel.addActionListenerArtAusW(listenerArtikelAusWarenkorb);
+		
+	}
 	
 	/**
 	 * Methode um alle Listener für das Mitarbeiter Menü zu initialisieren
 	 */
 	public void initListenerMitarbeiter() {
 		final ShopGUI frame = this;
+//	 	Listener für Zurück Button
+		ActionListener listenerBack = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				frame.cardLayout.show(westPanel, "mitarbeiterMenu");
+				frame.pack();
+			}
+		};
+		newArtPanel.addActionListenerBack(listenerBack);
+		artMengPanel.addActionListenerBack(listenerBack);
+		artDelPanel.addActionListenerBack(listenerBack);
+		mitRegPanel.addActionListenerBack(listenerBack);
+		usrDelPanel.addActionListenerBack(listenerBack);
 		// 	Listener für neuen Artikel anlegen
 		ActionListener listenerNewArt = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				frame.getContentPane().remove(mitarbeiterMenuPanel);
-				newArtPanel = new NewArtPanel();
-				frame.add(newArtPanel, BorderLayout.CENTER);
-				frame.getContentPane().invalidate();
-				frame.getContentPane().validate();
+				frame.cardLayout.show(westPanel, "newArtPanel");
 				frame.pack();
 			}
 		};
 		mitarbeiterMenuPanel.addActionListenerNewArt(listenerNewArt);
+		// Listener für neuen Artikel anlegen (OK Button)
+		ActionListener listenerNewArtOK = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				String titel = newArtPanel.getArtikelName();
+				double d = newArtPanel.getPreis();
+				User akteur = aktuellerBenutzer;
+				int menge = newArtPanel.getMenge();
+				int packungsGroesse = newArtPanel.getPackungsgroesse();
+				try {
+					if (packungsGroesse <= 1) {
+						shopVer.fuegeArtikelEin(titel, d, akteur, menge);
+					} else {
+						shopVer.fuegeArtikelEin(titel, d, akteur, menge, packungsGroesse);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				frame.cardLayout.previous(westPanel);
+				frame.getContentPane().invalidate();
+				frame.getContentPane().revalidate();
+				frame.pack();
+			}
+		};
+		newArtPanel.addActionListenerOK(listenerNewArtOK);
+//	 	Listener für Artikelmenge ändern
+		ActionListener listenerArtMeng = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				frame.cardLayout.show(westPanel, "artMengPanel");
+				frame.pack();
+			}
+		};
+		mitarbeiterMenuPanel.addActionListenerArtMeng(listenerArtMeng);
+		// Listener für Artikel loeschen
+		ActionListener listenerDelArt = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				frame.cardLayout.show(westPanel, "artDelPanel");
+				frame.pack();
+			}
+		};
+		mitarbeiterMenuPanel.addActionListenerDelArt(listenerDelArt);
+		// Listener für Mitarbeiter Registrieren
+		ActionListener listenerMitReg = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				frame.cardLayout.show(westPanel, "mitRegPanel");
+				frame.pack();
+			}
+		};
+		mitarbeiterMenuPanel.addActionListenerMitReg(listenerMitReg);
+		// Listener für User loeschen
+		ActionListener listenerUsrDel = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				frame.cardLayout.show(westPanel, "usrDelPanel");
+				frame.pack();
+			}
+		};
+		mitarbeiterMenuPanel.addActionListenerUsrDel(listenerUsrDel);
 	}
 	
 	private User userLogin(List<User> liste, String name, String passwort) throws LoginFehlgeschlagenException{

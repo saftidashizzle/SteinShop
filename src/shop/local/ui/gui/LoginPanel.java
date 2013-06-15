@@ -26,7 +26,7 @@ public class LoginPanel extends JPanel {
 		loginButton = new JButton("Login");
 		pwTextfield = new JTextField("123");
 //		pwTextfield = new JPasswordField("hallo");
-		userTextfield = new JTextField("Mitarbeiter");
+		userTextfield = new JTextField("Kunde");
 		this.setLayout(new GridLayout(2, 3));
 		this.add(new JLabel("User: "));
 		this.add(userTextfield);

@@ -8,32 +8,29 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class NewArtPanel extends JPanel {
-	private JTextField artikelNameTextfield;
+public class ArtikelmengeImWarenkorbPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2662697469208559962L;
+	private JTextField artnrTextfield;
 	private JTextField mengeTextfield;
-	private JTextField preisTextfield;
-	private JTextField sizeTextfield;
 	private JButton okButton;
 	private JButton backButton;
-	public NewArtPanel() {
+	public ArtikelmengeImWarenkorbPanel() {
 		super();
-		this.setLayout(new GridLayout(5, 2));
+		this.setLayout(new GridLayout(3, 2));
 		
 		// Inhalt hinzufügen
-		this.add(new JLabel("Name des Artikels: "));
-		artikelNameTextfield = new JTextField();
-		this.add(artikelNameTextfield);
-		this.add(new JLabel("Menge: "));
+		this.add(new JLabel("Artikelnr: "));
+		artnrTextfield = new JTextField();
+		this.add(artnrTextfield);
+		
+		this.add(new JLabel("Neue Menge: "));
 		mengeTextfield = new JTextField();
 		this.add(mengeTextfield);
-		this.add(new JLabel("Preis: "));
-		preisTextfield = new JTextField();
-		this.add(preisTextfield);
-		this.add(new JLabel("Packungsgröße: "));
-		sizeTextfield = new JTextField("1");
-		this.add(sizeTextfield);
 		
-		okButton = new JButton("Artikel erstellen");
+		okButton = new JButton("Artikelmenge im Warenkorb Ändern");
 		this.add(okButton);
 		backButton = new JButton("Zurück");
 		this.add(backButton);
@@ -52,16 +49,10 @@ public class NewArtPanel extends JPanel {
 	public void addActionListenerOK(ActionListener a) {
 		this.okButton.addActionListener(a);
 	}
-	public String getArtikelName() {
-		return this.artikelNameTextfield.getText();
+	public int getArtikelNummer() {
+		return Integer.parseInt(this.artnrTextfield.getText());
 	}
 	public int getMenge() {
 		return Integer.parseInt(this.mengeTextfield.getText());
-	}
-	public double getPreis() {
-		return Double.parseDouble(this.preisTextfield.getText());
-	}
-	public int getPackungsgroesse() {
-		return Integer.parseInt(this.sizeTextfield.getText());
 	}
 }

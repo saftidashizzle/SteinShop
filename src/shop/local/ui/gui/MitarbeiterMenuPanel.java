@@ -49,4 +49,16 @@ public class MitarbeiterMenuPanel extends JPanel {
 	public void addActionListenerNewArt(ActionListener a) {
 		this.artikelAnlegenButton.addActionListener(a);
 	}
+	public void addActionListenerArtMeng(ActionListener a) {
+		this.mengeAendernButton.addActionListener(a);
+	}
+	public void addActionListenerDelArt(ActionListener a) {
+		this.artikelLoeschenButton.addActionListener(a);
+	}
+	public void addActionListenerMitReg(ActionListener a) {
+		this.mitarbeiterRegistrierenButton.addActionListener(a);
+	}
+	public void addActionListenerUsrDel(ActionListener a) {
+		this.mitarbeiterLoeschenButton.addActionListener(a);
+	}
 }

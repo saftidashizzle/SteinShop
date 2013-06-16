@@ -61,4 +61,7 @@ public class MitarbeiterMenuPanel extends JPanel {
 	public void addActionListenerUsrDel(ActionListener a) {
 		this.mitarbeiterLoeschenButton.addActionListener(a);
 	}
+	public void addActionListenerProtokoll(ActionListener a) {
+		this.artikelProtokollButton.addActionListener(a);
+	}
 }

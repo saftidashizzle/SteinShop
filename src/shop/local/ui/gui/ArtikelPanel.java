@@ -12,11 +12,15 @@ import shop.local.valueobjects.Artikel;
 
 
 public class ArtikelPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 953509472024081560L;
 	JPanel artikelListe;
 	JPanel titelZeile;
+	List<Artikel> liste;
 	public ArtikelPanel(List<Artikel> liste) {
 		super();
-		
 		this.setLayout(new BorderLayout());
 		
 		
@@ -34,15 +38,7 @@ public class ArtikelPanel extends JPanel {
 		titelZeile.add(new JLabel("Packungsgröße"));
 
 		// Artikel laden
-		Iterator<Artikel> it = liste.iterator();
-		while  (it.hasNext()) {
-			Artikel a = it.next();
-			artikelListe.add(new JLabel("" + a.getNummer()));
-			artikelListe.add(new JLabel(a.getName()));
-			artikelListe.add(new JLabel("" + a.getMenge()));
-			artikelListe.add(new JLabel("" + a.getPreis()));
-			artikelListe.add(new JLabel("" + a.getPackungsgroesse()));
-		}
+		fill(liste);
 //		for (Artikel a : liste){
 //			artikelListe.add(new JLabel("" + a.getNummer()));
 //			artikelListe.add(new JLabel(a.getName()));
@@ -60,6 +56,16 @@ public class ArtikelPanel extends JPanel {
 		
 		this.add(titelZeile, BorderLayout.NORTH);
 		this.add(artikelListe, BorderLayout.CENTER);
-		
+	}
+	public void fill(List<Artikel> liste) {
+		Iterator<Artikel> it = liste.iterator();
+		while  (it.hasNext()) {
+			Artikel a = it.next();
+			artikelListe.add(new JLabel("" + a.getNummer()));
+			artikelListe.add(new JLabel(a.getName()));
+			artikelListe.add(new JLabel("" + a.getMenge()));
+			artikelListe.add(new JLabel("" + a.getPreis()));
+			artikelListe.add(new JLabel("" + a.getPackungsgroesse()));
+		}
 	}
 }

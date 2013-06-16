@@ -44,7 +44,7 @@ public class UserLoeschenPanel extends JPanel {
 	public void addActionListenerOK(ActionListener a) {
 		this.okButton.addActionListener(a);
 	}
-	public String getUserName() {
-		return this.usernrTextfield.getText();
+	public int getUserNummer() {
+		return Integer.parseInt(this.usernrTextfield.getText());
 	}
 }

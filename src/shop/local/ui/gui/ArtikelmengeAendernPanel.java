@@ -26,7 +26,7 @@ public class ArtikelmengeAendernPanel extends JPanel {
 		artnrTextfield = new JTextField();
 		this.add(artnrTextfield);
 		
-		this.add(new JLabel("Neue Menge: "));
+		this.add(new JLabel("Um wieviel verändern?: "));
 		mengeTextfield = new JTextField();
 		this.add(mengeTextfield);
 		
@@ -49,8 +49,8 @@ public class ArtikelmengeAendernPanel extends JPanel {
 	public void addActionListenerOK(ActionListener a) {
 		this.okButton.addActionListener(a);
 	}
-	public String getArtikelName() {
-		return this.artnrTextfield.getText();
+	public int getNummer() {
+		return Integer.parseInt(this.artnrTextfield.getText());
 	}
 	public int getMenge() {
 		return Integer.parseInt(this.mengeTextfield.getText());

@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import shop.local.domain.ShopVerwaltung;
@@ -409,19 +410,23 @@ public class ShopGUI extends JFrame {
 			public void actionPerformed(ActionEvent ae) {
 				String titel = newArtPanel.getArtikelName();
 				double d = newArtPanel.getPreis();
-				User akteur = aktuellerBenutzer;
 				int menge = newArtPanel.getMenge();
 				int packungsGroesse = newArtPanel.getPackungsgroesse();
 				try {
 					if (packungsGroesse <= 1) {
-						shopVer.fuegeArtikelEin(titel, d, akteur, menge);
+						// funktioniert, wird aber noch nicht aktualisiert angezeigt
+						shopVer.fuegeArtikelEin(titel, d, aktuellerBenutzer, menge);
+//						artikelPanel.setVisible(false);
+//						artikelPanel.artikelListe.removeAll();
+//						artikelPanel.fill(shopVer.gibAlleArtikel());
+//						artikelPanel.setVisible(true);
 					} else {
-						shopVer.fuegeArtikelEin(titel, d, akteur, menge, packungsGroesse);
+						shopVer.fuegeArtikelEin(titel, d, aktuellerBenutzer, menge, packungsGroesse);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				frame.cardLayout.previous(westPanel);
+				frame.cardLayout.show(westPanel, "mitarbeiterMenu");
 				frame.getContentPane().invalidate();
 				frame.getContentPane().revalidate();
 				frame.pack();
@@ -437,6 +442,23 @@ public class ShopGUI extends JFrame {
 			}
 		};
 		mitarbeiterMenuPanel.addActionListenerArtMeng(listenerArtMeng);
+//	 	Listener für Artikelmenge ändern (okay button)
+		ActionListener listenerArtMengOK = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				int nummer = artMengPanel.getNummer();
+				int anzahl = artMengPanel.getMenge();
+				try {
+					shopVer.mengeAendern(nummer, anzahl, aktuellerBenutzer);
+					shopVer.gibArtikellisteAus();
+					frame.cardLayout.show(westPanel, "mitarbeiterMenu");
+					frame.pack();
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		artMengPanel.addActionListenerOK(listenerArtMengOK);
 		// Listener für Artikel loeschen
 		ActionListener listenerDelArt = new ActionListener() {
 			@Override
@@ -446,6 +468,21 @@ public class ShopGUI extends JFrame {
 			}
 		};
 		mitarbeiterMenuPanel.addActionListenerDelArt(listenerDelArt);
+		// Listener für Artikel loeschen (okay button)
+		ActionListener listenerArtDelOK = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				try {
+					shopVer.loescheArtikel(artDelPanel.getArtikelNummer(), aktuellerBenutzer);
+					shopVer.gibArtikellisteAus();
+					frame.cardLayout.show(westPanel, "kundeMenu");
+					frame.pack();	
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		artDelPanel.addActionListenerOK(listenerArtDelOK);
 		// Listener für Mitarbeiter Registrieren
 		ActionListener listenerMitReg = new ActionListener() {
 			@Override
@@ -455,6 +492,29 @@ public class ShopGUI extends JFrame {
 			}
 		};
 		mitarbeiterMenuPanel.addActionListenerMitReg(listenerMitReg);
+		// Listener für Mitarbeiter Registrieren (okay button)
+		ActionListener listenerMitRegOK = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				try {
+					String name = mitRegPanel.getUserName();
+					String pw1 = mitRegPanel.getPw1();
+					String pw2 = mitRegPanel.getPw2();
+					String anrede = mitRegPanel.getAnrede();
+					String vorUndZuName = mitRegPanel.getName();
+					if (pw1.equals(pw2)) {
+						shopVer.fuegeUserEin(name, pw1, anrede, vorUndZuName);
+						frame.cardLayout.show(westPanel, "kundeMenu");
+						frame.pack();
+					} else {
+						JOptionPane.showMessageDialog(null, "Passwort stimmt nicht überein."); 
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		mitRegPanel.addActionListenerReg(listenerMitRegOK);
 		// Listener für User loeschen
 		ActionListener listenerUsrDel = new ActionListener() {
 			@Override
@@ -464,6 +524,29 @@ public class ShopGUI extends JFrame {
 			}
 		};
 		mitarbeiterMenuPanel.addActionListenerUsrDel(listenerUsrDel);
+		// Listener für User loeschen (okay button)
+		ActionListener listenerUsrDelOK = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				int userNr = usrDelPanel.getUserNummer();
+				try {
+					shopVer.loescheUser(userNr, aktuellerBenutzer);
+					frame.cardLayout.show(westPanel, "kundeMenu");
+					frame.pack();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		usrDelPanel.addActionListenerOK(listenerUsrDelOK);
+		// Listener für Artikelmengenverlauf anzeigen
+		ActionListener listenerArtMengVer = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				// Artikelmengenverlauf anzeigen
+			}
+		};
+		mitarbeiterMenuPanel.addActionListenerProtokoll(listenerArtMengVer);
 	}
 	
 	private User userLogin(List<User> liste, String name, String passwort) throws LoginFehlgeschlagenException{

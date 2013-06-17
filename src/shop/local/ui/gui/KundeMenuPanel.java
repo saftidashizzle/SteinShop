@@ -51,12 +51,20 @@ public class KundeMenuPanel extends JPanel {
 	public void addActionListenerArtInW(ActionListener a) {
 		this.artikelInWarenkorbButton.addActionListener(a);
 	}
-
 	public void addActionListenerArtMenge(ActionListener a) {
 		this.artikelmengeAendernButton.addActionListener(a);		
 	}
-
 	public void addActionListenerArtAusW(ActionListener a) {
 		this.artikelEntfernenButton.addActionListener(a);
+	}
+
+	public void addActionListenerWarenkorbLeeren(ActionListener a) {
+		this.warenkorbLeerenButton.addActionListener(a);
+	}
+	public void addActionListenerArtikelNamen(ActionListener a) {
+		this.artikelNachNamenButton.addActionListener(a);		
+	}
+	public void addActionListenerArtikelNummer(ActionListener a) {
+		this.artikelNachNummernButton.addActionListener(a);		
 	}
 }

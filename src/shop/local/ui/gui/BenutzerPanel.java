@@ -1,65 +1,64 @@
 package shop.local.ui.gui;
 
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.util.List;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
-import shop.local.valueobjects.Kunde;
 import shop.local.valueobjects.User;
 
 
 public class BenutzerPanel extends JPanel {
-	JPanel benutzerListe;
-	JPanel titelZeile;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8891187975556008249L;
+	JTable benutzerListe;
+	JScrollPane benutzerScroll;
+	Object[][] data;
+    TableModel model;
+    
 	public BenutzerPanel(List<User> liste) {
 		super();
-		
-		this.setLayout(new BorderLayout());
-		
-		
-		benutzerListe = new JPanel();
-		titelZeile = new JPanel();
-		
-		benutzerListe.setLayout(new GridLayout(liste.size(),2));	
-		titelZeile.setLayout(new GridLayout(1,5));
-		
-		// Artikelliste erstellen
-		titelZeile.add(new JLabel("Nummer"));
-		titelZeile.add(new JLabel("Name"));
-		titelZeile.add(new JLabel("Adresse"));
-
+		this.setLayout(new GridLayout(1,1));
 
 		// Artikel laden
-//		Iterator<Artikel> it = liste.iterator();
-//		while  (it.hasNext()) {
-//			Artikel a = it.next();
-//			benutzerListe.add(new JLabel("" + a.getNummer()));
-//			benutzerListe.add(new JLabel(a.getName()));
-//			benutzerListe.add(new JLabel("" + a.getMenge()));
-//			benutzerListe.add(new JLabel("" + a.getPreis()));
-//			benutzerListe.add(new JLabel("PACKUNGSGROESSE"));
-//		}
-		for (User u : liste){
-			benutzerListe.add(new JLabel("" + u.getNummer()));
-			benutzerListe.add(new JLabel(u.getName()));
-			if (u instanceof Kunde) {
-				benutzerListe.add(new JLabel(u.getAdresse()));
-			} else { 
-					benutzerListe.add(new JLabel(" "));
-			}
+		fill(liste);
+		this.add(benutzerScroll);
+	}
+	public void fill(List<User> liste) {
+		String[] columnNames = {"Nummer",
+                "Name",
+                "Adresse"
+        };
+		data = new Object[liste.size()][3];
+		int i = 0;
+		for (User a:liste) {
+			String[] row = { ""  + a.getNummer(), a.getName(), "" + a.getAdresse() };
+			data[i++] = row;
 		}
+		i = 0;
 		
+        model = new DefaultTableModel(data, columnNames);
+		benutzerListe = new JTable(model) {
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = -9187534973180919697L;
+
+			public boolean isCellEditable(int x, int y) {
+                return false;
+            }
+        };
+
+//		benutzerListe = new JTable(data, columnNames);
 		
-//		artikelListe.add(new JLabel("2"));
-//		artikelListe.add(new JLabel("ZWEISTEIN"));
-//		artikelListe.add(new JLabel("10"));
-//		artikelListe.add(new JLabel("10"));
-//		artikelListe.add(new JLabel("1"));
-		this.add(titelZeile, BorderLayout.NORTH);
-		this.add(benutzerListe, BorderLayout.CENTER);
+		benutzerScroll = new JScrollPane(benutzerListe);
+
 	}
 
 }

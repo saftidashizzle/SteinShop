@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 public class RegPanel extends JPanel {
@@ -15,8 +16,8 @@ public class RegPanel extends JPanel {
 	 */
 	private JButton regButton;
 	private JTextField userNameTextfield;
-	private JTextField pw1Textfield;
-	private JTextField pw2Textfield;
+	private JPasswordField pw1Textfield;
+	private JPasswordField pw2Textfield;
 	private JComboBox<String> dropdownmenu;
 	private JTextField nameTextfield;
 	private JTextField strTextfield;
@@ -34,10 +35,10 @@ public class RegPanel extends JPanel {
 		userNameTextfield = new JTextField();
 		this.add(userNameTextfield);
 		this.add(new JLabel("Passwort: "));
-		pw1Textfield = new JTextField();
+		pw1Textfield = new JPasswordField();
 		this.add(pw1Textfield);
 		this.add(new JLabel("Passwort wiederholen: "));
-		pw2Textfield = new JTextField();
+		pw2Textfield = new JPasswordField();
 		this.add(pw2Textfield);
 		this.add(new JLabel("Anrede: "));
 		String anreden[] = {"Herr", "Frau", "Etwas"};

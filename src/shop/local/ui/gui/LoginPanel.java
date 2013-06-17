@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 /**
@@ -17,16 +18,14 @@ public class LoginPanel extends JPanel {
 	
 	private JButton loginButton;
 	private JTextField userTextfield;
-	private JTextField pwTextfield;
-//	private JPasswordField pwTextfield;
+	private JPasswordField pwTextfield;
 	private static final long serialVersionUID = -286039067067091624L;
 
 	public LoginPanel() {
 		super();
 		loginButton = new JButton("Login");
-		pwTextfield = new JTextField("123");
-//		pwTextfield = new JPasswordField("hallo");
-		userTextfield = new JTextField("Mitarbeiter");
+		pwTextfield = new JPasswordField("123");
+		userTextfield = new JTextField("Kunde");
 		this.setLayout(new GridLayout(2, 3));
 		this.add(new JLabel("User: "));
 		this.add(userTextfield);

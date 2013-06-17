@@ -181,10 +181,6 @@ public class ShopGUI extends JFrame {
 		// Registrierpanel erstellen und hinzufügen
 		regPanel = new RegPanel();
 		eastPanel.add(regPanel, "regPanel");
-		// Warenkorb Panel erstellen und hinzufügen
-		warenkorbPanel = new WarenkorbPanel();
-		warenkorbPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		eastPanel.add(warenkorbPanel, "warenkorbPanel");
 		// EastPanel hinzufügen
 		this.add(eastPanel, BorderLayout.EAST);
 
@@ -275,8 +271,13 @@ public class ShopGUI extends JFrame {
 				try {
 					aktuellerBenutzer = userLogin(UserListe, name, pw);
 					if (aktuellerBenutzer instanceof Kunde) {
+						Kunde kunde = (Kunde)aktuellerBenutzer;
 						frame.cardLayout.show(westPanel, "kundeMenu");
 						frame.cardLayout.show(centerPanel, "artikelPanel");
+						// Warenkorb Panel erstellen und hinzufügen
+						warenkorbPanel = new WarenkorbPanel(kunde.getWarenkorb());
+						warenkorbPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+						eastPanel.add(warenkorbPanel, "warenkorbPanel");
 						frame.cardLayout.show(eastPanel, "warenkorbPanel");
 						frame.westPanel.setVisible(true);						
 					} else if(aktuellerBenutzer instanceof Mitarbeiter) {
@@ -356,7 +357,19 @@ public class ShopGUI extends JFrame {
 			}
 		};
 		kundeMenuPanel.addActionListenerArtInW(listenerArtikelInWarenkorb);
-		
+		// Listener für Artikel in Warenkorb Button (okay Button)
+		ActionListener listenerArtikelInWarenkorbOK = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				try {
+					shopVer.artikelInWarenkorb(artInWPanel.getArtikelNummer(), artInWPanel.getMenge(), aktuellerBenutzer);
+					frame.cardLayout.show(westPanel, "kundeMenu");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		artInWPanel.addActionListenerOK(listenerArtikelInWarenkorbOK);
 		// Listener für Artikelmenge im Warenkorb ändern
 		ActionListener listenerArtikelmenge = new ActionListener() {
 			@Override
@@ -365,7 +378,19 @@ public class ShopGUI extends JFrame {
 			}
 		};
 		kundeMenuPanel.addActionListenerArtMenge(listenerArtikelmenge);
-		
+		// Listener für Artikelmenge im Warenkorb ändern Button (okay Button)
+		ActionListener listenerArtikelmengeOK = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				try {
+					shopVer.artikelMengeImWarenkorbAendern(artMengeInWPanel.getArtikelNummer(), artMengeInWPanel.getMenge(), (Kunde)aktuellerBenutzer);
+					frame.cardLayout.show(westPanel, "kundeMenu");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		artMengeInWPanel.addActionListenerOK(listenerArtikelmengeOK);
 		// Listener für Artikel aus Warenkorb entfernen
 		ActionListener listenerArtikelAusWarenkorb = new ActionListener() {
 			@Override
@@ -374,7 +399,58 @@ public class ShopGUI extends JFrame {
 			}
 		};
 		kundeMenuPanel.addActionListenerArtAusW(listenerArtikelAusWarenkorb);
-		
+		// Listener für Artikel aus Warenkorb entfernen Button (okay Button)
+		ActionListener listenerArtikelAusWarenkorbOK = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				try {
+					shopVer.artikelAusWarenkorb(artAusWPanel.getArtikelNummer(), (Kunde)aktuellerBenutzer);
+					frame.cardLayout.show(westPanel, "kundeMenu");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		artAusWPanel.addActionListenerOK(listenerArtikelAusWarenkorbOK);
+		// Listener für Warenkorb leeren
+		ActionListener listenerWarenkorbLeeren = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				try {
+					shopVer.warenkorbLeeren((Kunde)aktuellerBenutzer);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		kundeMenuPanel.addActionListenerWarenkorbLeeren(listenerWarenkorbLeeren);
+		// Listener für Artikel nach Namen ordnen
+		ActionListener listenerArtikelNamen = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				try {
+					shopVer.artikelNachNamenOrdnen();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		kundeMenuPanel.addActionListenerArtikelNamen(listenerArtikelNamen);
+		// Listener für Artikel nach Nummern ordnen
+		ActionListener listenerArtikelNummern = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				try {
+					shopVer.artikelNachZahlenOrdnen();
+//					artikelListe = shopVer.gibAlleArtikel();
+					artikelPanel.fill(artikelListe);
+					//TODO hier fill von artikelliste aufrufen			
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		kundeMenuPanel.addActionListenerArtikelNummer(listenerArtikelNummern);
 	}
 	
 	/**
@@ -433,7 +509,7 @@ public class ShopGUI extends JFrame {
 			}
 		};
 		newArtPanel.addActionListenerOK(listenerNewArtOK);
-//	 	Listener für Artikelmenge ändern
+		// Listener für Artikelmenge ändern
 		ActionListener listenerArtMeng = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
@@ -442,7 +518,7 @@ public class ShopGUI extends JFrame {
 			}
 		};
 		mitarbeiterMenuPanel.addActionListenerArtMeng(listenerArtMeng);
-//	 	Listener für Artikelmenge ändern (okay button)
+		// Listener für Artikelmenge ändern (okay button)
 		ActionListener listenerArtMengOK = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
@@ -548,7 +624,14 @@ public class ShopGUI extends JFrame {
 		};
 		mitarbeiterMenuPanel.addActionListenerProtokoll(listenerArtMengVer);
 	}
-	
+	/**
+	 * Methode für Userlogin
+	 * @param liste Userliste
+	 * @param name Eingegebener Name
+	 * @param passwort eingegebenes Passwort
+	 * @return liefert den angemeldeten User
+	 * @throws LoginFehlgeschlagenException
+	 */
 	private User userLogin(List<User> liste, String name, String passwort) throws LoginFehlgeschlagenException{
 		Iterator<User> it = liste.iterator();
 		while  (it.hasNext()) {

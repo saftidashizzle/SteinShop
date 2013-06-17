@@ -1,13 +1,13 @@
 package shop.local.ui.gui;
 
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.util.List;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneLayout;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import shop.local.valueobjects.Ereignis;
 
@@ -15,44 +15,47 @@ public class ProtokollPanel extends JPanel {
 	/**
 	 * 
 	 */
+	
+	JTable ereignisListe;
+	JScrollPane ereignisScroll;
+	Object[][] data;
+    TableModel model;
 	private static final long serialVersionUID = 2332524247825957602L;
 
 	public ProtokollPanel(List<Ereignis> liste) {
 		super();
-		setLayout(new BorderLayout(0, 0));
+		setLayout(new GridLayout(1, 1));
+		fill(liste);				
+		this.add(ereignisScroll);
+	}
+	public void fill(List<Ereignis> liste) {
+		String[] columnNames = {"Datum",
+                "Artikel",
+                "Anzahl",
+                "Aktion"};
 		
-		JPanel titelZeile = new JPanel();
-		add(titelZeile, BorderLayout.NORTH);
-		titelZeile.setLayout(new GridLayout(1, 4));
-		
-		JLabel lblNewLabel_1 = new JLabel("Datum");
-		titelZeile.add(lblNewLabel_1);
-		
-		JLabel lblNewLabel_2 = new JLabel("User");
-		titelZeile.add(lblNewLabel_2);
-		
-		JLabel lblNewLabel_3 = new JLabel("Artikel");
-		titelZeile.add(lblNewLabel_3);
-		
-		JLabel lblNewLabel_4 = new JLabel("Anzahl");
-		titelZeile.add(lblNewLabel_4);
-		
-		JLabel lblNewLabel = new JLabel("Aktion");
-		titelZeile.add(lblNewLabel);
-		
-		JPanel ereignisListe = new JPanel();
-		ereignisListe.setLayout(new GridLayout(liste.size(), 5));
-		
-//		JScrollPane ereignisListe = new JScrollPane();
-//		ereignisListe.setLayout(new ScrollPaneLayout());				
-		for (Ereignis a : liste){
-			ereignisListe.add(new JLabel(a.getDate().toString()));
-			ereignisListe.add(new JLabel(a.getUser().getName()));
-			ereignisListe.add(new JLabel(a.getArtikel().getName()));
-			ereignisListe.add(new JLabel("" + a.getMenge()));
-			ereignisListe.add(new JLabel(a.getAktion()));
+		data = new Object[liste.size()][4];
+		int i = 0;
+		for (Ereignis a:liste) {
+			String[] row = { ""  + a.getDate(), a.getArtikel().getName(), "" + a.getMenge(), "" + a.getAktion() };
+			data[i++] = row;
 		}
-		add(ereignisListe, BorderLayout.CENTER);
+		i = 0;
+		
+        model = new DefaultTableModel(data, columnNames);
+        ereignisListe = new JTable(model) {
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = -9187534973180919697L;
+
+			public boolean isCellEditable(int x, int y) {
+                return false;
+            }
+        };
+		
+//		ereignisListe = new JTable(data, columnNames);
+		ereignisScroll = new JScrollPane(ereignisListe);
 	}
 
 }

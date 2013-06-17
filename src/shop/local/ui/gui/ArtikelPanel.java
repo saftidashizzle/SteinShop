@@ -1,12 +1,13 @@
 package shop.local.ui.gui;
 
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import shop.local.valueobjects.Artikel;
 
@@ -16,56 +17,47 @@ public class ArtikelPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 953509472024081560L;
-	JPanel artikelListe;
-	JPanel titelZeile;
-	List<Artikel> liste;
+	JTable artikelListe;
+	JScrollPane artikelScroll;
+	Object[][] data;
+	TableModel model;
 	public ArtikelPanel(List<Artikel> liste) {
 		super();
-		this.setLayout(new BorderLayout());
-		
-		
-		artikelListe = new JPanel();
-		titelZeile = new JPanel();
-		
-		artikelListe.setLayout(new GridLayout(liste.size(),5));	
-		titelZeile.setLayout(new GridLayout(1,5));
-		
-		// Artikelliste erstellen
-		titelZeile.add(new JLabel("Nummer"));
-		titelZeile.add(new JLabel("Name"));
-		titelZeile.add(new JLabel("Anzahl"));
-		titelZeile.add(new JLabel("Einzelpreis"));
-		titelZeile.add(new JLabel("Packungsgröße"));
-
+		this.setLayout(new GridLayout(1,1));
+				
 		// Artikel laden
 		fill(liste);
-//		for (Artikel a : liste){
-//			artikelListe.add(new JLabel("" + a.getNummer()));
-//			artikelListe.add(new JLabel(a.getName()));
-//			artikelListe.add(new JLabel("" + a.getMenge()));
-//			artikelListe.add(new JLabel("" + a.getPreis()));
-//			artikelListe.add(new JLabel("PACKUNGSGROESSE"));
-//		}
-		
-		
-//		artikelListe.add(new JLabel("2"));
-//		artikelListe.add(new JLabel("ZWEISTEIN"));
-//		artikelListe.add(new JLabel("10"));
-//		artikelListe.add(new JLabel("10"));
-//		artikelListe.add(new JLabel("1"));
-		
-		this.add(titelZeile, BorderLayout.NORTH);
-		this.add(artikelListe, BorderLayout.CENTER);
+		this.add(artikelScroll);
 	}
 	public void fill(List<Artikel> liste) {
-		Iterator<Artikel> it = liste.iterator();
-		while  (it.hasNext()) {
-			Artikel a = it.next();
-			artikelListe.add(new JLabel("" + a.getNummer()));
-			artikelListe.add(new JLabel(a.getName()));
-			artikelListe.add(new JLabel("" + a.getMenge()));
-			artikelListe.add(new JLabel("" + a.getPreis()));
-			artikelListe.add(new JLabel("" + a.getPackungsgroesse()));
+		String[] columnNames = {"Nummer",
+                "Name",
+                "Anzahl",
+                "Einzelpreis",
+                "Packungsgröße"};
+		
+		data = new Object[liste.size()][5];
+		int i = 0;
+		for (Artikel a:liste) {
+			String[] row = { ""  + a.getNummer(), a.getName(), "" + a.getMenge(), "" + a.getPreis(), "" + a.getPackungsgroesse() };
+			data[i++] = row;
 		}
+		i = 0;
+
+		model = new DefaultTableModel(data, columnNames);
+        artikelListe = new JTable(model) {
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = -9187534973180919697L;
+
+			public boolean isCellEditable(int x, int y) {
+                return false;
+            }
+        };
+		
+//		artikelListe = new JTable(data, columnNames);
+		artikelScroll = new JScrollPane(artikelListe);
+
 	}
 }

@@ -79,6 +79,7 @@ public class ShopGUI extends JFrame {
 	public ShopGUI() {
 		super("SteinShop");
 		shopVer = new ShopVerwaltung();
+		// beim Start des Programms auf null gesetzt, durch login wird Benutzer hier gespeichert
 		aktuellerBenutzer = null;
 		try {
 			shopVer.ladeDaten();

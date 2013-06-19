@@ -2,10 +2,10 @@ package shop.local.ui.gui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -24,6 +24,7 @@ public class WarenkorbPanel extends JPanel {
 	JScrollPane artikelScroll;
 	JPanel kassenZeile;
 	Object[][] data;
+	JButton kassenButton;
 	TableModel model;
 	public WarenkorbPanel(Warenkorb warenkorb) {
 		super();
@@ -46,8 +47,9 @@ public class WarenkorbPanel extends JPanel {
 		fill(warenkorb);
 		
 		kassenZeile = new JPanel();
-		kassenZeile.setLayout(new FlowLayout());	
-		kassenZeile.add(new JButton("Kasse"));
+		kassenZeile.setLayout(new FlowLayout());
+		kassenButton = new JButton("Kasse");
+		kassenZeile.add(kassenButton);
 		this.add(kassenZeile, BorderLayout.SOUTH);		
 	}
 	public void fill(Warenkorb w) {
@@ -58,7 +60,9 @@ public class WarenkorbPanel extends JPanel {
 		HashMap<Artikel, Integer> warenkorb = w.getInhalt();
 		//wenn warenkorb leer ist
 		if(warenkorb.isEmpty()){
-			artikelListe.add(new JLabel("Warenkorb ist leer."));
+			String [] row = { "Keine Artikel im Warenkorb", "0", "0.00", "0.00" };
+			data = new Object[1][4];
+			data [0] = row;
 		} else {
 		//die einzelnen Elemente aus der HashMap durchgehen und ausgeben
 			data = new Object[warenkorb.size()+1][4];
@@ -86,5 +90,8 @@ public class WarenkorbPanel extends JPanel {
         };
 		artikelScroll = new JScrollPane(artikelListe);
 		this.add(artikelScroll, BorderLayout.CENTER);
+	}
+	public void addActionListenerZurKasse(ActionListener a) {
+		this.kassenButton.addActionListener(a);
 	}
 }

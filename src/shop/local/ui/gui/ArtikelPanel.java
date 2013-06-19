@@ -30,6 +30,7 @@ public class ArtikelPanel extends JPanel {
 		this.add(artikelScroll);
 	}
 	public void fill(List<Artikel> liste) {
+		final int rowCount = liste.size();
 		String[] columnNames = {"Nummer",
                 "Name",
                 "Anzahl",
@@ -54,10 +55,14 @@ public class ArtikelPanel extends JPanel {
 			public boolean isCellEditable(int x, int y) {
                 return false;
             }
+			public int getColumnCount() {
+				return 5;
+			}
+			public int getRowCount() {
+				return rowCount;
+			}
         };
-		
 //		artikelListe = new JTable(data, columnNames);
 		artikelScroll = new JScrollPane(artikelListe);
-
 	}
 }

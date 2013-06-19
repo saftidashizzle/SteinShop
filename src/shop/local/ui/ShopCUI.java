@@ -217,10 +217,8 @@ public class ShopCUI {
 			case "c":
 				System.out.println("Welchen Artikel?");
 				int artID = Integer.parseInt(liesEingabe());
-				System.out.println("Wieviel Tage zurück?");
-				int anzahlTage = Integer.parseInt(liesEingabe());
 				try {
-					shopVer.einkaufsVerlauf(artID, anzahlTage);
+					shopVer.einkaufsVerlauf(artID);
 				} catch (ArtikelNichtVerfuegbarException e) {
 					System.out.println(e);
 				}

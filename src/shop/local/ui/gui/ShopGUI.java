@@ -278,6 +278,19 @@ public class ShopGUI extends JFrame {
 						// Warenkorb Panel erstellen und hinzufügen
 						warenkorbPanel = new WarenkorbPanel(kunde.getWarenkorb());
 						warenkorbPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+
+						// Listener für zur Kasse Button
+						ActionListener listenerZurKasse = new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent ae) {
+								try {
+									shopVer.rechnungErstellen((Kunde)aktuellerBenutzer);
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							}
+						};
+						warenkorbPanel.addActionListenerZurKasse(listenerZurKasse);
 						eastPanel.add(warenkorbPanel, "warenkorbPanel");
 						frame.cardLayout.show(eastPanel, "warenkorbPanel");
 						frame.westPanel.setVisible(true);						
@@ -289,7 +302,7 @@ public class ShopGUI extends JFrame {
 					}
 					frame.pack();
 				} catch (Exception e) {
-					System.out.println(e);
+					e.printStackTrace();
 				}
 			}
 		};
@@ -445,7 +458,7 @@ public class ShopGUI extends JFrame {
 					shopVer.artikelNachZahlenOrdnen();
 //					artikelListe = shopVer.gibAlleArtikel();
 					artikelPanel.fill(artikelListe);
-					//TODO hier fill von artikelliste aufrufen			
+					//TODO Artikelliste aktualisieren	
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -491,12 +504,13 @@ public class ShopGUI extends JFrame {
 				int packungsGroesse = newArtPanel.getPackungsgroesse();
 				try {
 					if (packungsGroesse <= 1) {
-						// funktioniert, wird aber noch nicht aktualisiert angezeigt
 						shopVer.fuegeArtikelEin(titel, d, aktuellerBenutzer, menge);
-//						artikelPanel.setVisible(false);
+						//TODO ArtikelPanel aktualisieren
+						artikelListe = shopVer.gibAlleArtikel();
 //						artikelPanel.artikelListe.removeAll();
-//						artikelPanel.fill(shopVer.gibAlleArtikel());
-//						artikelPanel.setVisible(true);
+//						artikelPanel.fill(artikelListe);
+//						artikelPanel.invalidate();
+//						artikelPanel.validate();
 					} else {
 						shopVer.fuegeArtikelEin(titel, d, aktuellerBenutzer, menge, packungsGroesse);
 					}
@@ -527,7 +541,6 @@ public class ShopGUI extends JFrame {
 				int anzahl = artMengPanel.getMenge();
 				try {
 					shopVer.mengeAendern(nummer, anzahl, aktuellerBenutzer);
-					shopVer.gibArtikellisteAus();
 					frame.cardLayout.show(westPanel, "mitarbeiterMenu");
 					frame.pack();
 				} catch(Exception e) {
@@ -551,7 +564,6 @@ public class ShopGUI extends JFrame {
 			public void actionPerformed(ActionEvent ae) {
 				try {
 					shopVer.loescheArtikel(artDelPanel.getArtikelNummer(), aktuellerBenutzer);
-					shopVer.gibArtikellisteAus();
 					frame.cardLayout.show(westPanel, "kundeMenu");
 					frame.pack();	
 				} catch(Exception e) {

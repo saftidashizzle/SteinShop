@@ -9,6 +9,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class NewArtPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7268405076864774172L;
 	private JTextField artikelNameTextfield;
 	private JTextField mengeTextfield;
 	private JTextField preisTextfield;

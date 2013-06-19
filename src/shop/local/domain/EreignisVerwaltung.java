@@ -41,32 +41,29 @@ public class EreignisVerwaltung {
 		}
 		System.out.println(" ");
 	}
-	public List<Ereignis> gibEreignisseNachArtikelUndTagen(Artikel a, int anzahlTage) {
-		// jetzt fehlt noch die zeit komponente
-		// in einer schleife alle date's der ereignisse nacheinander durchgehen
-		// mit .getDay den Tag bekommen
-		// gucken, sobald ein monat (zum test eine woche) vergangen ist, dann mit dem ausgeben aufhoeren
-		List<Ereignis> liste = null;
-		Iterator<Ereignis> it = protokoll.iterator();
-		Ereignis er = null;
+	public List<Ereignis> gibEreignisseNachArtikelUndTagen(Artikel a) {
+	// anzahl tage wird nicht benutzt
+		List<Ereignis> liste = new Vector<Ereignis>();
 
 		Calendar heute = Calendar.getInstance();
 		Calendar ereignis = new GregorianCalendar();
+
 		
-		long zeitVergangen = ereignis.getTime().getTime() - heute.getTime().getTime();  // Differenz in ms
-		long inTagen = Math.round( (double)zeitVergangen / (24. * 60.*60.*1000.) ); // Zeit Differenz in Tagen
 		
-			while (it.hasNext()) {
-				er = it.next();
-				ereignis.setTime(er.getDate());                      // zweiter Zeitpunkt
-				// wenn ereignis in dem zeitraum liegt, in die liste
-				if(inTagen>30){
-					return liste;
-				} else {
-					liste.add(er); 
-				}
+		
+		for(Ereignis e:protokoll) {
+			ereignis.setTime(e.getDate());                      // zweiter Zeitpunkt
+			long zeitVergangen = ereignis.getTime().getTime() - heute.getTime().getTime();  // Differenz in ms
+			long inTagen = Math.round( (double)zeitVergangen / (24. * 60.*60.*1000.) ); // Zeit Differenz in Tagen
+			// wenn ereignis in dem zeitraum liegt, in die liste
+			// bedingung bewirkt das nichts, das laenger als 30 tage zurueck liegt in die liste gepackt wird
+			if(inTagen>30){
+				return liste;
+			} else {
+				liste.add(e); 
 			}
-			return null;
+		}	
+		return liste;
 			
 	
 	}

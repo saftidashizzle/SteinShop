@@ -252,11 +252,11 @@ public class ShopVerwaltung {
 		Artikel a = artVer.findArtikelByNumber(artID);
 		warkoVer.setArtikelMenge(a, menge, akteur);
 	}
-	public void einkaufsVerlauf(int artID, int anzahlTage) throws ArtikelNichtVerfuegbarException {
+	public void einkaufsVerlauf(int artID) throws ArtikelNichtVerfuegbarException {
 		// gibt die artikelmenge des artikels zurueck
 		Artikel a = artVer.findArtikelByNumber(artID);
 		// die soll ich verwenden und bauen
-		List<Ereignis> liste = erVer.gibEreignisseNachArtikelUndTagen(a, anzahlTage); // Liste von Ereignissen
+		List<Ereignis> liste = erVer.gibEreignisseNachArtikelUndTagen(a); // Liste von Ereignissen
 		if(liste.isEmpty()) {
 			System.out.println("Liste ist leer.");
 		} else {

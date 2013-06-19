@@ -67,4 +67,5 @@ public class KundeMenuPanel extends JPanel {
 	public void addActionListenerArtikelNummer(ActionListener a) {
 		this.artikelNachNummernButton.addActionListener(a);		
 	}
+
 }

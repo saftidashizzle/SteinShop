@@ -3,6 +3,7 @@ package shop.local.ui.gui;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Menu;
 import java.awt.MenuBar;
 import java.awt.MenuItem;
@@ -52,6 +53,7 @@ public class ShopGUI extends JFrame {
 	// Center
 	private ArtikelPanel artikelPanel;
 	private MitarbeiterPanel mitarbeiterPanel;
+	private ArtikelProtokollPanel protokollPanel;
 	// West, Mitarbeitermenue
 	private NewArtPanel newArtPanel;
 	private ArtikelmengeAendernPanel artMengPanel;
@@ -171,7 +173,8 @@ public class ShopGUI extends JFrame {
 		// ArtikelPanel fuer Kunde erstellen und hinzufuegen
 		artikelPanel = new ArtikelPanel(artikelListe);
 		artikelPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		centerPanel.add(artikelPanel, "artikelPanel");		
+		centerPanel.add(artikelPanel, "artikelPanel");	
+		
 		// CenterPanel hinzufügen
 		this.add(centerPanel, BorderLayout.CENTER);
 		
@@ -444,6 +447,9 @@ public class ShopGUI extends JFrame {
 			public void actionPerformed(ActionEvent ae) {
 				try {
 					shopVer.artikelNachNamenOrdnen();
+					artikelListe = shopVer.gibAlleArtikel();
+					ArtikelTableModell atm = (ArtikelTableModell) artikelPanel.artikelListe.getModel();
+					atm.updateDataVector(artikelListe);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -456,9 +462,9 @@ public class ShopGUI extends JFrame {
 			public void actionPerformed(ActionEvent ae) {
 				try {
 					shopVer.artikelNachZahlenOrdnen();
-//					artikelListe = shopVer.gibAlleArtikel();
-					artikelPanel.fill(artikelListe);
-					//TODO Artikelliste aktualisieren	
+					artikelListe = shopVer.gibAlleArtikel();
+					ArtikelTableModell atm = (ArtikelTableModell) artikelPanel.artikelListe.getModel();
+					atm.updateDataVector(artikelListe);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -505,21 +511,17 @@ public class ShopGUI extends JFrame {
 				try {
 					if (packungsGroesse <= 1) {
 						shopVer.fuegeArtikelEin(titel, d, aktuellerBenutzer, menge);
-						//TODO ArtikelPanel aktualisieren
-						artikelListe = shopVer.gibAlleArtikel();
-//						artikelPanel.artikelListe.removeAll();
-//						artikelPanel.fill(artikelListe);
-//						artikelPanel.invalidate();
-//						artikelPanel.validate();
+						artikelListe = shopVer.gibAlleArtikel();	
+						mitarbeiterPanel.updateArtikelListe(artikelListe);
 					} else {
 						shopVer.fuegeArtikelEin(titel, d, aktuellerBenutzer, menge, packungsGroesse);
+						artikelListe = shopVer.gibAlleArtikel();
+						mitarbeiterPanel.updateArtikelListe(artikelListe);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				frame.cardLayout.show(westPanel, "mitarbeiterMenu");
-				frame.getContentPane().invalidate();
-				frame.getContentPane().revalidate();
 				frame.pack();
 			}
 		};
@@ -541,6 +543,8 @@ public class ShopGUI extends JFrame {
 				int anzahl = artMengPanel.getMenge();
 				try {
 					shopVer.mengeAendern(nummer, anzahl, aktuellerBenutzer);
+					artikelListe = shopVer.gibAlleArtikel();
+					mitarbeiterPanel.updateArtikelListe(artikelListe);
 					frame.cardLayout.show(westPanel, "mitarbeiterMenu");
 					frame.pack();
 				} catch(Exception e) {
@@ -564,7 +568,9 @@ public class ShopGUI extends JFrame {
 			public void actionPerformed(ActionEvent ae) {
 				try {
 					shopVer.loescheArtikel(artDelPanel.getArtikelNummer(), aktuellerBenutzer);
-					frame.cardLayout.show(westPanel, "kundeMenu");
+					artikelListe = shopVer.gibAlleArtikel();
+					mitarbeiterPanel.updateArtikelListe(artikelListe);
+					frame.cardLayout.show(westPanel, "mitarbeiterMenu");
 					frame.pack();	
 				} catch(Exception e) {
 					e.printStackTrace();
@@ -632,7 +638,14 @@ public class ShopGUI extends JFrame {
 		ActionListener listenerArtMengVer = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				// Artikelmengenverlauf anzeigen
+				//TODO gewünschte ArtikelID einlesen und übergeben
+				Artikel a = artikelListe.get(0);
+				List<Ereignis> artikelVerlauf = shopVer.erVer.gibEreignisseNachArtikelUndTagen(a);
+				protokollPanel = new ArtikelProtokollPanel(artikelVerlauf);
+				protokollPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+				centerPanel.add(protokollPanel, "protokollPanel");
+				frame.cardLayout.show(centerPanel, "protokollPanel");
+				//TODO Artikelmengenverlauf anzeigen
 			}
 		};
 		mitarbeiterMenuPanel.addActionListenerProtokoll(listenerArtMengVer);

@@ -7,9 +7,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import shop.local.domain.ShopVerwaltung;
+import shop.local.domain.exceptions.ArtikelMengeReichtNichtException;
 import shop.local.domain.exceptions.ArtikelNichtVerfuegbarException;
 import shop.local.domain.exceptions.InkorrekteRegWerteException;
 import shop.local.domain.exceptions.LoginFehlgeschlagenException;
+import shop.local.domain.exceptions.WarenkorbExceedsArtikelbestandException;
 import shop.local.valueobjects.Kunde;
 import shop.local.valueobjects.User;
 /**
@@ -382,7 +384,7 @@ public class ShopCUI {
 				menge = Integer.parseInt(eingabe);
 				try {
 					shopVer.artikelInWarenkorb(artID, menge, aktuellerBenutzer);			
-				} catch (Exception e) {
+				} catch (ArtikelMengeReichtNichtException | ArtikelNichtVerfuegbarException | WarenkorbExceedsArtikelbestandException e) {
 					System.out.println(e);
 				}
 				break;

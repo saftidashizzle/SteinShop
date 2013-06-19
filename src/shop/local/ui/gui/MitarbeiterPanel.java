@@ -16,15 +16,15 @@ public class MitarbeiterPanel extends JPanel {
     /**
 	 * 
 	 */
+	ArtikelPanel artikelPanel;
 	private static final long serialVersionUID = -8768799264538074055L;
 
 	public MitarbeiterPanel(List<Artikel> artikelListe, List<User> benutzerListe, List<Ereignis> protokoll) {
         super(new GridLayout(1, 1));
         
         JTabbedPane tabbedPane = new JTabbedPane();
-//        ImageIcon icon = createImageIcon("images/middle.gif");
         
-        ArtikelPanel artikelPanel = new ArtikelPanel(artikelListe);
+        artikelPanel = new ArtikelPanel(artikelListe);
         tabbedPane.addTab("Artikelliste", artikelPanel);
         tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
         
@@ -42,24 +42,8 @@ public class MitarbeiterPanel extends JPanel {
         //The following line enables to use scrolling tabs.
         tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
     }
-    
-//    protected JComponent makeTextPanel(String text) {
-//        JPanel panel = new JPanel(false);
-//        JLabel filler = new JLabel(text);
-//        filler.setHorizontalAlignment(JLabel.CENTER);
-//        panel.setLayout(new GridLayout(1, 1));
-//        panel.add(filler);
-//        return panel;
-//    }
-    
-    /** Returns an ImageIcon, or null if the path was invalid. */
-//    protected static ImageIcon createImageIcon(String path) {
-//        java.net.URL imgURL = TabbedPaneDemo.class.getResource(path);
-//        if (imgURL != null) {
-//            return new ImageIcon(imgURL);
-//        } else {
-//            System.err.println("Couldn't find file: " + path);
-//            return null;
-//        }
-//    }
+	public void updateArtikelListe(List<Artikel> liste) {
+		ArtikelTableModell atm = (ArtikelTableModell) artikelPanel.artikelListe.getModel();
+		atm.updateDataVector(liste);
+	}
 }

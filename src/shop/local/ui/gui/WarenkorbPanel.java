@@ -20,7 +20,7 @@ public class WarenkorbPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 4781761849520709380L;
-	JTable artikelListe;
+	JTable warenkorbListe;
 	JScrollPane artikelScroll;
 	JPanel kassenZeile;
 	Object[][] data;
@@ -77,8 +77,8 @@ public class WarenkorbPanel extends JPanel {
 			data[i] = row;
 			i = 0;
 		}
-		model = new DefaultTableModel(data, columnNames);
-        artikelListe = new JTable(model) {
+		model = new WarenkorbTableModell(data, columnNames);
+        warenkorbListe = new JTable(model) {
             /**
 			 * 
 			 */
@@ -88,7 +88,7 @@ public class WarenkorbPanel extends JPanel {
                 return false;
             }
         };
-		artikelScroll = new JScrollPane(artikelListe);
+		artikelScroll = new JScrollPane(warenkorbListe);
 		this.add(artikelScroll, BorderLayout.CENTER);
 	}
 	public void addActionListenerZurKasse(ActionListener a) {

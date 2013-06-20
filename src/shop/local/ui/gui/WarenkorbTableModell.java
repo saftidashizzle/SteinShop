@@ -1,5 +1,6 @@
 package shop.local.ui.gui;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
@@ -12,7 +13,6 @@ import shop.local.valueobjects.Artikel;
 import shop.local.valueobjects.Warenkorb;
 
 public class WarenkorbTableModell extends DefaultTableModel {
-	JTable artikelListe;
 	Object[][] data;
 	int rowCount;
 	
@@ -21,7 +21,7 @@ public class WarenkorbTableModell extends DefaultTableModel {
 		rowCount = data.length;
 		
 	}
-	public void updateDataVector(List<Artikel> liste) {
+	public void updateDataVector(HashMap<Artikel, Integer> warenkorb) {
 		
 		String[] columnNames = {"Nummer",
                 "Name",
@@ -29,15 +29,13 @@ public class WarenkorbTableModell extends DefaultTableModel {
                 "Anzahl",
                 "Gesamtpreis"};
 		
-		data = new Object[liste.size()][5];
-		int i = 0;
-		for (Artikel a:liste) {
-			String[] row = { ""  + a.getNummer(), a.getName(), "" + a.getPreis(), "" + w.getAnzahl(), "" + a.getPackungsgroesse() };
+		data = new Object[warenkorb.size()][5];
+		int i =0;
+		for(Artikel key : ( warenkorb).keySet()){
+			String[] row = {"" + key.getNummer(), key.getName(), "" + key.getPreis(), "" + warenkorb.get(key), "" + key.getPreis()*warenkorb.get(key) };
 			data[i++] = row;
 		}
-		i = 0;
-		
 		setDataVector(data, columnNames);
 	}
 }
-}
+

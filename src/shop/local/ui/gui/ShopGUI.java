@@ -10,6 +10,7 @@ import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import shop.local.domain.EreignisVerwaltung;
 import shop.local.domain.ShopVerwaltung;
 import shop.local.domain.exceptions.InkorrekteRegWerteException;
 import shop.local.domain.exceptions.LoginFehlgeschlagenException;
@@ -36,6 +38,7 @@ public class ShopGUI extends JFrame {
 	private static final long serialVersionUID = 5711673086933143461L;
 	ShopVerwaltung shopVer;
 	User aktuellerBenutzer;
+	Kunde kunde = null;
 	
 	// fuer die menue leiste
 	private MenuItem menuItemQuit;
@@ -78,8 +81,8 @@ public class ShopGUI extends JFrame {
 	
 	// Textbereich für Lognachrichten
 	
-	public ShopGUI() {
-		super("SteinShop");
+	public ShopGUI(String s) {
+		super(s);
 		shopVer = new ShopVerwaltung();
 		// beim Start des Programms auf null gesetzt, durch login wird Benutzer hier gespeichert
 		aktuellerBenutzer = null;
@@ -112,7 +115,7 @@ public class ShopGUI extends JFrame {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		ShopGUI shop = new ShopGUI();
+		ShopGUI shop = new ShopGUI("SteinShop");
 		try {
 			shop.run();
 		}
@@ -148,7 +151,7 @@ public class ShopGUI extends JFrame {
 		menuItemQuit = new MenuItem("Beenden");
 		// Menüeintrag zum Menü hinzufügen
 		menuDatei.add(menuItemQuit);
-		menuDatei.addSeparator();
+//		menuDatei.addSeparator();
 		// Menü zur MenuBar hinzufügen
 		menubar.add(menuDatei);
 		
@@ -275,7 +278,7 @@ public class ShopGUI extends JFrame {
 				try {
 					aktuellerBenutzer = userLogin(UserListe, name, pw);
 					if (aktuellerBenutzer instanceof Kunde) {
-						Kunde kunde = (Kunde)aktuellerBenutzer;
+						kunde = (Kunde)aktuellerBenutzer;
 						frame.cardLayout.show(westPanel, "kundeMenu");
 						frame.cardLayout.show(centerPanel, "artikelPanel");
 						// Warenkorb Panel erstellen und hinzufügen
@@ -336,6 +339,7 @@ public class ShopGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				aktuellerBenutzer = null;
+				kunde = null;
 				frame.eastPanel.setVisible(true);
 				frame.cardLayout.show(eastPanel, "regPanel");
 				frame.cardLayout.show(centerPanel, "loginPanel");
@@ -380,6 +384,9 @@ public class ShopGUI extends JFrame {
 			public void actionPerformed(ActionEvent ae) {
 				try {
 					shopVer.artikelInWarenkorb(artInWPanel.getArtikelNummer(), artInWPanel.getMenge(), aktuellerBenutzer);
+					HashMap<Artikel, Integer> warenkorbListe = kunde.getWarenkorb().getInhalt();
+					WarenkorbTableModell wtm = (WarenkorbTableModell) warenkorbPanel.warenkorbListe.getModel();
+					wtm.updateDataVector(warenkorbListe);
 					frame.cardLayout.show(westPanel, "kundeMenu");
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -421,7 +428,10 @@ public class ShopGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				try {
-					shopVer.artikelAusWarenkorb(artAusWPanel.getArtikelNummer(), (Kunde)aktuellerBenutzer);
+					shopVer.artikelAusWarenkorb(artAusWPanel.getArtikelNummer(), (Kunde)aktuellerBenutzer);					
+					HashMap<Artikel, Integer> warenkorbListe = kunde.getWarenkorb().getInhalt();
+					WarenkorbTableModell wtm = (WarenkorbTableModell) warenkorbPanel.warenkorbListe.getModel();
+					wtm.updateDataVector(warenkorbListe);
 					frame.cardLayout.show(westPanel, "kundeMenu");
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -435,6 +445,9 @@ public class ShopGUI extends JFrame {
 			public void actionPerformed(ActionEvent ae) {
 				try {
 					shopVer.warenkorbLeeren((Kunde)aktuellerBenutzer);
+					HashMap<Artikel, Integer> warenkorbListe = kunde.getWarenkorb().getInhalt();
+					WarenkorbTableModell wtm = (WarenkorbTableModell) warenkorbPanel.warenkorbListe.getModel();
+					wtm.updateDataVector(warenkorbListe);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

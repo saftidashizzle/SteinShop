@@ -1,17 +1,13 @@
 package shop.local.ui.gui;
 
 import java.util.List;
-import java.util.Vector;
 
-import javax.swing.JTable;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
 import shop.local.valueobjects.Artikel;
+import shop.local.valueobjects.Ereignis;
 
 public class ArtikelTableModell extends DefaultTableModel {
-	JTable artikelListe;
 	Object[][] data;
 	int rowCount;	
 	
@@ -20,6 +16,12 @@ public class ArtikelTableModell extends DefaultTableModel {
 		rowCount = data.length;
 		
 	}
+	/*
+	 * Ziel: Ein Table Modell für: Artikel, Benutzer, Ereignisse, Warenkorb
+	 * 
+	 * Mehrere updateDAtaVector funktionen: je nachdem was für ein Typ von Liste übergeben wird
+	 * 
+	 */
 	public void updateDataVector(List<Artikel> liste) {
 			
 			String[] columnNames = {"Nummer",
@@ -27,7 +29,6 @@ public class ArtikelTableModell extends DefaultTableModel {
 	                "Anzahl",
 	                "Einzelpreis",
 	                "Packungsgröße"};
-			
 			data = new Object[liste.size()][5];
 			int i = 0;
 			for (Artikel a:liste) {
@@ -37,5 +38,5 @@ public class ArtikelTableModell extends DefaultTableModel {
 			i = 0;
 			
 			setDataVector(data, columnNames);
-		}
+	}
 }

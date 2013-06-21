@@ -14,6 +14,7 @@ import shop.local.domain.exceptions.ArtikelMengeInkorrektException;
 import shop.local.domain.exceptions.ArtikelMengeReichtNichtException;
 import shop.local.domain.exceptions.ArtikelNichtVerfuegbarException;
 import shop.local.domain.exceptions.InkorrekteRegWerteException;
+import shop.local.domain.exceptions.LoginFehlgeschlagenException;
 import shop.local.domain.exceptions.MitarbeiterNichtVorhandenException;
 import shop.local.domain.exceptions.WarenkorbExceedsArtikelbestandException;
 import shop.local.domain.exceptions.WarenkorbIstLeerException;
@@ -278,5 +279,8 @@ public class ShopVerwaltung {
 		Artikel a = artVer.findArtikelByNumber(artID);
 		erVer.ereignisEinfuegen(aktuellerBenutzer, a, a.getMenge(), "Artikel gelöscht.");
 		artVer.loescheArtikel(a);		
+	}
+	public User userLogin(String name, String passwort) throws LoginFehlgeschlagenException {
+		return userVer.userLogin(name, passwort);
 	}
 }

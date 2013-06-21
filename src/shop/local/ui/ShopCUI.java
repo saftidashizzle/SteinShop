@@ -80,7 +80,6 @@ public class ShopCUI {
 	 * @throws IOException
 	 */
 	private void menueNichtEingeloggt() throws IOException {
-		List<User> UserListe = shopVer.gibAlleUser();
 		System.out.println("e) Einloggen\n" +
 				"r) Registriere Kunden Account\n" +
 				"q) Beenden");
@@ -91,7 +90,7 @@ public class ShopCUI {
 			System.out.println("Dein Passwort?");	
 			String passwort = liesEingabe();
 			try {
-				aktuellerBenutzer = userLogin(UserListe, name, passwort);
+				aktuellerBenutzer = userLogin(name, passwort);
 			} catch (Exception e) {
 				System.out.println(e);
 			}
@@ -169,15 +168,8 @@ public class ShopCUI {
 	 * @param passwort Passwort der Person, die sich einloggen möchte
 	 * @return gibt das Benutzerobjekt zurück, wenn der Login geklappt hat, ansonsten null
 	 */
-	private User userLogin(List<User> liste, String name, String passwort) throws LoginFehlgeschlagenException{
-		Iterator<User> it = liste.iterator();
-		while  (it.hasNext()) {
-			User user = it.next();
-			if(user.getName().equals(name) && (user.getPasswort().equals(passwort))){
-				return user;
-			}
-		}
-		throw new LoginFehlgeschlagenException();
+	private User userLogin(String name, String passwort) throws LoginFehlgeschlagenException{
+		return shopVer.userLogin(name, passwort);
 	}
 	/**
 	 * Methode, die ein Mitarbeiter-spezifisches Menue ausgibt.

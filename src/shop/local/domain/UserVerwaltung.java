@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Vector;
 
 import shop.local.domain.exceptions.InkorrekteRegWerteException;
+import shop.local.domain.exceptions.LoginFehlgeschlagenException;
 import shop.local.domain.exceptions.MitarbeiterNichtVorhandenException;
 import shop.local.valueobjects.Kunde;
 import shop.local.valueobjects.Mitarbeiter;
@@ -147,6 +148,16 @@ public class UserVerwaltung implements Serializable {
 					e.printStackTrace();
 				}
 		}
+	}
+	public User userLogin(String name, String passwort) throws LoginFehlgeschlagenException {
+		Iterator<User> it = userBestand.iterator();
+		while  (it.hasNext()) {
+			User user = it.next();
+			if(user.getName().equals(name) && (user.getPasswort().equals(passwort))){
+				return user;
+			}
+		}
+		throw new LoginFehlgeschlagenException();
 	}	
 
 }

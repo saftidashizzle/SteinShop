@@ -270,11 +270,10 @@ public class ShopGUI extends JFrame {
 		ActionListener listenerLogin = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				List<User> UserListe = shopVer.gibAlleUser();
 				String name = loginPanel.getUserName();
 				String pw = loginPanel.getPasswort();
 				try {
-					aktuellerBenutzer = userLogin(UserListe, name, pw);
+					aktuellerBenutzer = shopVer.userLogin(name, pw);
 					if (aktuellerBenutzer instanceof Kunde) {
 						kunde = (Kunde)aktuellerBenutzer;
 						frame.cardLayout.show(westPanel, "kundeMenu");
@@ -676,23 +675,5 @@ public class ShopGUI extends JFrame {
 			}
 		};
 		mitarbeiterMenuPanel.addActionListenerProtokoll(listenerArtMengVer);
-	}
-	/**
-	 * Methode für Userlogin
-	 * @param liste Userliste
-	 * @param name Eingegebener Name
-	 * @param passwort eingegebenes Passwort
-	 * @return liefert den angemeldeten User
-	 * @throws LoginFehlgeschlagenException
-	 */
-	private User userLogin(List<User> liste, String name, String passwort) throws LoginFehlgeschlagenException{
-		Iterator<User> it = liste.iterator();
-		while  (it.hasNext()) {
-			User user = it.next();
-			if(user.getName().equals(name) && (user.getPasswort().equals(passwort))){
-				return user;
-			}
-		}
-		throw new LoginFehlgeschlagenException();
 	}
 }

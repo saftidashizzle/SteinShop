@@ -19,7 +19,6 @@ public class ArtikelPanel extends JPanel {
 	private static final long serialVersionUID = 953509472024081560L;
 
 	JScrollPane artikelScroll;
-//	ArtikelTableModell model;
 	JTable artikelListe;
 	Object[][] data;
 	TableModel model;
@@ -32,7 +31,6 @@ public class ArtikelPanel extends JPanel {
 		this.add(artikelScroll);
 	}
 	public void fill(List<Artikel> liste) {
-//		final int rowCount = liste.size();
 		String[] columnNames = {"Nummer",
                 "Name",
                 "Anzahl",
@@ -48,25 +46,6 @@ public class ArtikelPanel extends JPanel {
 		i = 0;
 		model = new ArtikelTableModell(data, columnNames);
 		
-		// anonyme klasse
-//		model = new DefaultTableModel(data, columnNames);
-//        artikelListe = new JTable(model) {
-//            /**
-//			 * 
-//			 */
-//			private static final long serialVersionUID = -9187534973180919697L;
-//
-//			public boolean isCellEditable(int x, int y) {
-//                return false;
-//            }
-//			public int getColumnCount() {
-//				return 5;
-//			}
-//			public int getRowCount() {
-//				return rowCount;
-//			}
-//        };
-        
 		artikelListe = new JTable(model);
 		artikelScroll = new JScrollPane(artikelListe);
 	}

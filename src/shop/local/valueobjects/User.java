@@ -12,6 +12,10 @@ import java.io.Serializable;
 
 
 public abstract class User implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -202117093157771368L;
 	protected String name;
 	protected String passwort;
 	protected int nr;
@@ -67,5 +71,13 @@ public abstract class User implements Serializable {
 	 */
 	public String getAdresse() {
 		return null;
+	}
+
+	public String getAnrede() {
+		return anrede;
+	}
+
+	public String getVorUndZuName() {
+		return vorUndZuName;
 	}
 }

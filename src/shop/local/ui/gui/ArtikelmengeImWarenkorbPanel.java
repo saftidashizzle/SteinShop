@@ -26,7 +26,7 @@ public class ArtikelmengeImWarenkorbPanel extends JPanel {
 		artnrTextfield = new JTextField();
 		this.add(artnrTextfield);
 		
-		this.add(new JLabel("Neue Menge: "));
+		this.add(new JLabel("Um wieviel verändern?: "));
 		mengeTextfield = new JTextField();
 		this.add(mengeTextfield);
 		

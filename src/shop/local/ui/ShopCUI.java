@@ -38,9 +38,7 @@ public class ShopCUI {
 		ShopCUI shop = new ShopCUI();
 //		shop.shopVer.fuegeArtikelEin("EINSTEIN", 1.99, null, 12);
 //		shop.shopVer.fuegeArtikelEin("SECHSSTEIN", 9.99, null, 48, 6);
-
-//		shop.shopVer.fuegeUserEin("Kunde", "123", "Herr", "Axel Schweiss","Elbenweg 3", 1337, "Bruchtal", "Mittelerde");
-//		shop.shopVer.fuegeUserEin("Mitarbeiter", "123", "Herr", "Voll iDiot");		
+		
 		try {
 			shop.run();
 		}
@@ -56,6 +54,8 @@ public class ShopCUI {
 	public void run() {
 		try {
 			shopVer.ladeDaten();
+//			shopVer.fuegeUserEin("Kunde", "123", "Herr", "Axel Schweiss","Elbenweg 3", 13337, "Bruchtal", "Mittelerde");
+//			shopVer.fuegeUserEin("Mitarbeiter", "123", "Herr", "Voll iDiot");
 			gibMenue();
 			shopVer.speichereDaten();
 		} catch (Exception e) {

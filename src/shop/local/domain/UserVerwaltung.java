@@ -12,10 +12,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import shop.local.domain.exceptions.ArtikelNichtVerfuegbarException;
 import shop.local.domain.exceptions.InkorrekteRegWerteException;
 import shop.local.domain.exceptions.MitarbeiterNichtVorhandenException;
-import shop.local.valueobjects.Artikel;
 import shop.local.valueobjects.Kunde;
 import shop.local.valueobjects.Mitarbeiter;
 import shop.local.valueobjects.User;
@@ -28,6 +26,10 @@ import shop.local.valueobjects.User;
 
 
 public class UserVerwaltung implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8982487175917305106L;
 	private List<User> userBestand = new Vector<User>();
 	private int laufnr = 0;
 	/**

@@ -3,7 +3,6 @@ package shop.local.ui.gui;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Menu;
 import java.awt.MenuBar;
 import java.awt.MenuItem;
@@ -19,7 +18,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import shop.local.domain.EreignisVerwaltung;
 import shop.local.domain.ShopVerwaltung;
 import shop.local.domain.exceptions.InkorrekteRegWerteException;
 import shop.local.domain.exceptions.LoginFehlgeschlagenException;
@@ -408,6 +406,9 @@ public class ShopGUI extends JFrame {
 			public void actionPerformed(ActionEvent ae) {
 				try {
 					shopVer.artikelMengeImWarenkorbAendern(artMengeInWPanel.getArtikelNummer(), artMengeInWPanel.getMenge(), (Kunde)aktuellerBenutzer);
+					HashMap<Artikel, Integer> warenkorbListe = kunde.getWarenkorb().getInhalt();
+					WarenkorbTableModell wtm = (WarenkorbTableModell) warenkorbPanel.warenkorbListe.getModel();
+					wtm.updateDataVector(warenkorbListe);
 					frame.cardLayout.show(westPanel, "kundeMenu");
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -508,6 +509,8 @@ public class ShopGUI extends JFrame {
 		ActionListener listenerNewArt = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				frame.cardLayout.show(centerPanel, "mitarbeiterPanel");
+				frame.mitarbeiterPanel.tabbedPane.setSelectedIndex(0);
 				frame.cardLayout.show(westPanel, "newArtPanel");
 				frame.pack();
 			}
@@ -543,6 +546,8 @@ public class ShopGUI extends JFrame {
 		ActionListener listenerArtMeng = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				frame.cardLayout.show(centerPanel, "mitarbeiterPanel");
+				frame.mitarbeiterPanel.tabbedPane.setSelectedIndex(0);
 				frame.cardLayout.show(westPanel, "artMengPanel");
 				frame.pack();
 			}
@@ -570,6 +575,8 @@ public class ShopGUI extends JFrame {
 		ActionListener listenerDelArt = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				frame.cardLayout.show(centerPanel, "mitarbeiterPanel");
+				frame.mitarbeiterPanel.tabbedPane.setSelectedIndex(0);
 				frame.cardLayout.show(westPanel, "artDelPanel");
 				frame.pack();
 			}
@@ -594,7 +601,9 @@ public class ShopGUI extends JFrame {
 		// Listener für Mitarbeiter Registrieren
 		ActionListener listenerMitReg = new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent ae) {
+			public void actionPerformed(ActionEvent ae) {				
+				frame.cardLayout.show(centerPanel, "mitarbeiterPanel");
+				frame.mitarbeiterPanel.tabbedPane.setSelectedIndex(1);
 				frame.cardLayout.show(westPanel, "mitRegPanel");
 				frame.pack();
 			}
@@ -612,7 +621,9 @@ public class ShopGUI extends JFrame {
 					String vorUndZuName = mitRegPanel.getName();
 					if (pw1.equals(pw2)) {
 						shopVer.fuegeUserEin(name, pw1, anrede, vorUndZuName);
-						frame.cardLayout.show(westPanel, "kundeMenu");
+						userListe = shopVer.gibAlleUser();	
+						mitarbeiterPanel.updateUserListe(userListe);
+						frame.cardLayout.show(westPanel, "mitarbeiterMenu");
 						frame.pack();
 					} else {
 						JOptionPane.showMessageDialog(null, "Passwort stimmt nicht überein."); 
@@ -627,6 +638,8 @@ public class ShopGUI extends JFrame {
 		ActionListener listenerUsrDel = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				frame.cardLayout.show(centerPanel, "mitarbeiterPanel");
+				frame.mitarbeiterPanel.tabbedPane.setSelectedIndex(1);
 				frame.cardLayout.show(westPanel, "usrDelPanel");
 				frame.pack();
 			}
@@ -639,7 +652,9 @@ public class ShopGUI extends JFrame {
 				int userNr = usrDelPanel.getUserNummer();
 				try {
 					shopVer.loescheUser(userNr, aktuellerBenutzer);
-					frame.cardLayout.show(westPanel, "kundeMenu");
+					userListe = shopVer.gibAlleUser();	
+					mitarbeiterPanel.updateUserListe(userListe);
+					frame.cardLayout.show(westPanel, "mitarbeiterMenu");
 					frame.pack();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -651,7 +666,6 @@ public class ShopGUI extends JFrame {
 		ActionListener listenerArtMengVer = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				//TODO gewünschte ArtikelID einlesen und übergeben
 				Artikel a = artikelListe.get(0);
 				List<Ereignis> artikelVerlauf = shopVer.erVer.gibEreignisseNachArtikelUndTagen(a);
 				protokollPanel = new ArtikelProtokollPanel(artikelVerlauf);

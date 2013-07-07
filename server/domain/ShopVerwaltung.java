@@ -68,7 +68,7 @@ public class ShopVerwaltung {
 	 * @param name Name des einzufügenden Users.
 	 * @param passwort Passwort des einzufügenden User.
 	 */
-	public void fuegeUserEin(String name, String passwort, String anrede, String vorUndZuName)  throws InkorrekteRegWerteException{
+	public void fuegeUserEin(String name, char[] passwort, String anrede, String vorUndZuName)  throws InkorrekteRegWerteException{
 		userVer.einfuegen(name, passwort, anrede, vorUndZuName);	
 	}
 	/**
@@ -77,7 +77,7 @@ public class ShopVerwaltung {
 	 * @param passwort Passwort des einzufügenden User.
 	 * @param angestellt Boolean, ob der neue Nutzer ein Mitarbeiter ist. True: Mitarbeiter, False: Kunde.
 	 */
-	public void fuegeUserEin(String name, String passwort, String anrede, String vorUndZuName, String strasse, int plz, String ort, String land) throws InkorrekteRegWerteException { 
+	public void fuegeUserEin(String name, char[] passwort, String anrede, String vorUndZuName, String strasse, int plz, String ort, String land) throws InkorrekteRegWerteException { 
 		userVer.einfuegen(name, passwort, anrede, vorUndZuName, strasse, plz, ort, land);	
 	}
 	/**
@@ -280,7 +280,7 @@ public class ShopVerwaltung {
 		erVer.ereignisEinfuegen(aktuellerBenutzer, a, a.getMenge(), "Artikel gelöscht.");
 		artVer.loescheArtikel(a);		
 	}
-	public User userLogin(String name, String passwort) throws LoginFehlgeschlagenException {
+	public User userLogin(String name, char[] passwort) throws LoginFehlgeschlagenException {
 		return userVer.userLogin(name, passwort);
 	}
 }

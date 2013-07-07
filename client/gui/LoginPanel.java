@@ -48,7 +48,7 @@ public class LoginPanel extends JPanel {
 	 * Fügt einen ActionListener zu dieser Komponente (dem regButton) hinzu
 	 * @param a
 	 */
-	public void addActionListenerReg(ActionListener a) {
+	public void addActionListenerRegistieren(ActionListener a) {
 		this.regButton.addActionListener(a);
 	}
 	/**
@@ -62,8 +62,8 @@ public class LoginPanel extends JPanel {
 	 * Getter für Passwort
 	 * @return String Passwort
 	 */
-	public String getPasswort() {
-		return this.pwTextfield.getText();
+	public char[] getPasswort() {
+		return this.pwTextfield.getPassword();
 	}
 
 }

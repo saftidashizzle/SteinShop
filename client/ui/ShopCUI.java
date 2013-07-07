@@ -51,9 +51,10 @@ public class ShopCUI {
 	 */
 	public void run() {
 		try {
-			shopVer.ladeDaten();
-			shopVer.fuegeUserEin("Kunde", "123", "Herr", "Axel Schweiss","Elbenweg 3", 13337, "Bruchtal", "Mittelerde");
-			shopVer.fuegeUserEin("Mitarbeiter", "123", "Herr", "Voll iDiot");
+//			shopVer.ladeDaten();
+			char[] pw = {'1','2','3'};
+			shopVer.fuegeUserEin("Kunde", pw, "Herr", "Axel Schweiss","Elbenweg 3", 13337, "Bruchtal", "Mittelerde");
+			shopVer.fuegeUserEin("Mitarbeiter", pw, "Herr", "Voll iDiot");
 			gibMenue();
 			shopVer.speichereDaten();
 		} catch (Exception e) {
@@ -88,8 +89,9 @@ public class ShopCUI {
 			System.out.println("Dein Passwort?");	
 			String passwort = liesEingabe();
 			try {
-				aktuellerBenutzer = userLogin(name, passwort);
+				aktuellerBenutzer = userLogin(name, passwort.toCharArray());
 			} catch (Exception e) {
+				e.printStackTrace();
 				System.out.println(e);
 			}
 		} else if (eingabe.equals("r")) {
@@ -149,7 +151,7 @@ public class ShopCUI {
 		String ort = liesEingabe();
 		System.out.println("Land:");
 		String land = liesEingabe();
-		this.shopVer.fuegeUserEin(name, passwort, anrede, vorUndZuName, strasse, plz, ort, land);
+		this.shopVer.fuegeUserEin(name, passwort.toCharArray(), anrede, vorUndZuName, strasse, plz, ort, land);
 	}
 	/**
 	 * Methode die, alle Elemente der Artikelliste (siehe artikel.toString()) in der Konsole ausgibt.
@@ -166,7 +168,7 @@ public class ShopCUI {
 	 * @param passwort Passwort der Person, die sich einloggen möchte
 	 * @return gibt das Benutzerobjekt zurück, wenn der Login geklappt hat, ansonsten null
 	 */
-	private User userLogin(String name, String passwort) throws LoginFehlgeschlagenException{
+	private User userLogin(String name, char[] passwort) throws LoginFehlgeschlagenException{
 		return shopVer.userLogin(name, passwort);
 	}
 	/**
@@ -267,7 +269,7 @@ public class ShopCUI {
 		System.out.println("Vor- und Zu-Name:");
 		String vorUndZuName = liesEingabe();
 		try{
-			this.shopVer.fuegeUserEin(benutzername, passwort, anrede, vorUndZuName);
+			this.shopVer.fuegeUserEin(benutzername, passwort.toCharArray(), anrede, vorUndZuName);
 		}
 		catch(Exception e) {
 			System.out.println(e);				

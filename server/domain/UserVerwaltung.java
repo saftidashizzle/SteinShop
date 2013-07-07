@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -37,7 +38,7 @@ public class UserVerwaltung implements Serializable {
 	 * Methode um einen neuen User in die Liste einzufügen.
 	 * @param einUser der neue Nutzer der übergeben wird.
 	 */
-	public void einfuegen(String name, String passwort, String anrede, String vorUndZuName) {
+	public void einfuegen(String name, char[] passwort, String anrede, String vorUndZuName) {
 		int nr = bestimmeNr();
 		User einUser = new Mitarbeiter(name, passwort, nr, anrede, vorUndZuName);
 		userBestand.add(einUser);
@@ -55,7 +56,7 @@ public class UserVerwaltung implements Serializable {
 	public List<User> getUserBestand() {
 		return userBestand;
 	}
-	public void einfuegen(String name, String passwort, String anrede, String vorUndZuName, String strasse, int plz, String ort, String land) throws InkorrekteRegWerteException{
+	public void einfuegen(String name, char[] passwort, String anrede, String vorUndZuName, String strasse, int plz, String ort, String land) throws InkorrekteRegWerteException{
 		if(plz>99999 || plz<10000){
 			throw new InkorrekteRegWerteException();
 		}
@@ -149,12 +150,14 @@ public class UserVerwaltung implements Serializable {
 				}
 		}
 	}
-	public User userLogin(String name, String passwort) throws LoginFehlgeschlagenException {
+	public User userLogin(String name, char[] passwort) throws LoginFehlgeschlagenException {
 		Iterator<User> it = userBestand.iterator();
 		while  (it.hasNext()) {
 			User user = it.next();
-			if(user.getName().equals(name) && (user.getPasswort().equals(passwort))){
-				return user;
+			if(user.getName().equals(name)){
+				if (Arrays.equals(user.getPasswort(),passwort)) {
+					return user;
+				}
 			}
 		}
 		throw new LoginFehlgeschlagenException();

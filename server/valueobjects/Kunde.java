@@ -23,7 +23,7 @@ public class Kunde extends User{
 	 * @param ort
 	 * @param land
 	 */
-	public Kunde(String name, String passwort, int nr, String anrede, String vorUndZuName, String strasse, int plz, String ort, String land) {
+	public Kunde(String name, char[] passwort, int nr, String anrede, String vorUndZuName, String strasse, int plz, String ort, String land) {
 		super(name, passwort, nr, anrede, vorUndZuName);
 		this.strasseUndHausnr = strasse;
 		this.plz = plz;
@@ -43,13 +43,13 @@ public class Kunde extends User{
 	public String getName(){
 		return name;
 	}
-	/**
-	 * Getter für das Passwort
-	 * @return gibt das Passwort des Benutzerobjekts zurück.
-	 */
-	public String getPasswort(){
-		return passwort;
-	}
+//	/**
+//	 * Getter für das Passwort
+//	 * @return gibt das Passwort des Benutzerobjekts zurück.
+//	 */
+//	public char[] getPasswort(){
+//		return passwort;
+//	}
 	/** 
 	 * Methode die die Nummer des Userobjektes zurück gibt.
 	 * @return Die zurückgegebene Nummer.

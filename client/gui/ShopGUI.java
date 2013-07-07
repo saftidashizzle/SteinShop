@@ -173,7 +173,10 @@ public class ShopGUI extends JFrame {
 		// ArtikelPanel fuer Kunde erstellen und hinzufuegen
 		artikelPanel = new ArtikelPanel(artikelListe);
 		artikelPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		centerPanel.add(artikelPanel, "artikelPanel");	
+		centerPanel.add(artikelPanel, "artikelPanel");
+		// Registrierpanel erstellen und hinzufügen
+		regPanel = new RegPanel();
+		centerPanel.add(regPanel, "regPanel");
 		
 		// CenterPanel hinzufügen
 		this.add(centerPanel, BorderLayout.CENTER);
@@ -182,9 +185,6 @@ public class ShopGUI extends JFrame {
 		// CardLayout erstellen fuer EAST
 		eastPanel = new JPanel();
 		eastPanel.setLayout(cardLayout);
-		// Registrierpanel erstellen und hinzufügen
-		regPanel = new RegPanel();
-		eastPanel.add(regPanel, "regPanel");
 		// EastPanel hinzufügen
 		this.add(eastPanel, BorderLayout.EAST);
 
@@ -264,13 +264,23 @@ public class ShopGUI extends JFrame {
 			}
 		};
 		menuItemQuit.addActionListener(listenerQuit);
-		
+
+		// Back Button für Registrier Panel
+		ActionListener listenerBack = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				frame.cardLayout.show(centerPanel, "loginPanel");
+				frame.pack();
+			}
+		};		
+		regPanel.addActionListenerBack(listenerBack);
+
 		// Event Listener für Login Button
 		ActionListener listenerLogin = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				String name = loginPanel.getUserName();
-				String pw = loginPanel.getPasswort();
+				char[] pw = loginPanel.getPasswort();
 				try {
 					aktuellerBenutzer = shopVer.userLogin(name, pw);
 					if (aktuellerBenutzer instanceof Kunde) {
@@ -280,6 +290,7 @@ public class ShopGUI extends JFrame {
 						// Warenkorb Panel erstellen und hinzufügen
 						warenkorbPanel = new WarenkorbPanel(kunde.getWarenkorb());
 						warenkorbPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+						//TODO
 
 						// Listener für zur Kasse Button
 						ActionListener listenerZurKasse = new ActionListener() {
@@ -297,7 +308,9 @@ public class ShopGUI extends JFrame {
 						warenkorbPanel.addActionListenerZurKasse(listenerZurKasse);
 						eastPanel.add(warenkorbPanel, "warenkorbPanel");
 						frame.cardLayout.show(eastPanel, "warenkorbPanel");
-						frame.westPanel.setVisible(true);						
+						frame.westPanel.setVisible(true);		
+						frame.eastPanel.setVisible(true);						
+
 					} else if(aktuellerBenutzer instanceof Mitarbeiter) {
 						frame.westPanel.setVisible(true);
 						frame.eastPanel.setVisible(false);
@@ -312,6 +325,16 @@ public class ShopGUI extends JFrame {
 		};
 		loginPanel.addActionListenerLogin(listenerLogin);
 	
+		// Event Listener für Registrieren Button
+		ActionListener listenerRegistrieren = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				frame.cardLayout.show(centerPanel, "regPanel");
+				frame.pack();
+			}
+		};
+		loginPanel.addActionListenerRegistieren(listenerRegistrieren);
+		
 		// Event Listener für Registrier Button von regPanel
 		ActionListener listenerReg = new ActionListener() {
 			@Override
@@ -328,7 +351,8 @@ public class ShopGUI extends JFrame {
 				} else {
 					System.out.println("Passwort stimmt nicht überein.");
 				}
-			}
+				frame.cardLayout.show(centerPanel, "loginPanel");
+				frame.pack();			}
 		};
 		regPanel.addActionListenerReg(listenerReg);
 		
@@ -338,8 +362,7 @@ public class ShopGUI extends JFrame {
 			public void actionPerformed(ActionEvent ae) {
 				aktuellerBenutzer = null;
 				kunde = null;
-				frame.eastPanel.setVisible(true);
-				frame.cardLayout.show(eastPanel, "regPanel");
+				frame.eastPanel.setVisible(false);
 				frame.cardLayout.show(centerPanel, "loginPanel");
 				frame.westPanel.setVisible(false);
 				frame.pack();
@@ -615,8 +638,8 @@ public class ShopGUI extends JFrame {
 			public void actionPerformed(ActionEvent ae) {
 				try {
 					String name = mitRegPanel.getUserName();
-					String pw1 = mitRegPanel.getPw1();
-					String pw2 = mitRegPanel.getPw2();
+					char[] pw1 = mitRegPanel.getPw1();
+					char[] pw2 = mitRegPanel.getPw2();
 					String anrede = mitRegPanel.getAnrede();
 					String vorUndZuName = mitRegPanel.getName();
 					if (pw1.equals(pw2)) {

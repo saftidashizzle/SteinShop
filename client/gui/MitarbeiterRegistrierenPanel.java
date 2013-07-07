@@ -67,11 +67,11 @@ public class MitarbeiterRegistrierenPanel extends JPanel {
 	public String getUserName() {
 		return this.userNameTextfield.getText();
 	}
-	public String getPw1() {
-		return this.pw1Textfield.getText();
+	public char[] getPw1() {
+		return this.pw1Textfield.getPassword();
 	}
-	public String getPw2() {
-		return this.pw2Textfield.getText();
+	public char[] getPw2() {
+		return this.pw2Textfield.getPassword();
 	}
 	public String getAnrede() {
 		return (String) this.dropdownmenu.getSelectedItem();

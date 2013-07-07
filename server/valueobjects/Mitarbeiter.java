@@ -14,7 +14,7 @@ public class Mitarbeiter extends User {
 	 * @param anrede geerbt von der Klasse User
 	 * @param vorUndZuName geerbt von der Klasse User
 	 */
-	public Mitarbeiter(String name, String passwort, int nr, String anrede, String vorUndZuName) {
+	public Mitarbeiter(String name, char[] passwort, int nr, String anrede, String vorUndZuName) {
 		super(name, passwort, nr, anrede, vorUndZuName);
 	}
 	/**
@@ -30,13 +30,13 @@ public class Mitarbeiter extends User {
 	public String getName(){
 		return name;
 	}
-	/**
-	 * Getter für das Passwort
-	 * @return gibt das Passwort des Benutzerobjekts zurück.
-	 */
-	public String getPasswort(){
-		return passwort;
-	}
+//	/**
+//	 * Getter für das Passwort
+//	 * @return gibt das Passwort des Benutzerobjekts zurück.
+//	 */
+//	public char[] getPasswort(){
+//		return passwort;
+//	}
 	/** 
 	 * Methode die die Nummer des Userobjektes zurück gibt.
 	 * @return Die zurückgegebene Nummer.

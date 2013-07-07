@@ -15,6 +15,7 @@ public class RegPanel extends JPanel {
 	 * 
 	 */
 	private JButton regButton;
+	private JButton backButton;
 	private JTextField userNameTextfield;
 	private JPasswordField pw1Textfield;
 	private JPasswordField pw2Textfield;
@@ -61,6 +62,8 @@ public class RegPanel extends JPanel {
 		this.add(landTextfield);
 		regButton = new JButton("Registrieren");
 		this.add(regButton);
+		backButton = new JButton("Zurück");
+		this.add(backButton);
 		
 	}
 	
@@ -71,14 +74,21 @@ public class RegPanel extends JPanel {
 	public void addActionListenerReg(ActionListener a) {
 		this.regButton.addActionListener(a);
 	}
+	/**
+	 * Fügt einen ActionListener zu dieser Komponente (ergo, dem back Button) hinzu
+	 * @param a
+	 */
+	public void addActionListenerBack(ActionListener a) {
+		this.backButton.addActionListener(a);
+	}
 	public String getUserName() {
 		return this.userNameTextfield.getText();
 	}
-	public String getPw1() {
-		return this.pw1Textfield.getText();
+	public char[] getPw1() {
+		return this.pw1Textfield.getPassword();
 	}
-	public String getPw2() {
-		return this.pw2Textfield.getText();
+	public char[] getPw2() {
+		return this.pw2Textfield.getPassword();
 	}
 	public String getAnrede() {
 		return (String) this.dropdownmenu.getSelectedItem();

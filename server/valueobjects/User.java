@@ -17,7 +17,7 @@ public abstract class User implements Serializable {
 	 */
 	private static final long serialVersionUID = -202117093157771368L;
 	protected String name;
-	protected String passwort;
+	protected char[] passwort;
 	protected int nr;
 	protected String vorUndZuName;
 	protected String anrede;
@@ -30,7 +30,7 @@ public abstract class User implements Serializable {
 	 * @param vorUndZuName2 
 	 * @param anrede2 
 	 */
-	public User(String name, String passwort, int nr, String anrede, String vorUndZuName) {
+	public User(String name, char[] passwort, int nr, String anrede, String vorUndZuName) {
 		this.name = name;
 		this.passwort = passwort;
 		this.nr = nr;
@@ -55,7 +55,7 @@ public abstract class User implements Serializable {
 	 * Getter für das Passwort
 	 * @return gibt das Passwort des Benutzerobjekts zurück.
 	 */
-	public String getPasswort(){
+	public char[] getPasswort(){
 		return passwort;
 	}
 	/** 

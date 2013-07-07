@@ -86,16 +86,18 @@ public class ShopVerwaltung {
 	 * @param titel Titel des einzufügenden Artikels.
 	 * @param nummer Nummer des einzufügenden Artikels.
 	 * @param menge Menge des einzufügenden Artikels
+	 * @return 
 	 * @throws ArtikelNummerFalsch 
 	 */
-	public void artikelInWarenkorb(int artID, int menge, User akteur) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException {	
+	public HashMap<Artikel, Integer> artikelInWarenkorb(int artID, int menge, Kunde akteur) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException {	
 		Artikel a = artVer.findArtikelByNumber(artID);
 		// überprüfe: sind schon mehr in warenkorb als im bestand?
 		try {		
-			warkoVer.artikelInWarenkorb(a, menge, akteur);
+			return warkoVer.artikelInWarenkorb(a, menge, akteur);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}	
+		return null;
 //		erVer.ereignisEinfuegen(akteur, a, menge, "in den Warenkorb getan.");
 	}
 	/**
@@ -247,14 +249,14 @@ public class ShopVerwaltung {
 	 * @param artID
 	 * @param menge bei positiv: hinzufügen, negativ verringern
 	 * @param akteur
+	 * @return 
 	 * @throws ArtikelNichtVerfuegbarException
 	 */
-	public void artikelMengeImWarenkorbAendern(int artID, int menge, Kunde akteur) throws ArtikelNichtVerfuegbarException {			
+	public HashMap<Artikel, Integer> artikelMengeImWarenkorbAendern(int artID, int menge, Kunde akteur) throws ArtikelNichtVerfuegbarException {			
 		Artikel a = artVer.findArtikelByNumber(artID);
-		warkoVer.setArtikelMenge(a, menge, akteur);
+		return warkoVer.setArtikelMenge(a, menge, akteur);
 	}
 	public void einkaufsVerlauf(int artID) throws ArtikelNichtVerfuegbarException {
-		// gibt die artikelmenge des artikels zurueck
 		Artikel a = artVer.findArtikelByNumber(artID);
 		// die soll ich verwenden und bauen
 		List<Ereignis> liste = erVer.gibEreignisseNachArtikelUndTagen(a); // Liste von Ereignissen

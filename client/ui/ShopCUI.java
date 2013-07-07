@@ -51,7 +51,7 @@ public class ShopCUI {
 	 */
 	public void run() {
 		try {
-//			shopVer.ladeDaten();
+			shopVer.ladeDaten();
 			char[] pw = {'1','2','3'};
 			shopVer.fuegeUserEin("Kunde", pw, "Herr", "Axel Schweiss","Elbenweg 3", 13337, "Bruchtal", "Mittelerde");
 			shopVer.fuegeUserEin("Mitarbeiter", pw, "Herr", "Voll iDiot");
@@ -375,7 +375,7 @@ public class ShopCUI {
 				eingabe = liesEingabe();
 				menge = Integer.parseInt(eingabe);
 				try {
-					shopVer.artikelInWarenkorb(artID, menge, aktuellerBenutzer);			
+					shopVer.artikelInWarenkorb(artID, menge,(Kunde) aktuellerBenutzer);			
 				} catch (ArtikelMengeReichtNichtException | ArtikelNichtVerfuegbarException | WarenkorbExceedsArtikelbestandException e) {
 					System.out.println(e);
 				}

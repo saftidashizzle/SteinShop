@@ -17,12 +17,13 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import net.ClientInterfaceImpl;
 import valueobjects.Artikel;
 import valueobjects.Ereignis;
 import valueobjects.Kunde;
 import valueobjects.Mitarbeiter;
+import valueobjects.Rechnung;
 import valueobjects.User;
-import domain.ShopVerwaltung;
 import domain.exceptions.InkorrekteRegWerteException;
 
 
@@ -32,7 +33,7 @@ public class ShopGUI extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 5711673086933143461L;
-	ShopVerwaltung shopVer;
+//	ShopVerwaltung shopVer;
 	User aktuellerBenutzer;
 	Kunde kunde = null;
 	
@@ -66,28 +67,36 @@ public class ShopGUI extends JFrame {
 	
 	// Listen
 	private List<Artikel> artikelListe;
-	private List<User> userListe;
 	private List<Ereignis> ereignisListe;
+	private Object[][] userListe;
 	// Grobe RichtungsPanels
 	private JPanel eastPanel;
 	private JPanel westPanel;
 	private JPanel centerPanel;
     private CardLayout cardLayout = new CardLayout();
+    
+    private ClientInterfaceImpl connection;
 
 	
 	// Textbereich für Lognachrichten
 	
 	public ShopGUI(String s) {
 		super(s);
-		shopVer = new ShopVerwaltung();
+//		shopVer = new ShopVerwaltung();
 		// beim Start des Programms auf null gesetzt, durch login wird Benutzer hier gespeichert
 		aktuellerBenutzer = null;
 		try {
-			shopVer.ladeDaten();
-			// TODO DIese 3 zeilen rauslöschen und folgefehler beseitigen
-			artikelListe = shopVer.gibAlleArtikel();
-			userListe = shopVer.gibAlleUser();
-			ereignisListe = shopVer.gibProtokollListe();
+			connection = new ClientInterfaceImpl();
+			
+			try {
+				connection.connectToServer();
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(this, e.getMessage());
+			}
+			
+			artikelListe = connection.gibAlleArtikel();
+			userListe = connection.gibAlleUser();
+			ereignisListe = connection.gibProtokollListe();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -107,6 +116,9 @@ public class ShopGUI extends JFrame {
 		
 		// Zuletzt schalten wir den Frame auf "sichtbar"
 		this.setVisible(true);
+	}
+	public void logout() {
+		connection.logout();
 	}
 	/**
 	 * @param args
@@ -238,6 +250,8 @@ public class ShopGUI extends JFrame {
 		// Top Panel und Bot Panel erstellen und hinzufügen
 		topPanel = new TopPanel();
 		this.add(topPanel, BorderLayout.NORTH);
+		
+		// Bottom Panel 
 		botPanel = new BottomPanel();
 		this.add(botPanel, BorderLayout.SOUTH);
 	}
@@ -260,6 +274,7 @@ public class ShopGUI extends JFrame {
 			public void actionPerformed(ActionEvent ae) {
 				// Anwendung beenden
 				frame.setVisible(false);
+				logout();
 				frame.dispose();
 			}
 		};
@@ -282,7 +297,7 @@ public class ShopGUI extends JFrame {
 				String name = loginPanel.getUserName();
 				char[] pw = loginPanel.getPasswort();
 				try {
-					aktuellerBenutzer = shopVer.userLogin(name, pw);
+					aktuellerBenutzer = connection.userLogin(name, pw);
 					if (aktuellerBenutzer instanceof Kunde) {
 						kunde = (Kunde)aktuellerBenutzer;
 						frame.cardLayout.show(westPanel, "kundeMenu");
@@ -290,8 +305,7 @@ public class ShopGUI extends JFrame {
 						// Warenkorb Panel erstellen und hinzufügen
 						warenkorbPanel = new WarenkorbPanel(kunde.getWarenkorb());
 						warenkorbPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-						//TODO
-
+						
 						// Listener für zur Kasse Button
 						ActionListener listenerZurKasse = new ActionListener() {
 							@Override
@@ -299,7 +313,7 @@ public class ShopGUI extends JFrame {
 								try {
 									// TODO Artikelliste und warenkorb aktualisieren 
 									// anschließend rechnung ausgeben
-									shopVer.rechnungErstellen((Kunde)aktuellerBenutzer);
+									Rechnung re = connection.rechnungErstellen((Kunde)aktuellerBenutzer);
 								} catch (Exception e) {
 									e.printStackTrace();
 								}
@@ -319,6 +333,7 @@ public class ShopGUI extends JFrame {
 					}
 					frame.pack();
 				} catch (Exception e) {
+					System.out.println(e);
 					e.printStackTrace();
 				}
 			}
@@ -341,7 +356,7 @@ public class ShopGUI extends JFrame {
 			public void actionPerformed(ActionEvent ae) {
 				if(regPanel.getPw1().equals(regPanel.getPw2())) {
 					try {
-						frame.shopVer.fuegeUserEin(regPanel.getUserName(), regPanel.getPw1(), regPanel.getAnrede(), regPanel.getName(), regPanel.getStr(), Integer.parseInt(regPanel.getPlz()), regPanel.getOrt(), regPanel.getLand());
+						frame.connection.fuegeUserEin(regPanel.getUserName(), regPanel.getPw1(), regPanel.getAnrede(), regPanel.getName(), regPanel.getStr(), Integer.parseInt(regPanel.getPlz()), regPanel.getOrt(), regPanel.getLand());
 						System.out.println("Benutzer erstellt.");
 						} catch (NumberFormatException e) {
 						e.printStackTrace();
@@ -404,8 +419,7 @@ public class ShopGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				try {
-					shopVer.artikelInWarenkorb(artInWPanel.getArtikelNummer(), artInWPanel.getMenge(), aktuellerBenutzer);
-					HashMap<Artikel, Integer> warenkorbListe = kunde.getWarenkorb().getInhalt();
+					HashMap<Artikel, Integer> warenkorbListe = connection.artikelInWarenkorb(artInWPanel.getArtikelNummer(), artInWPanel.getMenge(), (Kunde)aktuellerBenutzer);
 					WarenkorbTableModell wtm = (WarenkorbTableModell) warenkorbPanel.warenkorbListe.getModel();
 					wtm.updateDataVector(warenkorbListe);
 					frame.cardLayout.show(westPanel, "kundeMenu");
@@ -428,8 +442,7 @@ public class ShopGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				try {
-					shopVer.artikelMengeImWarenkorbAendern(artMengeInWPanel.getArtikelNummer(), artMengeInWPanel.getMenge(), (Kunde)aktuellerBenutzer);
-					HashMap<Artikel, Integer> warenkorbListe = kunde.getWarenkorb().getInhalt();
+					HashMap<Artikel, Integer> warenkorbListe = connection.artikelMengeImWarenkorbAendern(artMengeInWPanel.getArtikelNummer(), artMengeInWPanel.getMenge(), (Kunde)aktuellerBenutzer);					
 					WarenkorbTableModell wtm = (WarenkorbTableModell) warenkorbPanel.warenkorbListe.getModel();
 					wtm.updateDataVector(warenkorbListe);
 					frame.cardLayout.show(westPanel, "kundeMenu");
@@ -452,7 +465,7 @@ public class ShopGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				try {
-					shopVer.artikelAusWarenkorb(artAusWPanel.getArtikelNummer(), (Kunde)aktuellerBenutzer);					
+					connection.artikelAusWarenkorb(artAusWPanel.getArtikelNummer(), (Kunde)aktuellerBenutzer);					
 					HashMap<Artikel, Integer> warenkorbListe = kunde.getWarenkorb().getInhalt();
 					WarenkorbTableModell wtm = (WarenkorbTableModell) warenkorbPanel.warenkorbListe.getModel();
 					wtm.updateDataVector(warenkorbListe);
@@ -468,7 +481,7 @@ public class ShopGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				try {
-					shopVer.warenkorbLeeren((Kunde)aktuellerBenutzer);
+					connection.warenkorbLeeren((Kunde)aktuellerBenutzer);
 					HashMap<Artikel, Integer> warenkorbListe = kunde.getWarenkorb().getInhalt();
 					WarenkorbTableModell wtm = (WarenkorbTableModell) warenkorbPanel.warenkorbListe.getModel();
 					wtm.updateDataVector(warenkorbListe);
@@ -483,8 +496,8 @@ public class ShopGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				try {
-					shopVer.artikelNachNamenOrdnen();
-					artikelListe = shopVer.gibAlleArtikel();
+					connection.artikelNachNamenOrdnen();
+					artikelListe = connection.gibAlleArtikel();
 					ArtikelTableModell atm = (ArtikelTableModell) artikelPanel.artikelListe.getModel();
 					atm.updateDataVector(artikelListe);
 				} catch (Exception e) {
@@ -498,8 +511,8 @@ public class ShopGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				try {
-					shopVer.artikelNachZahlenOrdnen();
-					artikelListe = shopVer.gibAlleArtikel();
+					connection.artikelNachZahlenOrdnen();
+					artikelListe = connection.gibAlleArtikel();
 					ArtikelTableModell atm = (ArtikelTableModell) artikelPanel.artikelListe.getModel();
 					atm.updateDataVector(artikelListe);
 				} catch (Exception e) {
@@ -549,12 +562,12 @@ public class ShopGUI extends JFrame {
 				int packungsGroesse = newArtPanel.getPackungsgroesse();
 				try {
 					if (packungsGroesse <= 1) {
-						shopVer.fuegeArtikelEin(titel, d, aktuellerBenutzer, menge);
-						artikelListe = shopVer.gibAlleArtikel();	
+						connection.fuegeArtikelEin(titel, d, aktuellerBenutzer, menge);
+						artikelListe = connection.gibAlleArtikel();	
 						mitarbeiterPanel.updateArtikelListe(artikelListe);
 					} else {
-						shopVer.fuegeArtikelEin(titel, d, aktuellerBenutzer, menge, packungsGroesse);
-						artikelListe = shopVer.gibAlleArtikel();
+						connection.fuegeArtikelEin(titel, d, aktuellerBenutzer, menge, packungsGroesse);
+						artikelListe = connection.gibAlleArtikel();
 						mitarbeiterPanel.updateArtikelListe(artikelListe);
 					}
 				} catch (Exception e) {
@@ -583,8 +596,8 @@ public class ShopGUI extends JFrame {
 				int nummer = artMengPanel.getNummer();
 				int anzahl = artMengPanel.getMenge();
 				try {
-					shopVer.mengeAendern(nummer, anzahl, aktuellerBenutzer);
-					artikelListe = shopVer.gibAlleArtikel();
+					connection.mengeAendern(nummer, anzahl, aktuellerBenutzer);
+					artikelListe = connection.gibAlleArtikel();
 					mitarbeiterPanel.updateArtikelListe(artikelListe);
 					frame.cardLayout.show(westPanel, "mitarbeiterMenu");
 					frame.pack();
@@ -610,8 +623,8 @@ public class ShopGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				try {
-					shopVer.loescheArtikel(artDelPanel.getArtikelNummer(), aktuellerBenutzer);
-					artikelListe = shopVer.gibAlleArtikel();
+					connection.loescheArtikel(artDelPanel.getArtikelNummer(), aktuellerBenutzer);
+					artikelListe = connection.gibAlleArtikel();
 					mitarbeiterPanel.updateArtikelListe(artikelListe);
 					frame.cardLayout.show(westPanel, "mitarbeiterMenu");
 					frame.pack();	
@@ -643,8 +656,8 @@ public class ShopGUI extends JFrame {
 					String anrede = mitRegPanel.getAnrede();
 					String vorUndZuName = mitRegPanel.getName();
 					if (pw1.equals(pw2)) {
-						shopVer.fuegeUserEin(name, pw1, anrede, vorUndZuName);
-						userListe = shopVer.gibAlleUser();	
+						connection.fuegeUserEin(name, pw1, anrede, vorUndZuName);
+						userListe = connection.gibAlleUser();	
 						mitarbeiterPanel.updateUserListe(userListe);
 						frame.cardLayout.show(westPanel, "mitarbeiterMenu");
 						frame.pack();
@@ -674,8 +687,8 @@ public class ShopGUI extends JFrame {
 			public void actionPerformed(ActionEvent ae) {
 				int userNr = usrDelPanel.getUserNummer();
 				try {
-					shopVer.loescheUser(userNr, aktuellerBenutzer);
-					userListe = shopVer.gibAlleUser();	
+					connection.loescheUser(userNr, aktuellerBenutzer);
+					userListe = connection.gibAlleUser();	
 					mitarbeiterPanel.updateUserListe(userListe);
 					frame.cardLayout.show(westPanel, "mitarbeiterMenu");
 					frame.pack();
@@ -690,7 +703,7 @@ public class ShopGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				Artikel a = artikelListe.get(0);
-				List<Ereignis> artikelVerlauf = shopVer.erVer.gibEreignisseNachArtikelUndTagen(a);
+				List<Ereignis> artikelVerlauf = connection.gibEreignisseNachArtikelUndTagen(a);
 				protokollPanel = new ArtikelProtokollPanel(artikelVerlauf);
 				protokollPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 				centerPanel.add(protokollPanel, "protokollPanel");

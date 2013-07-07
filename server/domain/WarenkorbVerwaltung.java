@@ -14,34 +14,28 @@ public class WarenkorbVerwaltung {
 	/**
 	 * Methode um einen neuen Artikel in die Liste (warenkorb) einzufügen.
 	 * @param einArtikel der Artikel der eingefügt werden soll.
+	 * @return 
 	 * @throws ArtikelMengeReichtNichtException 
 	 */
-	public void artikelInWarenkorb(Artikel einArtikel, int menge, User user) throws ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException, ArtikelNurInEinheitenVerfügbarException {		
-		// neuen Artikel erstellen, in Warenkorb tun 
-		//Artikel einArtikel= new Artikel(artikel.getName(),artID, artikel.getPreis(), menge);
-		//warkoVer.artikelInWarenkorb(einArtikel, akteur);
-		// neue Menge setzen und Ereignis loggen
-		//artikel.setMenge(artikel.getMenge()-menge);
-		//erVer.ereignisEinfuegen(akteur, jahrestag, artikel, artikel.getMenge(), "Artikel in den Warenkorb gelegt.");
-		if (user instanceof Kunde) {
-			Kunde k = (Kunde) user;
-			if(menge<=einArtikel.getMenge()){
-				if (einArtikel instanceof MehrfachArtikel) {
-					MehrfachArtikel b = (MehrfachArtikel) einArtikel;
-					int packungsGroesse = b.getPackungsgroesse();
-					if (menge % packungsGroesse == 0) {
-						k.getWarenkorb().artikelHinzufuegen(einArtikel, menge, einArtikel.getMenge());
-					} else {
-						throw new ArtikelNurInEinheitenVerfügbarException(packungsGroesse);
-					}
-				} else {
+	public HashMap<Artikel, Integer> artikelInWarenkorb(Artikel einArtikel, int menge, Kunde k) throws ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException, ArtikelNurInEinheitenVerfügbarException {		
+		if(menge<=einArtikel.getMenge()){
+			if (einArtikel instanceof MehrfachArtikel) {
+				MehrfachArtikel b = (MehrfachArtikel) einArtikel;
+				int packungsGroesse = b.getPackungsgroesse();
+				if (menge % packungsGroesse == 0) {
 					k.getWarenkorb().artikelHinzufuegen(einArtikel, menge, einArtikel.getMenge());
+					return k.getWarenkorb().getInhalt();
+				} else {
+					throw new ArtikelNurInEinheitenVerfügbarException(packungsGroesse);
 				}
-			} else { // gewollte Menge ist größer als die vorhandene Menge
-				ArtikelMengeReichtNichtException e = new ArtikelMengeReichtNichtException(menge, einArtikel.getMenge());
-				throw e;
+			} else {
+				k.getWarenkorb().artikelHinzufuegen(einArtikel, menge, einArtikel.getMenge());
+				return k.getWarenkorb().getInhalt();
 			}
-		}		
+		} else { // gewollte Menge ist größer als die vorhandene Menge
+			ArtikelMengeReichtNichtException e = new ArtikelMengeReichtNichtException(menge, einArtikel.getMenge());
+			throw e;
+		}
 	}
 	/**
 	 * Methode um einen Artikel aus der Liste (warenkorb) zu löschen.
@@ -54,11 +48,13 @@ public class WarenkorbVerwaltung {
 	 * Methode um die Menge eines Artikels im Warenkorb zu ändern.
 	 * @param nummer Artikelnummer des zu ändernden Artikels.
 	 * @param anzahl Wieviel hinzugefügt werden soll.
+	 * @return 
 	 */
-	public void setArtikelMenge(Artikel a, int anzahl, Kunde user) {
+	public HashMap<Artikel, Integer> setArtikelMenge(Artikel a, int anzahl, Kunde user) {
 		HashMap<Artikel, Integer> w = user.getWarenkorb().getInhalt();
 		int alteMenge = w.remove(a);
 		w.put(a, alteMenge+anzahl);
+		return w;
 	}
 	/**
 	 * Methode um den Warenkorbinhalt auszugeben.

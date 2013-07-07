@@ -1,10 +1,6 @@
 package gui;
 
-import java.util.List;
-
 import javax.swing.table.DefaultTableModel;
-
-import valueobjects.User;
 
 
 public class BenutzerTableModell extends DefaultTableModel {
@@ -21,21 +17,14 @@ public class BenutzerTableModell extends DefaultTableModel {
 		
 	}
 	
-	public void updateDataVector(List<User> liste) {
+	public void updateDataVector(Object[][] liste) {
 			
 			String[] columnNames = {"Name",
 	                "Passwort",
 	                "Nummer",
 	                "Anrede",
 	                "Vor und Nachname"};
-			data = new Object[liste.size()][5];
-			int i = 0;
-			for (User u:liste) {
-				String[] row = { "" + u.getNummer(), ""  + u.getName(), "" + u.getNummer(), "" + u.getAnrede(), "" + u.getVorUndZuName() };
-				data[i++] = row;
-			}
-			i = 0;
 			
-			setDataVector(data, columnNames);
+			setDataVector(liste, columnNames);
 	}
 }

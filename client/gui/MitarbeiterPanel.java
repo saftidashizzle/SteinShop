@@ -21,7 +21,7 @@ public class MitarbeiterPanel extends JPanel {
 	public JTabbedPane tabbedPane;
 	private static final long serialVersionUID = -8768799264538074055L;
 
-	public MitarbeiterPanel(List<Artikel> artikelListe, List<User> benutzerListe, List<Ereignis> protokoll) {
+	public MitarbeiterPanel(List<Artikel> artikelListe, Object[][] benutzerListe, List<Ereignis> protokoll) {
         super(new GridLayout(1, 1));
         
         tabbedPane = new JTabbedPane();
@@ -48,7 +48,7 @@ public class MitarbeiterPanel extends JPanel {
 		ArtikelTableModell atm = (ArtikelTableModell) artikelPanel.artikelListe.getModel();
 		atm.updateDataVector(liste);
 	}
-	public void updateUserListe(List<User> userListe) {
+	public void updateUserListe(Object[][] userListe) {
 		BenutzerTableModell atm = (BenutzerTableModell) benutzerPanel.benutzerListe.getModel();
 		atm.updateDataVector(userListe);
 	}

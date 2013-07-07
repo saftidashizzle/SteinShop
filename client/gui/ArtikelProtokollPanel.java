@@ -1,15 +1,19 @@
 package gui;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridLayout;
-import java.awt.RenderingHints;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
 import java.util.List;
 
 import javax.swing.JPanel;
+
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYDotRenderer;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.ui.ApplicationFrame;
 
 import valueobjects.Ereignis;
 
@@ -44,41 +48,47 @@ public class ArtikelProtokollPanel extends JPanel {
 		// schau welche ereignisse alle zu einem tag gehoeren
 		// bilde die summe über deren artikelmenge
 		// trage die summe jeweils in data[i] ein
-		// wenn danach kein ereignis mehr kommt lass die menge gleich
-		
-		
-		
-		
-//		JLabel text = new JLabel("Hallo ich bin die gewünschte Grafik!");
-//		this.add(text);
+		// wenn danach kein ereignis mehr kommt lass die menge gleich		
 	} 
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D)g;
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                            RenderingHints.VALUE_ANTIALIAS_ON);
-        int w = getWidth();
-        int h = getHeight();
-        // Draw ordinate.
-        g2.draw(new Line2D.Double(PAD, PAD, PAD, h-PAD));
-        // Draw abcissa.
-        g2.draw(new Line2D.Double(PAD, h-PAD, w-PAD, h-PAD));
-        double xInc = (double)(w - 2*PAD)/(data.length-1);
-        double scale = (double)(h - 2*PAD)/getMax();
-        // Mark data points.
-        g2.setPaint(Color.red);
-        for(int i = 0; i < data.length; i++) {
-            double x = PAD + i*xInc;
-            double y = h - PAD - scale*data[i];
-            g2.fill(new Ellipse2D.Double(x-2, y-2, 4, 4));
-        }
-    } 
-    private int getMax() {
-        int max = -Integer.MAX_VALUE;
-        for(int i = 0; i < data.length; i++) {
-            if(data[i] > max)
-                max = data[i];
-        }
-		        return max;
-    }	    	
+
+	protected void paintComponent1(Graphics g) {
+		// DATEN
+		// series2 enthaelt Punkte, die verbunden werden
+		XYSeries series1 = new XYSeries("Punkte1");
+		series1.add(0, 0);
+		series1.add(1, 1);
+		series1.add(2, 1);
+		series1.add(3, 2);
+
+		XYSeries series2 = new XYSeries("Punkte2");
+		series2.add(1, 2);
+		series2.add(2, 3);
+		series2.add(3, 4);
+
+		// Hinzufuegen von series1 und series2 zu der Datenmenge dataset
+		XYSeriesCollection dataset2 = new XYSeriesCollection();
+		dataset2.addSeries(series1);
+		dataset2.addSeries(series2);
+		
+		
+		XYDotRenderer dot = new XYDotRenderer();
+		
+		dot.setDotHeight(5);
+		dot.setDotWidth(5);	
+		
+		NumberAxis xax = new NumberAxis("x");
+		NumberAxis yax = new NumberAxis("y");
+		
+		XYPlot plot = new XYPlot(dataset2,xax,yax, dot);
+		
+		JFreeChart chart2 = new JFreeChart(plot);
+		
+		// Erstellen eines Ausgabefensters
+		ApplicationFrame punkteframe = new ApplicationFrame("Punkte"); //"Punkte" entspricht der Ueberschrift des Fensters
+
+		ChartPanel chartPanel2 = new ChartPanel(chart2);
+		punkteframe.setContentPane(chartPanel2);
+		punkteframe.pack();
+		punkteframe.setVisible(true);
+	}    	
 }

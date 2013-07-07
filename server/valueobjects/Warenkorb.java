@@ -21,7 +21,7 @@ public class Warenkorb implements Serializable {
 	 */
 	public void artikelHinzufuegen(Artikel a, int gewuenschteMenge, int mengeNochDa) throws WarenkorbExceedsArtikelbestandException {
 		// Wenn Artikel schon im Warenkorb vorhanden dann Menge erweitern
-		if (warenkorb.containsKey(a)) {
+		if (warenkorb.containsKey(a)) { // WArenkorb hat hier nichtr den gewünschten artikel drin
 			int alteMenge = warenkorb.get(a);
 			if (alteMenge+gewuenschteMenge<=mengeNochDa) {
 				System.out.println("Artikel im Warenkorb");
@@ -58,5 +58,11 @@ public class Warenkorb implements Serializable {
 	 */
 	public HashMap<Artikel, Integer> getInhalt(){
 		return warenkorb;
+	}
+	/** Methode um denn Warenkorb zu setzen
+	 * 
+	 */
+	public void setWarenkorb(HashMap<Artikel, Integer> w) {
+		warenkorb = w;
 	}
 }

@@ -46,11 +46,9 @@ public class EreignisVerwaltung {
 		List<Ereignis> liste = new Vector<Ereignis>();
 
 		Calendar heute = Calendar.getInstance();
-		Calendar ereignis = new GregorianCalendar();
-
+		Calendar ereignis = new GregorianCalendar();		
 		
-		
-		
+		// hier werden alle ereignisse aus protokoll durchgegangen
 		for(Ereignis e:protokoll) {
 			ereignis.setTime(e.getDate());                      // zweiter Zeitpunkt
 			long zeitVergangen = ereignis.getTime().getTime() - heute.getTime().getTime();  // Differenz in ms
@@ -60,7 +58,9 @@ public class EreignisVerwaltung {
 			if(inTagen>30){
 				return liste;
 			} else {
-				liste.add(e); 
+				if(e.getArtikel().getNummer()==a.getNummer()) {
+					liste.add(e);
+				} 
 			}
 		}	
 		return liste;

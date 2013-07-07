@@ -17,7 +17,9 @@ import domain.exceptions.ArtikelMengeInkorrektException;
 import domain.exceptions.ArtikelMengeReichtNichtException;
 import domain.exceptions.ArtikelNichtVerfuegbarException;
 import domain.exceptions.InkorrekteRegWerteException;
+import domain.exceptions.LoginFehlgeschlagenException;
 import domain.exceptions.MitarbeiterNichtVorhandenException;
+import domain.exceptions.UserIstSchonEingeloggtException;
 import domain.exceptions.WarenkorbExceedsArtikelbestandException;
 import domain.exceptions.WarenkorbIstLeerException;
 
@@ -29,7 +31,7 @@ public interface SessionInterface extends Serializable, SimonUnreferenced {
 
 	public Object[][] gibAlleUser();
 
-	public User userLogin(String name, char[] pw);
+	public User userLogin(String name, char[] pw) throws LoginFehlgeschlagenException, UserIstSchonEingeloggtException;
 
 	public List<Artikel> gibAlleArtikel();
 

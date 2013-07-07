@@ -28,7 +28,9 @@ import domain.exceptions.ArtikelMengeInkorrektException;
 import domain.exceptions.ArtikelMengeReichtNichtException;
 import domain.exceptions.ArtikelNichtVerfuegbarException;
 import domain.exceptions.InkorrekteRegWerteException;
+import domain.exceptions.LoginFehlgeschlagenException;
 import domain.exceptions.MitarbeiterNichtVorhandenException;
+import domain.exceptions.UserIstSchonEingeloggtException;
 import domain.exceptions.WarenkorbExceedsArtikelbestandException;
 import domain.exceptions.WarenkorbIstLeerException;
 
@@ -42,6 +44,7 @@ public class ClientInterfaceImpl implements ClientInterface {
 	private Lookup lookup;
 	private ServerInterface server;
 	private SessionInterface session;
+	private User aktuellerBenutzer;
 	
 	private boolean safeLogout = false;
 	
@@ -63,6 +66,7 @@ public class ClientInterfaceImpl implements ClientInterface {
 	
 	public void logout(){
 		safeLogout = true;
+		aktuellerBenutzer=null;
 		// Lookup-Bindung wieder lösen
 		lookup.release(server);
 	}
@@ -70,6 +74,7 @@ public class ClientInterfaceImpl implements ClientInterface {
 	@Override
 	public void unreferenced() {
 		if(!safeLogout){
+			// TODO Fensterwarnung draus machen
 			area.append("Die Verbindung zum Server wurde unerwartet getrennt.\n");
 		}
 	}
@@ -83,8 +88,12 @@ public class ClientInterfaceImpl implements ClientInterface {
 		return session.gibAlleUser();
 	}
 
-	public User userLogin(String name, char[] pw) {
-		return session.userLogin(name,pw);
+	public User userLogin(String name, char[] pw) throws LoginFehlgeschlagenException, UserIstSchonEingeloggtException {
+		aktuellerBenutzer = session.userLogin(name,pw);
+		return aktuellerBenutzer;
+	}
+	public User getUser() {
+		return aktuellerBenutzer;
 	}
 
 	public List<Artikel> gibAlleArtikel() {
@@ -163,7 +172,6 @@ public class ClientInterfaceImpl implements ClientInterface {
 	}
 
 	public List<Ereignis> gibEreignisseNachArtikelUndTagen(Artikel a) {
-		// TODO Auto-generated method stub
 		return session.gibEreignisseNachArtikelUndTagen(a);
 	}
 

@@ -26,7 +26,9 @@ import domain.exceptions.ArtikelMengeInkorrektException;
 import domain.exceptions.ArtikelMengeReichtNichtException;
 import domain.exceptions.ArtikelNichtVerfuegbarException;
 import domain.exceptions.InkorrekteRegWerteException;
+import domain.exceptions.LoginFehlgeschlagenException;
 import domain.exceptions.MitarbeiterNichtVorhandenException;
+import domain.exceptions.UserIstSchonEingeloggtException;
 import domain.exceptions.WarenkorbExceedsArtikelbestandException;
 import domain.exceptions.WarenkorbIstLeerException;
 
@@ -101,13 +103,20 @@ public class ServerInterfaceImpl implements ServerInterface {
 		return data;
 	}
 
-	public User userLogin(String name, char[] pw) {
+	public User userLogin(String name, char[] pw) throws LoginFehlgeschlagenException, UserIstSchonEingeloggtException {
 		User user = null;
-		try {
-			user = shopVer.userLogin(name, pw);
-		} catch (Exception e) {
-			e.printStackTrace();
+		
+		// TODO hier muss überprüft werden, ob der nutzer schon eingeloggt ist
+		user = shopVer.userLogin(name, pw);
+		for (SessionInterface session : sessions){
+			ClientInterface client = session.getClient();
+			User u = client.getUser();
+			System.out.println("u: " + u + "\n user: " + user);
+			if (u!=null && user.getNummer()==u.getNummer()) {
+				throw new UserIstSchonEingeloggtException();
+			}
 		}
+			
 		return user;
 	}
 

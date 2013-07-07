@@ -18,7 +18,9 @@ import domain.exceptions.ArtikelMengeInkorrektException;
 import domain.exceptions.ArtikelMengeReichtNichtException;
 import domain.exceptions.ArtikelNichtVerfuegbarException;
 import domain.exceptions.InkorrekteRegWerteException;
+import domain.exceptions.LoginFehlgeschlagenException;
 import domain.exceptions.MitarbeiterNichtVorhandenException;
+import domain.exceptions.UserIstSchonEingeloggtException;
 import domain.exceptions.WarenkorbExceedsArtikelbestandException;
 import domain.exceptions.WarenkorbIstLeerException;
 
@@ -52,7 +54,7 @@ public class Session implements SessionInterface {
 		return server.gibAlleUser();
 	}
 	@Override
-	public User userLogin(String name, char[] pw) {
+	public User userLogin(String name, char[] pw) throws LoginFehlgeschlagenException, UserIstSchonEingeloggtException {
 		return server.userLogin(name, pw);
 	}
 	@Override

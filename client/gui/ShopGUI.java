@@ -9,6 +9,7 @@ import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -655,7 +656,7 @@ public class ShopGUI extends JFrame {
 					char[] pw2 = mitRegPanel.getPw2();
 					String anrede = mitRegPanel.getAnrede();
 					String vorUndZuName = mitRegPanel.getName();
-					if (pw1.equals(pw2)) {
+					if (Arrays.equals(pw1,pw2)) {
 						connection.fuegeUserEin(name, pw1, anrede, vorUndZuName);
 						userListe = connection.gibAlleUser();	
 						mitarbeiterPanel.updateUserListe(userListe);

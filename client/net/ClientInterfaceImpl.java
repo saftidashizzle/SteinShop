@@ -75,7 +75,8 @@ public class ClientInterfaceImpl implements ClientInterface {
 	public void unreferenced() {
 		if(!safeLogout){
 			// TODO Fensterwarnung draus machen
-			area.append("Die Verbindung zum Server wurde unerwartet getrennt.\n");
+//		    JOptionPane.showMessageDialog(null,"Die Verbindung zum Server wurde unerwartet getrennt.");
+//			area.append("Die Verbindung zum Server wurde unerwartet getrennt.\n");
 		}
 	}
 

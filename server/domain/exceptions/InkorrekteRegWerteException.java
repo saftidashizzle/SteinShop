@@ -7,6 +7,8 @@ public class InkorrekteRegWerteException extends Exception {
 	private static final long serialVersionUID = 1L;
 
 	public InkorrekteRegWerteException() {
-		super("Loginwerte waren inkorrekt");
+	
+	super("Falsche Werte bei der Registrierung.");
+
 	}
 }

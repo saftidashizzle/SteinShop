@@ -25,7 +25,16 @@ import valueobjects.Kunde;
 import valueobjects.Mitarbeiter;
 import valueobjects.Rechnung;
 import valueobjects.User;
+import domain.exceptions.ArtikelAngabenInkorrektException;
+import domain.exceptions.ArtikelMengeInkorrektException;
+import domain.exceptions.ArtikelMengeReichtNichtException;
+import domain.exceptions.ArtikelNichtVerfuegbarException;
 import domain.exceptions.InkorrekteRegWerteException;
+import domain.exceptions.LoginFehlgeschlagenException;
+import domain.exceptions.MitarbeiterNichtVorhandenException;
+import domain.exceptions.UserIstSchonEingeloggtException;
+import domain.exceptions.WarenkorbExceedsArtikelbestandException;
+import domain.exceptions.WarenkorbIstLeerException;
 
 
 public class ShopGUI extends JFrame {
@@ -275,6 +284,7 @@ public class ShopGUI extends JFrame {
 			public void actionPerformed(ActionEvent ae) {
 				// Anwendung beenden
 				frame.setVisible(false);
+				connection.logout();
 				logout();
 				frame.dispose();
 			}
@@ -333,8 +343,11 @@ public class ShopGUI extends JFrame {
 						frame.cardLayout.show(centerPanel, "mitarbeiterPanel");
 					}
 					frame.pack();
-				} catch (Exception e) {
-					System.out.println(e);
+				} catch (LoginFehlgeschlagenException e) {
+					JOptionPane.showMessageDialog(null, e); 
+					e.printStackTrace();
+				} catch (UserIstSchonEingeloggtException e) {
+					JOptionPane.showMessageDialog(null, e); 
 					e.printStackTrace();
 				}
 			}
@@ -362,6 +375,7 @@ public class ShopGUI extends JFrame {
 						} catch (NumberFormatException e) {
 						e.printStackTrace();
 					} catch (InkorrekteRegWerteException e) {
+						JOptionPane.showMessageDialog(null, e); 
 						e.printStackTrace();
 					}
 				} else {
@@ -424,7 +438,14 @@ public class ShopGUI extends JFrame {
 					WarenkorbTableModell wtm = (WarenkorbTableModell) warenkorbPanel.warenkorbListe.getModel();
 					wtm.updateDataVector(warenkorbListe);
 					frame.cardLayout.show(westPanel, "kundeMenu");
-				} catch (Exception e) {
+				} catch (ArtikelNichtVerfuegbarException e) {
+					JOptionPane.showMessageDialog(null, e); 
+					e.printStackTrace();
+				} catch (ArtikelMengeReichtNichtException e) {
+					JOptionPane.showMessageDialog(null, e); 
+					e.printStackTrace();
+				} catch (WarenkorbExceedsArtikelbestandException e) {
+					JOptionPane.showMessageDialog(null, e);
 					e.printStackTrace();
 				}
 			}
@@ -447,7 +468,8 @@ public class ShopGUI extends JFrame {
 					WarenkorbTableModell wtm = (WarenkorbTableModell) warenkorbPanel.warenkorbListe.getModel();
 					wtm.updateDataVector(warenkorbListe);
 					frame.cardLayout.show(westPanel, "kundeMenu");
-				} catch (Exception e) {
+				} catch (ArtikelNichtVerfuegbarException e) {
+					JOptionPane.showMessageDialog(null, e); 
 					e.printStackTrace();
 				}
 			}
@@ -471,7 +493,11 @@ public class ShopGUI extends JFrame {
 					WarenkorbTableModell wtm = (WarenkorbTableModell) warenkorbPanel.warenkorbListe.getModel();
 					wtm.updateDataVector(warenkorbListe);
 					frame.cardLayout.show(westPanel, "kundeMenu");
-				} catch (Exception e) {
+				} catch (ArtikelMengeReichtNichtException e) {
+					JOptionPane.showMessageDialog(null, e); 
+					e.printStackTrace();
+				} catch (ArtikelNichtVerfuegbarException e) {
+					JOptionPane.showMessageDialog(null, e); 
 					e.printStackTrace();
 				}
 			}
@@ -486,7 +512,8 @@ public class ShopGUI extends JFrame {
 					HashMap<Artikel, Integer> warenkorbListe = kunde.getWarenkorb().getInhalt();
 					WarenkorbTableModell wtm = (WarenkorbTableModell) warenkorbPanel.warenkorbListe.getModel();
 					wtm.updateDataVector(warenkorbListe);
-				} catch (Exception e) {
+				} catch (WarenkorbIstLeerException e) {
+					JOptionPane.showMessageDialog(null, e); 
 					e.printStackTrace();
 				}
 			}
@@ -496,14 +523,10 @@ public class ShopGUI extends JFrame {
 		ActionListener listenerArtikelNamen = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				try {
-					connection.artikelNachNamenOrdnen();
-					artikelListe = connection.gibAlleArtikel();
-					ArtikelTableModell atm = (ArtikelTableModell) artikelPanel.artikelListe.getModel();
-					atm.updateDataVector(artikelListe);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				connection.artikelNachNamenOrdnen();
+				artikelListe = connection.gibAlleArtikel();
+				ArtikelTableModell atm = (ArtikelTableModell) artikelPanel.artikelListe.getModel();
+				atm.updateDataVector(artikelListe);
 			}
 		};
 		kundeMenuPanel.addActionListenerArtikelNamen(listenerArtikelNamen);
@@ -511,14 +534,10 @@ public class ShopGUI extends JFrame {
 		ActionListener listenerArtikelNummern = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				try {
-					connection.artikelNachZahlenOrdnen();
-					artikelListe = connection.gibAlleArtikel();
-					ArtikelTableModell atm = (ArtikelTableModell) artikelPanel.artikelListe.getModel();
-					atm.updateDataVector(artikelListe);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				connection.artikelNachZahlenOrdnen();
+				artikelListe = connection.gibAlleArtikel();
+				ArtikelTableModell atm = (ArtikelTableModell) artikelPanel.artikelListe.getModel();
+				atm.updateDataVector(artikelListe);
 			}
 		};
 		kundeMenuPanel.addActionListenerArtikelNummer(listenerArtikelNummern);
@@ -571,7 +590,8 @@ public class ShopGUI extends JFrame {
 						artikelListe = connection.gibAlleArtikel();
 						mitarbeiterPanel.updateArtikelListe(artikelListe);
 					}
-				} catch (Exception e) {
+				} catch (ArtikelAngabenInkorrektException e) {
+					JOptionPane.showMessageDialog(null, e); 
 					e.printStackTrace();
 				}
 				frame.cardLayout.show(westPanel, "mitarbeiterMenu");
@@ -602,7 +622,11 @@ public class ShopGUI extends JFrame {
 					mitarbeiterPanel.updateArtikelListe(artikelListe);
 					frame.cardLayout.show(westPanel, "mitarbeiterMenu");
 					frame.pack();
-				} catch(Exception e) {
+				} catch(ArtikelMengeInkorrektException e) {
+					JOptionPane.showMessageDialog(null, e); 
+					e.printStackTrace();
+				} catch(ArtikelNichtVerfuegbarException e) {
+					JOptionPane.showMessageDialog(null, e); 
 					e.printStackTrace();
 				}
 			}
@@ -629,7 +653,8 @@ public class ShopGUI extends JFrame {
 					mitarbeiterPanel.updateArtikelListe(artikelListe);
 					frame.cardLayout.show(westPanel, "mitarbeiterMenu");
 					frame.pack();	
-				} catch(Exception e) {
+				} catch(ArtikelNichtVerfuegbarException e) {
+					JOptionPane.showMessageDialog(null, e);
 					e.printStackTrace();
 				}
 			}
@@ -665,8 +690,9 @@ public class ShopGUI extends JFrame {
 					} else {
 						JOptionPane.showMessageDialog(null, "Passwort stimmt nicht überein."); 
 					}
-				} catch (Exception e) {
+				} catch (InkorrekteRegWerteException e) {
 					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e); 
 				}
 			}
 		};
@@ -693,7 +719,8 @@ public class ShopGUI extends JFrame {
 					mitarbeiterPanel.updateUserListe(userListe);
 					frame.cardLayout.show(westPanel, "mitarbeiterMenu");
 					frame.pack();
-				} catch (Exception e) {
+				} catch (MitarbeiterNichtVorhandenException e) {
+					JOptionPane.showMessageDialog(null, e);
 					e.printStackTrace();
 				}
 			}

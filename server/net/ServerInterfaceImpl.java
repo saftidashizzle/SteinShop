@@ -105,8 +105,6 @@ public class ServerInterfaceImpl implements ServerInterface {
 
 	public User userLogin(String name, char[] pw) throws LoginFehlgeschlagenException, UserIstSchonEingeloggtException {
 		User user = null;
-		
-		// TODO hier muss überprüft werden, ob der nutzer schon eingeloggt ist
 		user = shopVer.userLogin(name, pw);
 		for (SessionInterface session : sessions){
 			ClientInterface client = session.getClient();
@@ -199,7 +197,6 @@ public class ServerInterfaceImpl implements ServerInterface {
 	}
 
 	public List<Ereignis> gibEreignisseNachArtikelUndTagen(Artikel a) {
-		// TODO Auto-generated method stub
 		return shopVer.erVer.gibEreignisseNachArtikelUndTagen(a);
 	}
 }

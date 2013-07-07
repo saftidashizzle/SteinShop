@@ -52,9 +52,9 @@ public class ShopCUI {
 	public void run() {
 		try {
 			shopVer.ladeDaten();
-			char[] pw = {'1','2','3'};
-			shopVer.fuegeUserEin("Kunde", pw, "Herr", "Axel Schweiss","Elbenweg 3", 13337, "Bruchtal", "Mittelerde");
-			shopVer.fuegeUserEin("Mitarbeiter", pw, "Herr", "Voll iDiot");
+//			char[] pw = {'1','2','3'};
+//			shopVer.fuegeUserEin("Kunde", pw, "Herr", "Axel Schweiss","Elbenweg 3", 13337, "Bruchtal", "Mittelerde");
+//			shopVer.fuegeUserEin("Mitarbeiter", pw, "Herr", "Voll iDiot");
 			gibMenue();
 			shopVer.speichereDaten();
 		} catch (Exception e) {

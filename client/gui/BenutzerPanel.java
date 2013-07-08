@@ -5,7 +5,6 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableModel;
 
@@ -45,16 +44,15 @@ public class BenutzerPanel extends JPanel {
 			}
 		};
 		
-		benutzerListe.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {
-	            		if(e.getValueIsAdjusting()) return;
-	            	        int row = benutzerListe.getSelectedRow()+1;
-	            	        System.out.println("Selected row: "+row);
-	        }            
-        });
+//		benutzerListe.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+//			public void valueChanged(ListSelectionEvent e) {
+//	            		if(e.getValueIsAdjusting()) return;
+//	            	        int row = benutzerListe.getSelectedRow()+1;
+//	            	        System.out.println("Selected row: "+row);
+//	        }            
+//        });
 		
 		benutzerScroll = new JScrollPane(benutzerListe);
-		
 		
 	}
 

@@ -19,6 +19,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import net.ClientInterfaceImpl;
 import valueobjects.Artikel;
@@ -434,6 +436,19 @@ public class ShopGUI extends JFrame {
 		artInWPanel.addActionListenerBack(listenerBack);
 		artMengeInWPanel.addActionListenerBack(listenerBack);
 		artAusWPanel.addActionListenerBack(listenerBack);
+		
+		// Listener für Table Selection (ArtikelListe)
+		ListSelectionListener a = new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+	            		if(e.getValueIsAdjusting()) return;
+	            	        int row = artikelPanel.artikelListe.getSelectedRow();
+	            	        artInWPanel.setArtikeNummer((String) artikelPanel.artikelListe.getValueAt(row, 0));
+	            	        artInWPanel.setArtikelMenge((String) artikelPanel.artikelListe.getValueAt(row, 3));
+	        }            
+        };
+		artikelPanel.addListSelectionListener(a);
+		
+		
 		// Listener für Artikel in Warenkorb Button
 		ActionListener listenerArtikelInWarenkorb = new ActionListener() {
 			@Override

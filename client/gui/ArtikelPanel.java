@@ -6,6 +6,7 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableModel;
 
 import valueobjects.Artikel;
@@ -57,5 +58,9 @@ public class ArtikelPanel extends JPanel {
 			}
 		};
 		artikelScroll = new JScrollPane(artikelListe);
+	}
+
+	public void addListSelectionListener(ListSelectionListener a) {
+		artikelListe.getSelectionModel().addListSelectionListener(a);
 	}
 }

@@ -28,9 +28,8 @@ public class BenutzerPanel extends JPanel {
 		this.add(benutzerScroll);
 	}
 	public void fill(Object[][] liste) {
-		String[] columnNames = {"Name",
-                "Passwort",
-                "Nummer",
+		String[] columnNames = {"Nummer",
+                "Name",
                 "Anrede",
                 "Vor und Nachname"};
 		

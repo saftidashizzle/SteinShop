@@ -95,7 +95,7 @@ public class ServerInterfaceImpl implements ServerInterface {
 		Object[][] data = new Object[userListe.size()][5];
 		int i = 0;
 		for (User u:userListe) {
-			String[] row = { "" + u.getNummer(), "" + u.getName(), "" + u.getNummer(), "" + u.getAnrede(), "" + u.getVorUndZuName() };
+			String[] row = { "" + u.getNummer(), "" + u.getName(), "" + u.getAnrede(), "" + u.getVorUndZuName() };
 			data[i++] = row;
 		}
 		i = 0;

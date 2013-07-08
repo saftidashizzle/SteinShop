@@ -274,10 +274,10 @@ public class ShopGUI extends JFrame {
 				try {
 					connection.logout();
 				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e.getMessage());
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e.getMessage());
 					e.printStackTrace();
 				}
 				frame.dispose();
@@ -292,10 +292,10 @@ public class ShopGUI extends JFrame {
 				try {
 					connection.logout();
 				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e1.getMessage());
 					e1.printStackTrace();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e1.getMessage());
 					e1.printStackTrace();
 				}
 				System.exit(0);
@@ -780,12 +780,13 @@ public class ShopGUI extends JFrame {
 		};
 		artMengPanel.addActionListenerOK(listenerArtMengOK);
 		// Selection Listener für Artikelmenge Ändern Panel
+		// TODO Funktioniert komischerweise nicht
 		ListSelectionListener listSelectArtMenge = new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-	            		if(e.getValueIsAdjusting()) return;
-	            	        int row = artikelPanel.artikelListe.getSelectedRow();
-	            	        artMengPanel.setArtikelNummerTextfield((String) artikelPanel.artikelListe.getValueAt(row, 0));
-	            	        artMengPanel.setArtikelMengeTextfield((String) artikelPanel.artikelListe.getValueAt(row, 3));
+        		if(e.getValueIsAdjusting()) return;
+        	        int row = artikelPanel.artikelListe.getSelectedRow();
+        	        artMengPanel.setArtikelNummerTextfield((String) artikelPanel.artikelListe.getValueAt(row, 0));
+        	        artMengPanel.setArtikelMengeTextfield((String) artikelPanel.artikelListe.getValueAt(row, 3));
 	        }            
         };
         artikelPanel.addListSelectionListener(listSelectArtMenge);
@@ -818,6 +819,7 @@ public class ShopGUI extends JFrame {
 		};
 		artDelPanel.addActionListenerOK(listenerArtDelOK);
 		// Selection Listener für Artikel löschen Panel
+		// TODO Funktioniert komischerweise nicht
 		ListSelectionListener listSelectArtDel = new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 	    		if(e.getValueIsAdjusting()) return;

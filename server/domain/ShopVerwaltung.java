@@ -121,6 +121,9 @@ public class ShopVerwaltung {
 		akteur.getWarenkorb().leeren();
 		
 	}
+	public Artikel findArtikelByNumber(int artID) throws ArtikelNichtVerfuegbarException {
+		return artVer.findArtikelByNumber(artID);
+	}
 	/** 
 	 * Methode um den Warenkorb einzukaufen.
 	 * @param User aktuellerBenutzer

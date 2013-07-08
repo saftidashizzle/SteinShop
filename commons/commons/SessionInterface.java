@@ -10,7 +10,6 @@ import valueobjects.Ereignis;
 import valueobjects.Kunde;
 import valueobjects.Rechnung;
 import valueobjects.User;
-
 import de.root1.simon.SimonUnreferenced;
 import domain.exceptions.ArtikelAngabenInkorrektException;
 import domain.exceptions.ArtikelMengeInkorrektException;
@@ -71,5 +70,7 @@ public interface SessionInterface extends Serializable, SimonUnreferenced {
 	public void loescheUser(int userNr, User aktuellerBenutzer) throws MitarbeiterNichtVorhandenException;
 
 	public List<Ereignis> gibEreignisseNachArtikelUndTagen(Artikel a);
+
+	public Artikel findArtikelByNumber(int artikelNr) throws ArtikelNichtVerfuegbarException;
 	
 }

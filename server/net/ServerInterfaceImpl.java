@@ -199,4 +199,8 @@ public class ServerInterfaceImpl implements ServerInterface {
 	public List<Ereignis> gibEreignisseNachArtikelUndTagen(Artikel a) {
 		return shopVer.erVer.gibEreignisseNachArtikelUndTagen(a);
 	}
+
+	public Artikel findArtikelByNumber(int artikelNr) throws ArtikelNichtVerfuegbarException {
+		return shopVer.findArtikelByNumber(artikelNr);
+	}
 }

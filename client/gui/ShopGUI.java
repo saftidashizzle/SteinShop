@@ -26,6 +26,7 @@ import net.ClientInterfaceImpl;
 import valueobjects.Artikel;
 import valueobjects.Ereignis;
 import valueobjects.Kunde;
+import valueobjects.MehrfachArtikel;
 import valueobjects.Mitarbeiter;
 import valueobjects.Rechnung;
 import valueobjects.User;
@@ -66,7 +67,6 @@ public class ShopGUI extends JFrame {
 	private WarenkorbPanel warenkorbPanel;
 	// Center
 	private ArtikelPanel artikelPanel;
-	private ArtikelMitarbeiterPanel artikelMitarbeiterPanel;
 	private MitarbeiterPanel mitarbeiterPanel;
 	private ArtikelProtokollPanel protokollPanel;
 	// West, Mitarbeitermenue
@@ -465,13 +465,13 @@ public class ShopGUI extends JFrame {
 					wtm.updateDataVector(warenkorbListe);
 					frame.cardLayout.show(westPanel, "kundeMenu");
 				} catch (ArtikelNichtVerfuegbarException e) {
-					JOptionPane.showMessageDialog(null, e); 
+					JOptionPane.showMessageDialog(null, e.getMessage()); 
 					e.printStackTrace();
 				} catch (ArtikelMengeReichtNichtException e) {
-					JOptionPane.showMessageDialog(null, e); 
+					JOptionPane.showMessageDialog(null, e.getMessage()); 
 					e.printStackTrace();
 				} catch (WarenkorbExceedsArtikelbestandException e) {
-					JOptionPane.showMessageDialog(null, e);
+					JOptionPane.showMessageDialog(null, e.getMessage());
 					e.printStackTrace();
 				}
 			}
@@ -480,10 +480,19 @@ public class ShopGUI extends JFrame {
 		// Selection Listener für ArtikelInWarenkorb Panel
 		ListSelectionListener listSelectArtInW = new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-	            		if(e.getValueIsAdjusting()) return;
-	            	        int row = artikelPanel.artikelListe.getSelectedRow();
-	            	        artInWPanel.setArtikelNummerTextfield((String) artikelPanel.artikelListe.getValueAt(row, 0));
-	            	        artInWPanel.setArtikelMengeTextfield((String) artikelPanel.artikelListe.getValueAt(row, 3));
+        		if(e.getValueIsAdjusting()) return;
+        	        int row = artikelPanel.artikelListe.getSelectedRow();
+        	        int artikelNr = (int)artikelPanel.artikelListe.getValueAt(row, 0);
+        	        artInWPanel.setArtikelNummerTextfield("artikelNr");
+        	        try {
+						if (connection.findArtikelByNumber(artikelNr) instanceof MehrfachArtikel) {
+						    artInWPanel.setArtikelMengeTextfield((String) artikelPanel.artikelListe.getValueAt(row, 5));
+						} else {
+							artInWPanel.setArtikelMengeTextfield("1");
+						}
+					} catch (ArtikelNichtVerfuegbarException e1) {
+						e1.printStackTrace();
+					}	            	        	
 	        }            
         };
 		artikelPanel.addListSelectionListener(listSelectArtInW);
@@ -505,7 +514,7 @@ public class ShopGUI extends JFrame {
 					wtm.updateDataVector(warenkorbListe);
 					frame.cardLayout.show(westPanel, "kundeMenu");
 				} catch (ArtikelNichtVerfuegbarException e) {
-					JOptionPane.showMessageDialog(null, e); 
+					JOptionPane.showMessageDialog(null, e.getMessage()); 
 					e.printStackTrace();
 				}
 			}
@@ -540,10 +549,10 @@ public class ShopGUI extends JFrame {
 					wtm.updateDataVector(warenkorbListe);
 					frame.cardLayout.show(westPanel, "kundeMenu");
 				} catch (ArtikelMengeReichtNichtException e) {
-					JOptionPane.showMessageDialog(null, e); 
+					JOptionPane.showMessageDialog(null, e.getMessage()); 
 					e.printStackTrace();
 				} catch (ArtikelNichtVerfuegbarException e) {
-					JOptionPane.showMessageDialog(null, e); 
+					JOptionPane.showMessageDialog(null, e.getMessage()); 
 					e.printStackTrace();
 				}
 			}
@@ -568,7 +577,7 @@ public class ShopGUI extends JFrame {
 					WarenkorbTableModell wtm = (WarenkorbTableModell) warenkorbPanel.warenkorbListe.getModel();
 					wtm.updateDataVector(warenkorbListe);
 				} catch (WarenkorbIstLeerException e) {
-					JOptionPane.showMessageDialog(null, e); 
+					JOptionPane.showMessageDialog(null, e.getMessage()); 
 					e.printStackTrace();
 				}
 			}
@@ -646,7 +655,7 @@ public class ShopGUI extends JFrame {
 						mitarbeiterPanel.updateArtikelListe(artikelListe);
 					}
 				} catch (ArtikelAngabenInkorrektException e) {
-					JOptionPane.showMessageDialog(null, e); 
+					JOptionPane.showMessageDialog(null, e.getMessage()); 
 					e.printStackTrace();
 				}
 				frame.cardLayout.show(westPanel, "mitarbeiterMenu");
@@ -678,10 +687,10 @@ public class ShopGUI extends JFrame {
 					frame.cardLayout.show(westPanel, "mitarbeiterMenu");
 					frame.pack();
 				} catch(ArtikelMengeInkorrektException e) {
-					JOptionPane.showMessageDialog(null, e); 
+					JOptionPane.showMessageDialog(null, e.getMessage()); 
 					e.printStackTrace();
 				} catch(ArtikelNichtVerfuegbarException e) {
-					JOptionPane.showMessageDialog(null, e); 
+					JOptionPane.showMessageDialog(null, e.getMessage()); 
 					e.printStackTrace();
 				}
 			}
@@ -719,7 +728,7 @@ public class ShopGUI extends JFrame {
 					frame.cardLayout.show(westPanel, "mitarbeiterMenu");
 					frame.pack();	
 				} catch(ArtikelNichtVerfuegbarException e) {
-					JOptionPane.showMessageDialog(null, e);
+					JOptionPane.showMessageDialog(null, e.getMessage());
 					e.printStackTrace();
 				}
 			}

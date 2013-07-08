@@ -137,5 +137,9 @@ public class Session implements SessionInterface {
 		// TODO Auto-generated method stub
 		return server.gibEreignisseNachArtikelUndTagen(a);
 	}
+	@Override
+	public Artikel findArtikelByNumber(int artikelNr) throws ArtikelNichtVerfuegbarException {
+		return server.findArtikelByNumber(artikelNr);
+	}
 
 }

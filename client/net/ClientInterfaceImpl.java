@@ -176,6 +176,10 @@ public class ClientInterfaceImpl implements ClientInterface {
 		return session.gibEreignisseNachArtikelUndTagen(a);
 	}
 
+	public Artikel findArtikelByNumber(int artikelNr) throws ArtikelNichtVerfuegbarException {
+		return session.findArtikelByNumber(artikelNr);
+	}
+
 //	@Override
 //	public User getUser() {
 //		return this.user;

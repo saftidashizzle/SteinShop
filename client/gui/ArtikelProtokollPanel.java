@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.util.List;
 
@@ -29,7 +28,7 @@ public class ArtikelProtokollPanel extends JPanel {
 //	int [] data;
 	// hier kommen jeweils die artikelmenge an tag 1-30 rein
     final int PAD = 30;
-	public ArtikelProtokollPanel(List<Ereignis> artikelVerlauf) {
+	public ArtikelProtokollPanel(List<Ereignis> artikelVerlauf, String artikelName) {
 		super();
 		this.setLayout(new GridLayout(1,1));
 //		data = new int[PAD];
@@ -42,16 +41,13 @@ public class ArtikelProtokollPanel extends JPanel {
 //			
 //			
 //		}
-		// solange ich mich in tag eins befinde: addiere/subtrahiere menge auf tagesmenge
-		
-		// lade liste von ereignissen betreffend artikel a
-		// schau welche ereignisse alle zu einem tag gehoeren
-		// bilde die summe über deren artikelmenge
-		// trage die summe jeweils in data[i] ein
-		// wenn danach kein ereignis mehr kommt lass die menge gleich	
-		
+		for(Ereignis e:artikelVerlauf) {
+			System.out.println("" + e);
+		}
+//		int[] x = { 1,2,3,4,5,6,7,9,10 }; // von eins bis 30
+//		int [] y = 
 		Function2D normal = new NormalDistributionFunction2D(0.0, 1.0);
-		XYDataset dataset = DatasetUtilities.sampleFunction2D(normal, -0.5, 5.0, 100, "Artikelname");
+		XYDataset dataset = DatasetUtilities.sampleFunction2D(normal, -0.5, 5.0, 100, artikelName);
 		final JFreeChart chart= ChartFactory.createXYLineChart(null, "Zeitpunkt", "Lagerbestand", dataset, PlotOrientation.VERTICAL, true, true, false);
 		
 		final ChartPanel chartPanel = new ChartPanel(chart);

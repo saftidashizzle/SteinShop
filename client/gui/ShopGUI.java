@@ -69,6 +69,7 @@ public class ShopGUI extends JFrame {
 	private BottomPanel botPanel;
 	// East
 	private WarenkorbPanel warenkorbPanel;
+	private ProtokollMenuPanel protokollMenuPanel;
 	// Center
 	private ArtikelPanel artikelPanel;
 	private MitarbeiterPanel mitarbeiterPanel;
@@ -361,10 +362,51 @@ public class ShopGUI extends JFrame {
 						frame.eastPanel.setVisible(true);						
 
 					} else if(aktuellerBenutzer instanceof Mitarbeiter) {
+						// protokollMenu wird erstellt
+						protokollMenuPanel = new ProtokollMenuPanel(connection.gibAlleArtikel());
+						protokollMenuPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+						eastPanel.add(protokollMenuPanel, "protokollMenuPanel");
+						
+						// Selection Listener für ProtokolMenuPanel
+						ListSelectionListener listSelectProtokollMenuPanel = new ListSelectionListener() {
+							public void valueChanged(ListSelectionEvent e) {
+				        		if(e.getValueIsAdjusting()) return;
+				        	        int row = protokollMenuPanel.artikelListe.getSelectedRow();
+				        	        frame.cardLayout.removeLayoutComponent(protokollPanel);
+				        	        Artikel a = null;
+									try {
+										a = connection.findArtikelByNumber(Integer.parseInt((String) protokollMenuPanel.artikelListe.getValueAt(row, 0)));
+									} catch (NumberFormatException
+											| ArtikelNichtVerfuegbarException e1) {
+										JOptionPane.showMessageDialog(null, e); 
+										e1.printStackTrace();
+									}
+				        	        protokollPanel = new ArtikelProtokollPanel(connection.gibEreignisseNachArtikelUndTagen(a), a.getName());
+				        	        centerPanel.add(protokollPanel);
+//				        	        frame.cardLayout.addLayoutComponent(centerPanel, protokollPanel);
+				        	        frame.cardLayout.show(centerPanel, "protokollPanel");
+				        	        frame.pack();
+				        	        
+					        }            
+				        };
+				        protokollMenuPanel.addListSelectionListener(listSelectProtokollMenuPanel);
+				        ActionListener listenerBack = new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent ae) {
+								frame.cardLayout.show(westPanel, "mitarbeiterMenu");
+								frame.cardLayout.show(centerPanel, "mitarbeiterPanel");
+								eastPanel.setVisible(false);
+								westPanel.setVisible(true);
+								frame.pack();
+							}
+						};
+						protokollMenuPanel.addActionListenerBack(listenerBack);
+						
 						frame.westPanel.setVisible(true);
 						frame.eastPanel.setVisible(false);
 						frame.cardLayout.show(westPanel, "mitarbeiterMenu");
 						frame.cardLayout.show(centerPanel, "mitarbeiterPanel");
+						frame.pack();
 					}
 					frame.pack();
 				} catch (LoginFehlgeschlagenException e) {
@@ -637,18 +679,18 @@ public class ShopGUI extends JFrame {
 	public void initListenerMitarbeiter() {
 		final ShopGUI frame = this;
 //	 	Listener für Zurück Button
-		ActionListener listenerBack = new ActionListener() {
+		ActionListener listenerBackMitarbeiter = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				frame.cardLayout.show(westPanel, "mitarbeiterMenu");
 				frame.pack();
 			}
 		};
-		newArtPanel.addActionListenerBack(listenerBack);
-		artMengPanel.addActionListenerBack(listenerBack);
-		artDelPanel.addActionListenerBack(listenerBack);
-		mitRegPanel.addActionListenerBack(listenerBack);
-		usrDelPanel.addActionListenerBack(listenerBack);
+		newArtPanel.addActionListenerBack(listenerBackMitarbeiter);
+		artMengPanel.addActionListenerBack(listenerBackMitarbeiter);
+		artDelPanel.addActionListenerBack(listenerBackMitarbeiter);
+		mitRegPanel.addActionListenerBack(listenerBackMitarbeiter);
+		usrDelPanel.addActionListenerBack(listenerBackMitarbeiter);
 		// 	Listener für neuen Artikel anlegen
 		ActionListener listenerNewArt = new ActionListener() {
 			@Override
@@ -848,13 +890,16 @@ public class ShopGUI extends JFrame {
 			public void actionPerformed(ActionEvent ae) {
 				Artikel a = artikelListe.get(0);
 				List<Ereignis> artikelVerlauf = connection.gibEreignisseNachArtikelUndTagen(a);
-				protokollPanel = new ArtikelProtokollPanel(artikelVerlauf);
+				protokollPanel = new ArtikelProtokollPanel(artikelVerlauf,a.getName());
 				protokollPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 				centerPanel.add(protokollPanel, "protokollPanel");
 				frame.cardLayout.show(centerPanel, "protokollPanel");
-				//TODO Artikelmengenverlauf anzeigen
+				frame.cardLayout.show(eastPanel, "protokollMenuPanel");
+				frame.westPanel.setVisible(false);
+				frame.eastPanel.setVisible(true);
 			}
 		};
 		mitarbeiterMenuPanel.addActionListenerProtokoll(listenerArtMengVer);
+		
 	}
 }

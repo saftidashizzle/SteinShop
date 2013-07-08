@@ -1,5 +1,6 @@
 package net;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -189,5 +190,10 @@ public class ServerInterfaceImpl implements ServerInterface {
 
 	public void gibBenutzerWeiter(User aktuellerBenutzer) {
 		System.out.println("<----> " + aktuellerBenutzer);
+	}
+
+	@Override
+	public void safe() throws FileNotFoundException, IOException {
+		shopVer.speichereDaten();
 	}
 }

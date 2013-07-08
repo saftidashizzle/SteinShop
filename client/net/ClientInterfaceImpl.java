@@ -2,6 +2,8 @@ package net;
 
 
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.List;
@@ -56,10 +58,10 @@ public class ClientInterfaceImpl implements ClientInterface {
 		session = server.login(this);		
 	}
 	
-	public void logout(){
+	public void logout() throws FileNotFoundException, IOException{
 		safeLogout = true;
-//		aktuellerBenutzer=null;
 		// Lookup-Bindung wieder lösen
+		server.safe();
 		lookup.release(server);
 	}
 
@@ -164,14 +166,4 @@ public class ClientInterfaceImpl implements ClientInterface {
 	public void userLogout() {
 		aktuellerBenutzer = null;
 	}
-
-//	@Override
-//	public User getUser() {
-//		return this.user;
-//	}
-//
-//	public void setUser(User user) {
-//		this.user=user;
-//		
-//	}
 }

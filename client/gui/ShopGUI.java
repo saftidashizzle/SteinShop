@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -104,8 +105,6 @@ public class ShopGUI extends JFrame {
 	
 	public ShopGUI(String s) {
 		super(s);
-//		shopVer = new ShopVerwaltung();
-		// beim Start des Programms auf null gesetzt, durch login wird Benutzer hier gespeichert
 		aktuellerBenutzer = null;
 		try {
 			connection = new ClientInterfaceImpl();
@@ -150,35 +149,13 @@ public class ShopGUI extends JFrame {
 	 */
 	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		ShopGUI shop = new ShopGUI("Stone Lounge");
-		try {
-			shop.run();
-		}
-		catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e); 
-			e.printStackTrace();
-		}		
-	}
-	/**
-	 * Methode, die in der Main am Anfang ausgeführt wird und das ganze Programm zum Laufen bringt.
-	 * @throws IOException
-	 */
-	public void run() {
-		try {
-			
-			//gibMenue(); wuerde das anfangsmenue liefern
-			// shopVer.speichereDaten();
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e); 
-			e.printStackTrace();
-		}
+		ShopGUI shop = new ShopGUI("Stone Lounge");		
 	}
 	/**
 	 * Initialisieren aller Komponenten im Fenster
 	 */
 	public void initComponents() {
-		// Menüleiste programmieren: Für unsere Anwendung bauen wir zwei Untermenüs "Datei" und "Garage"
-		// Beachtet: Ein MenuBar-Objekt besteht aus Menu-Objekten, und jedes Menu-Objekt besteht aus MenuItem-Objekten
+		// Menüleiste 
 		MenuBar menubar = new MenuBar();
 		
 		// "Datei"-Menü zusammenbauen
@@ -187,7 +164,6 @@ public class ShopGUI extends JFrame {
 		menuItemQuit = new MenuItem("Beenden");
 		// Menüeintrag zum Menü hinzufügen
 		menuDatei.add(menuItemQuit);
-//		menuDatei.addSeparator();
 		// Menü zur MenuBar hinzufügen
 		menubar.add(menuDatei);
 		
@@ -295,7 +271,15 @@ public class ShopGUI extends JFrame {
 			public void actionPerformed(ActionEvent ae) {
 				// Anwendung beenden
 				frame.setVisible(false);
-				connection.logout();
+				try {
+					connection.logout();
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				frame.dispose();
 			}
 		};
@@ -305,7 +289,15 @@ public class ShopGUI extends JFrame {
 		this.addWindowListener(new WindowAdapter(){
 			public void windowClosing(WindowEvent e){
 				super.windowClosing(e);
-				connection.logout();
+				try {
+					connection.logout();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				System.exit(0);
 			}
 		});

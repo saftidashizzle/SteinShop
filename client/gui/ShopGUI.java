@@ -437,17 +437,6 @@ public class ShopGUI extends JFrame {
 		artMengeInWPanel.addActionListenerBack(listenerBack);
 		artAusWPanel.addActionListenerBack(listenerBack);
 		
-		// Listener für Table Selection (ArtikelListe)
-		ListSelectionListener a = new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {
-	            		if(e.getValueIsAdjusting()) return;
-	            	        int row = artikelPanel.artikelListe.getSelectedRow();
-	            	        artInWPanel.setArtikeNummer((String) artikelPanel.artikelListe.getValueAt(row, 0));
-	            	        artInWPanel.setArtikelMenge((String) artikelPanel.artikelListe.getValueAt(row, 3));
-	        }            
-        };
-		artikelPanel.addListSelectionListener(a);
-		
 		
 		// Listener für Artikel in Warenkorb Button
 		ActionListener listenerArtikelInWarenkorb = new ActionListener() {
@@ -479,6 +468,16 @@ public class ShopGUI extends JFrame {
 			}
 		};
 		artInWPanel.addActionListenerOK(listenerArtikelInWarenkorbOK);
+		// Selection Listener für ArtikelInWarenkorb Panel
+		ListSelectionListener listSelectArtInW = new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+	            		if(e.getValueIsAdjusting()) return;
+	            	        int row = artikelPanel.artikelListe.getSelectedRow();
+	            	        artInWPanel.setArtikelNummerTextfield((String) artikelPanel.artikelListe.getValueAt(row, 0));
+	            	        artInWPanel.setArtikelMengeTextfield((String) artikelPanel.artikelListe.getValueAt(row, 3));
+	        }            
+        };
+		artikelPanel.addListSelectionListener(listSelectArtInW);
 		// Listener für Artikelmenge im Warenkorb ändern
 		ActionListener listenerArtikelmenge = new ActionListener() {
 			@Override
@@ -503,6 +502,16 @@ public class ShopGUI extends JFrame {
 			}
 		};
 		artMengeInWPanel.addActionListenerOK(listenerArtikelmengeOK);
+		// Selection Listener für Artikelmenge im Warenkorb Ändern Panel
+		ListSelectionListener listSelectArtMeng = new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+	            		if(e.getValueIsAdjusting()) return;
+	            	        int row = artikelPanel.artikelListe.getSelectedRow();
+	            	        artMengeInWPanel.setArtikelNummerTextfield((String) artikelPanel.artikelListe.getValueAt(row, 0));
+	            	        artMengeInWPanel.setArtikelMengeTextfield((String) artikelPanel.artikelListe.getValueAt(row, 3));
+	        }            
+        };
+        artikelPanel.addListSelectionListener(listSelectArtMeng);
 		// Listener für Artikel aus Warenkorb entfernen
 		ActionListener listenerArtikelAusWarenkorb = new ActionListener() {
 			@Override
@@ -531,6 +540,15 @@ public class ShopGUI extends JFrame {
 			}
 		};
 		artAusWPanel.addActionListenerOK(listenerArtikelAusWarenkorbOK);
+		// Selection Listener für Artikel aus Warenkorb Entfernen Panel
+		ListSelectionListener listSelectArtAusW = new ListSelectionListener() {
+		public void valueChanged(ListSelectionEvent e) {
+            		if(e.getValueIsAdjusting()) return;
+            	        int row = artikelPanel.artikelListe.getSelectedRow();
+            	        artAusWPanel.setArtikelNummerTextfield((String) artikelPanel.artikelListe.getValueAt(row, 0));
+        }            
+        };
+        artikelPanel.addListSelectionListener(listSelectArtAusW);
 		// Listener für Warenkorb leeren
 		ActionListener listenerWarenkorbLeeren = new ActionListener() {
 			@Override
@@ -660,6 +678,16 @@ public class ShopGUI extends JFrame {
 			}
 		};
 		artMengPanel.addActionListenerOK(listenerArtMengOK);
+		// Selection Listener für Artikelmenge Ändern Panel
+		ListSelectionListener listSelectArtMenge = new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+	            		if(e.getValueIsAdjusting()) return;
+	            	        int row = artikelPanel.artikelListe.getSelectedRow();
+	            	        artMengPanel.setArtikelNummerTextfield((String) artikelPanel.artikelListe.getValueAt(row, 0));
+	            	        artMengPanel.setArtikelMengeTextfield((String) artikelPanel.artikelListe.getValueAt(row, 3));
+	        }            
+        };
+        artikelPanel.addListSelectionListener(listSelectArtMenge);
 		// Listener für Artikel loeschen
 		ActionListener listenerDelArt = new ActionListener() {
 			@Override
@@ -688,6 +716,15 @@ public class ShopGUI extends JFrame {
 			}
 		};
 		artDelPanel.addActionListenerOK(listenerArtDelOK);
+		// Selection Listener für Artikel löschen Panel
+		ListSelectionListener listSelectArtDel = new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+	    		if(e.getValueIsAdjusting()) return;
+	    	        int row = artikelPanel.artikelListe.getSelectedRow();
+	    	        artDelPanel.setArtikelNummerTextfield((String) artikelPanel.artikelListe.getValueAt(row, 0));
+	        	}            
+	        };
+        artikelPanel.addListSelectionListener(listSelectArtDel);
 		// Listener für Mitarbeiter Registrieren
 		ActionListener listenerMitReg = new ActionListener() {
 			@Override
@@ -754,6 +791,15 @@ public class ShopGUI extends JFrame {
 			}
 		};
 		usrDelPanel.addActionListenerOK(listenerUsrDelOK);
+		// Selection Listener für User löschen Panel
+		ListSelectionListener listSelectUsrDel = new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+        		if(e.getValueIsAdjusting()) return;
+        	        int row = mitarbeiterPanel.benutzerPanel.benutzerListe.getSelectedRow();
+        	        usrDelPanel.setArtikelNummerTextfield((String) mitarbeiterPanel.benutzerPanel.benutzerListe.getValueAt(row, 0));
+	        }            
+        };
+        mitarbeiterPanel.benutzerPanel.addListSelectionListener(listSelectUsrDel);
 		// Listener für Artikelmengenverlauf anzeigen
 		ActionListener listenerArtMengVer = new ActionListener() {
 			@Override

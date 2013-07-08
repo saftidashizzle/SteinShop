@@ -55,5 +55,9 @@ public class BenutzerPanel extends JPanel {
 		benutzerScroll = new JScrollPane(benutzerListe);
 		
 	}
+	public void addListSelectionListener(ListSelectionListener a) {
+		benutzerListe.getSelectionModel().addListSelectionListener(a);
+
+	}
 
 }

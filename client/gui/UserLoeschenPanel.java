@@ -47,4 +47,7 @@ public class UserLoeschenPanel extends JPanel {
 	public int getUserNummer() {
 		return Integer.parseInt(this.usernrTextfield.getText());
 	}
+	public void setArtikelNummerTextfield(String valueAt) {
+		this.usernrTextfield.setText(valueAt);
+	}
 }

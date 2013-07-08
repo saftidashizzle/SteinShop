@@ -48,4 +48,7 @@ public class ArtikelAusWarenkorbPanel extends JPanel {
 	public int getArtikelNummer() {
 		return Integer.parseInt(this.artnrTextfield.getText());
 	}
+	public void setArtikelNummerTextfield(String arg0) {
+		this.artnrTextfield.setText(arg0);
+	}
 }

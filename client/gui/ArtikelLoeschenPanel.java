@@ -47,4 +47,7 @@ public class ArtikelLoeschenPanel extends JPanel {
 	public int getArtikelNummer() {
 		return Integer.parseInt(this.artnrTextfield.getText());
 	}
+	public void setArtikelNummerTextfield(String valueAt) {
+		this.artnrTextfield.setText(valueAt);
+	}
 }

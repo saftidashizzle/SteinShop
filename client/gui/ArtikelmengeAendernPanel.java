@@ -55,4 +55,10 @@ public class ArtikelmengeAendernPanel extends JPanel {
 	public int getMenge() {
 		return Integer.parseInt(this.mengeTextfield.getText());
 	}
+	public void setArtikelNummerTextfield(String valueAt) {
+		this.artnrTextfield.setText(valueAt);
+	}
+	public void setArtikelMengeTextfield(String valueAt) {
+		this.mengeTextfield.setText(valueAt);		
+	}
 }

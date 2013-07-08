@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.ListSelectionListener;
 
 public class ArtikelmengeImWarenkorbPanel extends JPanel {
 	/**
@@ -54,5 +55,11 @@ public class ArtikelmengeImWarenkorbPanel extends JPanel {
 	}
 	public int getMenge() {
 		return Integer.parseInt(this.mengeTextfield.getText());
+	}
+	public void setArtikelNummerTextfield(String nr) {
+		this.artnrTextfield.setText(nr);
+	}
+	public void setArtikelMengeTextfield(String m) {
+		this.mengeTextfield.setText(m);
 	}
 }

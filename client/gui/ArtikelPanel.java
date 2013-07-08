@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.GridLayout;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -8,6 +9,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import valueobjects.Artikel;
 
@@ -58,6 +60,22 @@ public class ArtikelPanel extends JPanel {
 			}
 		};
 		artikelListe.setAutoCreateRowSorter(true);
+		final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>( model );
+		sorter.setComparator( 0, new Comparator<String>() {
+			  public int compare( String s1, String s2 )
+			  {
+			    int i1 = Integer.parseInt( s1 );
+			    int i2 = Integer.parseInt( s2 );
+			    if(i1>i2) {
+			    	return 1;
+			    } else if (i2==i1) {
+			    	return 0;
+			    } else {
+			    	return -1;
+			    }
+			  }
+			} );
+		artikelListe.setRowSorter(sorter);
 		artikelScroll = new JScrollPane(artikelListe);
 	}
 

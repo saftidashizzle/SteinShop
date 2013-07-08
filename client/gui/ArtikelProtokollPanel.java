@@ -6,14 +6,14 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYDotRenderer;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.ui.ApplicationFrame;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.function.Function2D;
+import org.jfree.data.function.NormalDistributionFunction2D;
+import org.jfree.data.general.DatasetUtilities;
+import org.jfree.data.xy.XYDataset;
 
 import valueobjects.Ereignis;
 
@@ -48,47 +48,14 @@ public class ArtikelProtokollPanel extends JPanel {
 		// schau welche ereignisse alle zu einem tag gehoeren
 		// bilde die summe über deren artikelmenge
 		// trage die summe jeweils in data[i] ein
-		// wenn danach kein ereignis mehr kommt lass die menge gleich		
+		// wenn danach kein ereignis mehr kommt lass die menge gleich	
+		
+		Function2D normal = new NormalDistributionFunction2D(0.0, 1.0);
+		XYDataset dataset = DatasetUtilities.sampleFunction2D(normal, -0.5, 5.0, 100, "Artikelname");
+		final JFreeChart chart= ChartFactory.createXYLineChart(null, "Zeitpunkt", "Lagerbestand", dataset, PlotOrientation.VERTICAL, true, true, false);
+		
+		final ChartPanel chartPanel = new ChartPanel(chart);
+		chartPanel.setPreferredSize(new java.awt.Dimension(500,270));
+		this.add(chartPanel);
 	} 
-
-	protected void paintComponent1(Graphics g) {
-		// DATEN
-		// series2 enthaelt Punkte, die verbunden werden
-		XYSeries series1 = new XYSeries("Punkte1");
-		series1.add(0, 0);
-		series1.add(1, 1);
-		series1.add(2, 1);
-		series1.add(3, 2);
-
-		XYSeries series2 = new XYSeries("Punkte2");
-		series2.add(1, 2);
-		series2.add(2, 3);
-		series2.add(3, 4);
-
-		// Hinzufuegen von series1 und series2 zu der Datenmenge dataset
-		XYSeriesCollection dataset2 = new XYSeriesCollection();
-		dataset2.addSeries(series1);
-		dataset2.addSeries(series2);
-		
-		
-		XYDotRenderer dot = new XYDotRenderer();
-		
-		dot.setDotHeight(5);
-		dot.setDotWidth(5);	
-		
-		NumberAxis xax = new NumberAxis("x");
-		NumberAxis yax = new NumberAxis("y");
-		
-		XYPlot plot = new XYPlot(dataset2,xax,yax, dot);
-		
-		JFreeChart chart2 = new JFreeChart(plot);
-		
-		// Erstellen eines Ausgabefensters
-		ApplicationFrame punkteframe = new ApplicationFrame("Punkte"); //"Punkte" entspricht der Ueberschrift des Fensters
-
-		ChartPanel chartPanel2 = new ChartPanel(chart2);
-		punkteframe.setContentPane(chartPanel2);
-		punkteframe.pack();
-		punkteframe.setVisible(true);
-	}    	
 }

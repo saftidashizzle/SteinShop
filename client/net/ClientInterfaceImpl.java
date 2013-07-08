@@ -6,8 +6,6 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.swing.JTextArea;
-
 import valueobjects.Artikel;
 import valueobjects.Ereignis;
 import valueobjects.Kunde;
@@ -38,9 +36,7 @@ import domain.exceptions.WarenkorbIstLeerException;
 public class ClientInterfaceImpl implements ClientInterface {
 	
 	private static final long serialVersionUID = -7272521996636160840L;
-	
-	private JTextArea area;
-	
+		
 	private Lookup lookup;
 	private ServerInterface server;
 	private SessionInterface session;
@@ -60,10 +56,6 @@ public class ClientInterfaceImpl implements ClientInterface {
 		session = server.login(this);		
 	}
 	
-	public void sendMessage(){
-		session.sendMessage("Hallo!\n");
-	}
-	
 	public void logout(){
 		safeLogout = true;
 //		aktuellerBenutzer=null;
@@ -79,12 +71,6 @@ public class ClientInterfaceImpl implements ClientInterface {
 //			area.append("Die Verbindung zum Server wurde unerwartet getrennt.\n");
 		}
 	}
-
-	@Override
-	public void receiveMessage(String message) {
-		area.append(message);
-	}
-
 	public Object[][] gibAlleUser() {
 		return session.gibAlleUser();
 	}
@@ -123,7 +109,7 @@ public class ClientInterfaceImpl implements ClientInterface {
 		return session.artikelMengeImWarenkorbAendern(artikelNummer, menge, aktuellerBenutzer);
 	}
 
-	public Kunde artikelAusWarenkorb(int artikelNummer, Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, MitarbeiterNichtVorhandenException {
+	public Kunde artikelAusWarenkorb(int artikelNummer, Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, MitarbeiterNichtVorhandenException, WarenkorbIstLeerException {
 		return session.artikelAusWarenkorb(artikelNummer, aktuellerBenutzer);
 	}
 
@@ -161,7 +147,6 @@ public class ClientInterfaceImpl implements ClientInterface {
 
 	public void loescheUser(int userNr, User aktuellerBenutzer) throws MitarbeiterNichtVorhandenException {
 		session.loescheUser(userNr,aktuellerBenutzer);
-		
 	}
 
 	public List<Ereignis> gibEreignisseNachArtikelUndTagen(Artikel a) {

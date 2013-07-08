@@ -35,8 +35,14 @@ public class WarenkorbTableModell extends DefaultTableModel {
 			data[i++] = row;
 			preis = preis + key.getPreis()*warenkorb.get(key);
 		}
-		
-		String[] row = {" ", " ", " ", " ", "" + preis };
+		String[] row;
+		if(warenkorb.isEmpty()) {
+			String [] row1 = { "Keine ", "Artikel ", "im ", "Warenkorb ", "KAUF WAS!" };
+			row = row1;
+		} else {
+			String[] row2 = {" ", " ", " ", " ", "" + preis };
+			row = row2;
+		}
 		data[i] = row;
 		i = 0;
 		setDataVector(data, columnNames);

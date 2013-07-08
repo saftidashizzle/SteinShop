@@ -77,17 +77,8 @@ public class ServerInterfaceImpl implements ServerInterface {
 		return session;
 	}
 
-	public void broadcastMessage(String message) {
-		for (SessionInterface session : sessions){
-			ClientInterface client = session.getClient();
-			client.receiveMessage(message);
-		}
-	}
-
 	public void removeSession(Session session) {
 		sessions.remove(session);
-		
-		this.broadcastMessage("Ein Benutzer ist weg.\n");
 	}
 
 	public Object[][] gibAlleUser() {
@@ -149,7 +140,7 @@ public class ServerInterfaceImpl implements ServerInterface {
 		
 	}
 
-	public Kunde artikelAusWarenkorb(int artikelNummer, Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, MitarbeiterNichtVorhandenException {
+	public Kunde artikelAusWarenkorb(int artikelNummer, Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, MitarbeiterNichtVorhandenException, WarenkorbIstLeerException {
 		return shopVer.artikelAusWarenkorb(artikelNummer, aktuellerBenutzer);
 	}
 

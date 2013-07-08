@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import valueobjects.Kunde;
 import valueobjects.User;
 import domain.ShopVerwaltung;
+import domain.exceptions.ArtikelAngabenInkorrektException;
 import domain.exceptions.ArtikelMengeReichtNichtException;
 import domain.exceptions.ArtikelNichtVerfuegbarException;
 import domain.exceptions.InkorrekteRegWerteException;
@@ -32,10 +33,9 @@ public class ShopCUI {
 		in = new BufferedReader(new InputStreamReader(System.in));
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ArtikelAngabenInkorrektException {
 		
 		ShopCUI shop = new ShopCUI();
-//		shop.shopVer.fuegeArtikelEin("EINSTEIN", 1.99, null, 12);
 //		shop.shopVer.fuegeArtikelEin("SECHSSTEIN", 9.99, null, 48, 6);
 		
 		try {
@@ -56,6 +56,10 @@ public class ShopCUI {
 //			char[] pw = {'1','2','3'};
 //			shopVer.fuegeUserEin("Kunde", pw, "Herr", "Axel Schweiss","Elbenweg 3", 13337, "Bruchtal", "Mittelerde");
 //			shopVer.fuegeUserEin("Mitarbeiter", pw, "Herr", "Voll iDiot");
+
+//			shopVer.fuegeArtikelEin("EINSTEIN", 1.99, null, 12);
+			
+
 			gibMenue();
 			shopVer.speichereDaten();
 		} catch (Exception e) {

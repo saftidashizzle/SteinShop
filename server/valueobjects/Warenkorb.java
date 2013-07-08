@@ -39,9 +39,14 @@ public class Warenkorb implements Serializable {
 	/**
 	 * Methode, die einen Artikel aus dem Warenkorb löscht
 	 * @param a ausgewählter Artikel
+	 * @throws WarenkorbIstLeerException 
 	 */
-	public void artikelEntfernen(Artikel a) {
-		warenkorb.remove(a);
+	public void artikelEntfernen(Artikel a) throws WarenkorbIstLeerException {
+		if(warenkorb.containsKey(a)) {
+			warenkorb.remove(a);
+		} else {
+			throw new WarenkorbIstLeerException();
+		}
 	}
 	/**
 	 * Methode die, die Liste leert.

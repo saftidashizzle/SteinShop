@@ -19,12 +19,11 @@ public class BenutzerTableModell extends DefaultTableModel {
 	
 	public void updateDataVector(Object[][] liste) {
 			
-			String[] columnNames = {"Name",
-	                "Passwort",
-	                "Nummer",
+			String[] columnNames = {"Nummer",
+	                "Name",
 	                "Anrede",
-	                "Vor und Nachname"};
-			
+	                "Vor und Nachname"
+	                };			
 			setDataVector(liste, columnNames);
 	}
 }

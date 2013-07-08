@@ -9,6 +9,7 @@ import valueobjects.User;
 import domain.exceptions.ArtikelMengeReichtNichtException;
 import domain.exceptions.ArtikelNurInEinheitenVerfügbarException;
 import domain.exceptions.WarenkorbExceedsArtikelbestandException;
+import domain.exceptions.WarenkorbIstLeerException;
 
 public class WarenkorbVerwaltung {	
 	/**
@@ -41,8 +42,9 @@ public class WarenkorbVerwaltung {
 	/**
 	 * Methode um einen Artikel aus der Liste (warenkorb) zu löschen.
 	 * @param einArtikel der Artikel der rausgenommen werden soll.
+	 * @throws WarenkorbIstLeerException 
 	 */
-	public Kunde artikelAusWarenkorb(Artikel artikel, Kunde user){		
+	public Kunde artikelAusWarenkorb(Artikel artikel, Kunde user) throws WarenkorbIstLeerException{		
 		user.getWarenkorb().artikelEntfernen(artikel);
 		return user;
 	}

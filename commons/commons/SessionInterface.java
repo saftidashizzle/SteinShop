@@ -25,8 +25,6 @@ import domain.exceptions.WarenkorbIstLeerException;
 public interface SessionInterface extends Serializable, SimonUnreferenced {
 	
 	public ClientInterface getClient();
-	
-	public void sendMessage(String message);
 
 	public Object[][] gibAlleUser();
 
@@ -46,7 +44,7 @@ public interface SessionInterface extends Serializable, SimonUnreferenced {
 	public HashMap<Artikel, Integer> artikelMengeImWarenkorbAendern(int artikelNummer, int menge,
 			Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, MitarbeiterNichtVorhandenException;
 
-	public Kunde artikelAusWarenkorb(int artikelNummer, Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, MitarbeiterNichtVorhandenException;
+	public Kunde artikelAusWarenkorb(int artikelNummer, Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, MitarbeiterNichtVorhandenException, WarenkorbIstLeerException;
 
 	public Kunde warenkorbLeeren(Kunde aktuellerBenutzer) throws WarenkorbIstLeerException, MitarbeiterNichtVorhandenException;
 

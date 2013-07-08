@@ -44,10 +44,7 @@ public class UserVerwaltung implements Serializable {
 		userBestand.add(einUser);
 	}
 	private int bestimmeNr() {
-		int counter;
-		laufnr++;
-		counter = laufnr;
-		return counter;
+		return ++laufnr;
 	}
 	/**
 	 * Methode, die die aktuelle Liste von Benutzern zurück gibt.
@@ -66,9 +63,9 @@ public class UserVerwaltung implements Serializable {
 			userBestand.add(einUser);
 		}
 	}
-	public void loescheUser(int userName, User aktuellerBenutzer) throws MitarbeiterNichtVorhandenException{
-		if(findUserByNumber(userName)!=null){
-			userBestand.remove(--userName);
+	public void loescheUser(int userNr, User aktuellerBenutzer) throws MitarbeiterNichtVorhandenException{
+		if(findUserByNumber(userNr)!=null){
+			userBestand.remove(findUserByNumber(userNr));
 		}		
 		else{
 			throw new MitarbeiterNichtVorhandenException();

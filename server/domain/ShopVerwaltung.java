@@ -105,9 +105,10 @@ public class ShopVerwaltung {
 	 * @param artID Artikel ID des zu entfernenden Artikels
 	 * @return 
 	 * @throws MitarbeiterNichtVorhandenException 
+	 * @throws WarenkorbIstLeerException 
 	 */
 
-	public Kunde artikelAusWarenkorb(int artID, Kunde akteur) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, MitarbeiterNichtVorhandenException {	
+	public Kunde artikelAusWarenkorb(int artID, Kunde akteur) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, MitarbeiterNichtVorhandenException, WarenkorbIstLeerException {	
 		Artikel a = artVer.findArtikelByNumber(artID);
 		Kunde kunde = warkoVer.artikelAusWarenkorb(a, (Kunde)userVer.findUserByNumber(akteur.getNummer()));
 		erVer.ereignisEinfuegen(akteur, a, a.getMenge(), "Artikel " + a.getName() + " aus dem Warenkorb entfernt.");

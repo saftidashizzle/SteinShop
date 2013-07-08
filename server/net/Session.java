@@ -46,10 +46,6 @@ public class Session implements SessionInterface {
 		return this.client;
 	}
 	@Override
-	public void sendMessage(String message) {
-		server.broadcastMessage(message);
-	}
-	@Override
 	public Object[][] gibAlleUser() {
 		return server.gibAlleUser();
 	}
@@ -84,7 +80,7 @@ public class Session implements SessionInterface {
 		
 	}
 	@Override
-	public Kunde artikelAusWarenkorb(int artikelNummer, Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, MitarbeiterNichtVorhandenException {
+	public Kunde artikelAusWarenkorb(int artikelNummer, Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, MitarbeiterNichtVorhandenException, WarenkorbIstLeerException {
 		return server.artikelAusWarenkorb(artikelNummer, aktuellerBenutzer);
 	}
 	@Override

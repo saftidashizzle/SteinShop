@@ -110,7 +110,7 @@ public class ShopGUI extends JFrame {
 			try {
 				connection.connectToServer();
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(this, e.getMessage());
+				// hier kein message dialog weil die exceptions keine message definiert haben
 				e.printStackTrace();
 			}
 			
@@ -388,11 +388,11 @@ public class ShopGUI extends JFrame {
 		};
 		loginPanel.addActionListenerRegistieren(listenerRegistrieren);
 		
-		// Event Listener für Registrier Button von regPanel
+		// Event Listener für Registrier Button (OKAY) von regPanel
 		ActionListener listenerReg = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				if(regPanel.getPw1().equals(regPanel.getPw2())) {
+				if(Arrays.equals(regPanel.getPw1(),regPanel.getPw2())) {
 					try {
 						frame.connection.fuegeUserEin(regPanel.getUserName(), regPanel.getPw1(), regPanel.getAnrede(), regPanel.getName(), regPanel.getStr(), Integer.parseInt(regPanel.getPlz()), regPanel.getOrt(), regPanel.getLand());
 						} catch (NumberFormatException e) {
@@ -431,7 +431,6 @@ public class ShopGUI extends JFrame {
     	        artInWPanel.setArtikelNummerTextfield(null);
     	        artInWPanel.setArtikelMengeTextfield(null);
     	        usrDelPanel.setArtikelNummerTextfield(null);
-
 				
 				frame.pack();
 			}
@@ -590,6 +589,9 @@ public class ShopGUI extends JFrame {
 					JOptionPane.showMessageDialog(null, e.getMessage()); 
 					e.printStackTrace();
 				} catch (MitarbeiterNichtVorhandenException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage()); 
+					e.printStackTrace();
+				} catch (WarenkorbIstLeerException e) {
 					JOptionPane.showMessageDialog(null, e.getMessage()); 
 					e.printStackTrace();
 				}

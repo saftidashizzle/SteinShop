@@ -132,9 +132,6 @@ public class ShopGUI extends JFrame {
 		// Zuletzt schalten wir den Frame auf "sichtbar"
 		this.setVisible(true);
 	}
-	public void logout() {
-		connection.logout();
-	}
 	/**
 	 * @param args
 	 */
@@ -290,7 +287,6 @@ public class ShopGUI extends JFrame {
 				// Anwendung beenden
 				frame.setVisible(false);
 				connection.logout();
-				logout();
 				frame.dispose();
 			}
 		};
@@ -410,6 +406,19 @@ public class ShopGUI extends JFrame {
 				frame.eastPanel.setVisible(false);
 				frame.cardLayout.show(centerPanel, "loginPanel");
 				frame.westPanel.setVisible(false);
+				// Vorgefüllte textFelder löschen
+    	        usrDelPanel.setArtikelNummerTextfield(null);
+    	        artDelPanel.setArtikelNummerTextfield(null);
+    	        artMengPanel.setArtikelNummerTextfield(null);
+    	        artMengPanel.setArtikelMengeTextfield(null);
+    	        artAusWPanel.setArtikelNummerTextfield(null);
+    	        artMengeInWPanel.setArtikelNummerTextfield(null);
+    	        artMengeInWPanel.setArtikelMengeTextfield(null);
+    	        artInWPanel.setArtikelNummerTextfield(null);
+    	        artInWPanel.setArtikelMengeTextfield(null);
+    	        usrDelPanel.setArtikelNummerTextfield(null);
+
+				
 				frame.pack();
 			}
 		};

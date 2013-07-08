@@ -1,11 +1,7 @@
 package gui;
 
 import java.awt.GridLayout;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.swing.JPanel;
 
@@ -36,14 +32,13 @@ public class ArtikelProtokollPanel extends JPanel {
 	    XYSeries xyseries = new XYSeries(artikelName);
 	    
 
-		Calendar heute = Calendar.getInstance();
+//		Calendar heute = Calendar.getInstance();
 		for(Ereignis e:artikelVerlauf) {
-			long zeitVergangen = e.getDate().getTime() - heute.getTime().getTime();  // Differenz in ms
-			long inTagen = Math.round( (double)zeitVergangen / (24. * 60.*60.*1000.) ); // Zeit Differenz in Tagen
 			// in ms
-//			xyseries.add(e.getDate().getTime(), e.getArtikel().getMenge());
-			
-			xyseries.add(inTagen, e.getArtikel().getMenge());
+			xyseries.add(e.getDate().getTime(), e.getArtikel().getMenge());
+//			long zeitVergangen = e.getDate().getTime() - heute.getTime().getTime();  // Differenz in ms
+//			long inTagen = Math.round( (double)zeitVergangen / (24. * 60.*60.*1000.) ); // Zeit Differenz in Tagen
+//			xyseries.add(inTagen, e.getArtikel().getMenge());
 		}
 	    XYSeriesCollection xyseriescollection = new XYSeriesCollection();   
 	    xyseriescollection.addSeries(xyseries);    

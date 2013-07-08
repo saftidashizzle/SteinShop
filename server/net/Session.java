@@ -61,7 +61,7 @@ public class Session implements SessionInterface {
 	public List<Ereignis> gibProtokollListe() {
 		return server.gibProtokollListe();
 	}
-	public Rechnung rechnungErstellen(Kunde aktuellerBenutzer) {
+	public Rechnung rechnungErstellen(Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, WarenkorbIstLeerException, ArtikelMengeInkorrektException, MitarbeiterNichtVorhandenException {
 		return server.rechnungErstellen(aktuellerBenutzer);
 	}
 	@Override

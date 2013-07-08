@@ -19,13 +19,13 @@ public class WarenkorbVerwaltung {
 	 * @throws ArtikelMengeReichtNichtException 
 	 */
 	public Kunde artikelInWarenkorb(Artikel einArtikel, int menge, Kunde k) throws ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException, ArtikelNurInEinheitenVerfügbarException {		
+		System.out.println("moin");
 		if(menge<=einArtikel.getMenge()){
 			if (einArtikel instanceof MehrfachArtikel) {
 				MehrfachArtikel b = (MehrfachArtikel) einArtikel;
 				int packungsGroesse = b.getPackungsgroesse();
 				if (menge % packungsGroesse == 0) {
 					k.getWarenkorb().artikelHinzufuegen(einArtikel, menge, einArtikel.getMenge());
-					
 					return k;
 				} else {
 					throw new ArtikelNurInEinheitenVerfügbarException(packungsGroesse);

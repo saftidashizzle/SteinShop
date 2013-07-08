@@ -34,7 +34,7 @@ public interface SessionInterface extends Serializable, SimonUnreferenced {
 
 	public List<Ereignis> gibProtokollListe();
 
-	public Rechnung rechnungErstellen(Kunde aktuellerBenutzer);
+	public Rechnung rechnungErstellen(Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, WarenkorbIstLeerException, ArtikelMengeInkorrektException, MitarbeiterNichtVorhandenException;
 
 	public void fuegeUserEin(String userName, char[] pw1, String anrede,
 			String name, String str, int parseInt, String ort, String land) throws InkorrekteRegWerteException;

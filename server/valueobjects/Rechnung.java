@@ -1,12 +1,18 @@
 package valueobjects;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 
-public class Rechnung { 
+public class Rechnung implements Serializable { 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4107167793509247770L;
 	private Kunde kunde;
 	private Warenkorb warenkorb;
 	private Date datum;
+	private double gesamtpreis;
 	/**
 	 * Konstruktor: erzeugt eine Rechnung, mit Kunde, Jahrestag/Datum und dem Warenkorb
 	 * @param kunde
@@ -27,5 +33,24 @@ public class Rechnung {
 			gesamtpreis = gesamtpreis + wkorb.get(a)*a.getPreis();			
 		}
 		System.out.println("Gesamtpreis: " + gesamtpreis);
+		this.gesamtpreis = gesamtpreis;
+	}
+	public String getAnrede() {		
+		return kunde.getAnrede();
+	}
+	public String getVorZuname() {		
+		return kunde.getVorUndZuName();
+	}
+	public String getAdresse() {		
+		return kunde.getAdresse();
+	}
+	public Date getDatum() {
+		return this.datum;
+	}
+	public double getGesamtbetrag() {
+		return this.gesamtpreis;
+	}
+	public Warenkorb getWarenkorb(){
+		return this.warenkorb;
 	}
 }

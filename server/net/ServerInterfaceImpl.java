@@ -117,9 +117,8 @@ public class ServerInterfaceImpl implements ServerInterface {
 		return shopVer.gibProtokollListe();
 	}
 
-	public Rechnung rechnungErstellen(Kunde aktuellerBenutzer) {
-		// TODO Auto-generated method stub
-		return null;
+	public Rechnung rechnungErstellen(Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, WarenkorbIstLeerException, ArtikelMengeInkorrektException, MitarbeiterNichtVorhandenException {
+		return shopVer.rechnungErstellen(aktuellerBenutzer);
 	}
 
 	public void fuegeUserEin(String userName, char[] pw1, String anrede,

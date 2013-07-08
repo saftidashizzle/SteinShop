@@ -27,11 +27,11 @@ public class LoginPanel extends JPanel {
 
 	public LoginPanel() {
 		super();
+		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 200));
 		loginButton = new JButton("Login");
 		regButton = new JButton("Registrieren");
 		pwTextfield = new JPasswordField("123");
-		userTextfield = new JTextField("Mitarbeiter");
-		this.setLayout(new FlowLayout());
+		userTextfield = new JTextField("Kunde");
 		JPanel pane = new JPanel();
 		pane.setLayout(new GridLayout(2, 3));
 		this.add(pane);
@@ -43,7 +43,6 @@ public class LoginPanel extends JPanel {
 		pane.add(new JLabel("Passwort: "));
 		pane.add(pwTextfield);
 		pane.add(regButton);
-		
 		
 
 			
@@ -106,6 +105,7 @@ public class LoginPanel extends JPanel {
 //			setSize(220,160);
 //			setLocation(50,50);
 		
+			
 			setVisible(true);
 	}
 	/**
@@ -136,5 +136,4 @@ public class LoginPanel extends JPanel {
 	public char[] getPasswort() {
 		return this.pwTextfield.getPassword();
 	}
-
 }

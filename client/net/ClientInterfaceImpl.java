@@ -91,7 +91,7 @@ public class ClientInterfaceImpl implements ClientInterface {
 		return session.gibProtokollListe();
 	}
 
-	public Rechnung rechnungErstellen(Kunde aktuellerBenutzer) {
+	public Rechnung rechnungErstellen(Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, WarenkorbIstLeerException, ArtikelMengeInkorrektException, MitarbeiterNichtVorhandenException {
 		return session.rechnungErstellen(aktuellerBenutzer);
 	}
 

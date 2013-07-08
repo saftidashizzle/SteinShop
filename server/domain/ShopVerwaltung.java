@@ -93,8 +93,8 @@ public class ShopVerwaltung {
 		Artikel a = artVer.findArtikelByNumber(artID);
 		// überprüfe: sind schon mehr in warenkorb als im bestand?
 		try {
-			 return warkoVer.artikelInWarenkorb(a, menge, (Kunde)userVer.findUserByNumber(akteur.getNummer()));
-//			 userVer.setUser(k);
+			 Kunde k = warkoVer.artikelInWarenkorb(a, menge, (Kunde)userVer.findUserByNumber(akteur.getNummer()));
+			 return k;
 		} catch(Exception e) {
 			e.printStackTrace();
 		}	
@@ -133,25 +133,28 @@ public class ShopVerwaltung {
 	/** 
 	 * Methode um den Warenkorb einzukaufen.
 	 * @param User aktuellerBenutzer
+	 * @return 
 	 * @throws ArtikelNichtVerfuegbarException 
 	 * @throws MitarbeiterNichtVorhandenException 
 	 */
-	public void rechnungErstellen(Kunde akteur) throws ArtikelNichtVerfuegbarException, WarenkorbIstLeerException, ArtikelMengeInkorrektException, MitarbeiterNichtVorhandenException{
+	public Rechnung rechnungErstellen(Kunde akteur) throws ArtikelNichtVerfuegbarException, WarenkorbIstLeerException, ArtikelMengeInkorrektException, MitarbeiterNichtVorhandenException{
 		// key == Artikel
+		akteur = (Kunde)userVer.findUserByNumber(akteur.getNummer());
 		HashMap<Artikel, Integer> warenkorb = akteur.getWarenkorb().getInhalt();
+		System.out.println(warenkorb);
 		if(warenkorb.isEmpty()){
 			throw new WarenkorbIstLeerException();
 		} else {
 			// Artikelmenge im Artikelbestand verringern
 			for(Artikel key : warenkorb.keySet()) {
-				// System.out.println("Artikel: " + key.getName() + "Zahl: " + warenkorb.get(key));
 				artVer.setArtikelMenge(key.getNummer(), (warenkorb.get(key)*-(1))); 
 
 				erVer.ereignisEinfuegen(akteur, key, warenkorb.get(key), "Artikel gekauft. (Rechnung wurde erstellt)");
 		    }
-		}		
+		}
 		Rechnung rechnung = new Rechnung(akteur, akteur.getWarenkorb(), new Date());
-			warenkorbLeeren(akteur);
+//		warenkorbLeeren(akteur);
+		return rechnung;
 	}
 	
 	/** 

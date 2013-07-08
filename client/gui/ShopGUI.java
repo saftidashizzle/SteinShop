@@ -1,5 +1,7 @@
 package gui;
 
+import gui.rechnung.RechnungPanel;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -148,7 +150,7 @@ public class ShopGUI extends JFrame {
 	 */
 	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		ShopGUI shop = new ShopGUI("SteinShop");
+		ShopGUI shop = new ShopGUI("Stone Lounge");
 		try {
 			shop.run();
 		}
@@ -195,7 +197,7 @@ public class ShopGUI extends JFrame {
 		// Wir initialisieren nun das Layout des Fensters: Damit strukturieren wir
 		// das Fenster und können Unterbereiche definieren. In diesem Beispiel
 		// verwende ich ein GridLayout mit zwei Spalten, die das Fenster vertikal aufteilen sollen
-		this.setLayout(new BorderLayout(10,10));		
+		getContentPane().setLayout(new BorderLayout(10,10));		
 		
 		// CardLayout erstellen fuer CENTER
 		centerPanel = new JPanel();
@@ -203,6 +205,7 @@ public class ShopGUI extends JFrame {
 		// login panel erstellen und hinzufuegen
 		loginPanel = new LoginPanel();
 		centerPanel.add(loginPanel, "loginPanel");
+		
 		// mitarbeiterPanel (tabs) erstellen und hinzufuegen
 		mitarbeiterPanel = new MitarbeiterPanel(artikelListe, userListe, ereignisListe);
 		mitarbeiterPanel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -216,14 +219,14 @@ public class ShopGUI extends JFrame {
 		centerPanel.add(regPanel, "regPanel");
 		
 		// CenterPanel hinzufügen
-		this.add(centerPanel, BorderLayout.CENTER);
+		getContentPane().add(centerPanel, BorderLayout.CENTER);
 		
 
 		// CardLayout erstellen fuer EAST
 		eastPanel = new JPanel();
 		eastPanel.setLayout(cardLayout);
 		// EastPanel hinzufügen
-		this.add(eastPanel, BorderLayout.EAST);
+		getContentPane().add(eastPanel, BorderLayout.EAST);
 
 		
 		
@@ -269,7 +272,7 @@ public class ShopGUI extends JFrame {
 		
 		
 		// WestPanel hinzufügen
-		this.add(westPanel, BorderLayout.WEST);
+		getContentPane().add(westPanel, BorderLayout.WEST);
 		westPanel.setVisible(false);
 		this.pack();
 	}
@@ -329,11 +332,11 @@ public class ShopGUI extends JFrame {
 					if (aktuellerBenutzer instanceof Kunde) {
 						// Top Panel und Bot Panel erstellen und hinzufügen
 						topPanel = new TopPanel();
-						frame.add(topPanel, BorderLayout.NORTH);
+						frame.getContentPane().add(topPanel, BorderLayout.NORTH);
 						
 						// Bottom Panel 
 						botPanel = new BottomPanel();
-						frame.add(botPanel, BorderLayout.SOUTH);
+						frame.getContentPane().add(botPanel, BorderLayout.SOUTH);
 						kunde = (Kunde)aktuellerBenutzer;
 						frame.cardLayout.show(westPanel, "kundeMenu");
 						frame.cardLayout.show(centerPanel, "artikelPanel");
@@ -346,9 +349,26 @@ public class ShopGUI extends JFrame {
 							@Override
 							public void actionPerformed(ActionEvent ae) {
 								try {
-									// TODO Artikelliste und warenkorb aktualisieren 
-									// anschließend rechnung ausgeben
-									Rechnung re = connection.rechnungErstellen((Kunde)aktuellerBenutzer);
+									Rechnung re = connection.rechnungErstellen(kunde);
+									RechnungPanel rechnungPanel = new RechnungPanel(re);
+									centerPanel.add(rechnungPanel, "rechnungPanel");
+									frame.cardLayout.show(centerPanel, "rechnungPanel");
+									connection.warenkorbLeeren(kunde);
+									kunde = (Kunde)connection.getUser();
+									HashMap<Artikel, Integer> warenkorbListe = kunde.getWarenkorb().getInhalt();
+									WarenkorbTableModell wtm = (WarenkorbTableModell) warenkorbPanel.warenkorbListe.getModel();
+									wtm.updateDataVector(warenkorbListe);			
+									frame.pack();
+									// Listener für zur Kasse Button
+									ActionListener listenerBack = new ActionListener() {
+										@Override
+										public void actionPerformed(ActionEvent ae) {
+											frame.cardLayout.show(centerPanel, "artikelPanel");
+											frame.pack();
+										}
+									};
+									rechnungPanel.rechnungListePanel.addActionListenerBack(listenerBack);
+									
 								} catch (Exception e) {
 									JOptionPane.showMessageDialog(null, e.getMessage()); 
 									e.printStackTrace();
@@ -359,16 +379,17 @@ public class ShopGUI extends JFrame {
 						eastPanel.add(warenkorbPanel, "warenkorbPanel");
 						frame.cardLayout.show(eastPanel, "warenkorbPanel");
 						frame.westPanel.setVisible(true);		
-						frame.eastPanel.setVisible(true);						
+						frame.eastPanel.setVisible(true);	
+						frame.pack();
 
 					} else if(aktuellerBenutzer instanceof Mitarbeiter) {
 						// Top Panel und Bot Panel erstellen und hinzufügen
 						topPanel = new TopPanel();
-						frame.add(topPanel, BorderLayout.NORTH);
+						frame.getContentPane().add(topPanel, BorderLayout.NORTH);
 						
 						// Bottom Panel 
 						botPanel = new BottomPanel();
-						frame.add(botPanel, BorderLayout.SOUTH);
+						frame.getContentPane().add(botPanel, BorderLayout.SOUTH);
 						// protokollMenu wird erstellt
 						protokollMenuPanel = new ProtokollMenuPanel(connection.gibAlleArtikel());
 						protokollMenuPanel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -522,11 +543,9 @@ public class ShopGUI extends JFrame {
 			public void actionPerformed(ActionEvent ae) {
 				try {
 					kunde = connection.artikelInWarenkorb(artInWPanel.getArtikelNummer(), artInWPanel.getMenge(), (Kunde)aktuellerBenutzer);
-					System.out.println(kunde);
 					HashMap<Artikel, Integer> warenkorbListe = kunde.getWarenkorb().getInhalt();
 					WarenkorbTableModell wtm = (WarenkorbTableModell) warenkorbPanel.warenkorbListe.getModel();
-					wtm.updateDataVector(warenkorbListe);
-					
+					wtm.updateDataVector(warenkorbListe);					
 					frame.cardLayout.show(westPanel, "kundeMenu");
 				} catch (ArtikelNichtVerfuegbarException e) {
 					JOptionPane.showMessageDialog(null, e.getMessage()); 

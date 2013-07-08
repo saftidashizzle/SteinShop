@@ -7,6 +7,6 @@ public class WarenkorbIstLeerException extends Exception {
 	private static final long serialVersionUID = 1L;
 
 	public WarenkorbIstLeerException() {
-		super("Im Warenkorb sind keine Artikel enthalten");
+		super("Im Warenkorb sind keine Artikel enthalten.");
 	}
 }

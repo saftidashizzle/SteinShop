@@ -43,6 +43,8 @@ public class BenutzerPanel extends JPanel {
 				return false;
 			}
 		};
+		benutzerListe.setAutoCreateRowSorter(true);
+
 		
 //		benutzerListe.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 //			public void valueChanged(ListSelectionEvent e) {

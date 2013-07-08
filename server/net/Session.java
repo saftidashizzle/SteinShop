@@ -74,7 +74,7 @@ public class Session implements SessionInterface {
 		server.fuegeUserEin(userName,pw1,anrede,name,str,parseInt,ort,land);		
 	}
 	@Override
-	public HashMap<Artikel, Integer> artikelInWarenkorb(int artikelNummer, int menge, Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException {
+	public Kunde artikelInWarenkorb(int artikelNummer, int menge, Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException {
 		return server.artikelInWarenkorb(artikelNummer,menge,aktuellerBenutzer);
 	}
 	@Override
@@ -91,15 +91,6 @@ public class Session implements SessionInterface {
 	public void warenkorbLeeren(Kunde aktuellerBenutzer) throws WarenkorbIstLeerException {
 		server.warenkorbLeeren(aktuellerBenutzer);
 		
-	}
-	@Override
-	public void artikelNachNamenOrdnen() {
-		server.artikelNachNamenOrdnen();
-		
-	}
-	@Override
-	public void artikelNachZahlenOrdnen() {
-		server.artikelNachZahlenOrdnen();		
 	}
 	@Override
 	public void fuegeArtikelEin(String titel, double d, User aktuellerBenutzer,
@@ -140,6 +131,10 @@ public class Session implements SessionInterface {
 	@Override
 	public Artikel findArtikelByNumber(int artikelNr) throws ArtikelNichtVerfuegbarException {
 		return server.findArtikelByNumber(artikelNr);
+	}
+	@Override
+	public void gibBenutzerWeiter(User aktuellerBenutzer) {
+		server.gibBenutzerWeiter(aktuellerBenutzer);
 	}
 
 }

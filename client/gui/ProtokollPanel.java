@@ -53,6 +53,8 @@ public class ProtokollPanel extends JPanel {
                 return false;
             }
         };
+		ereignisListe.setAutoCreateRowSorter(true);
+
 		
 //		ereignisListe = new JTable(data, columnNames);
 		ereignisScroll = new JScrollPane(ereignisListe);

@@ -17,20 +17,21 @@ public class WarenkorbVerwaltung {
 	 * @return 
 	 * @throws ArtikelMengeReichtNichtException 
 	 */
-	public HashMap<Artikel, Integer> artikelInWarenkorb(Artikel einArtikel, int menge, Kunde k) throws ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException, ArtikelNurInEinheitenVerfügbarException {		
+	public Kunde artikelInWarenkorb(Artikel einArtikel, int menge, Kunde k) throws ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException, ArtikelNurInEinheitenVerfügbarException {		
 		if(menge<=einArtikel.getMenge()){
 			if (einArtikel instanceof MehrfachArtikel) {
 				MehrfachArtikel b = (MehrfachArtikel) einArtikel;
 				int packungsGroesse = b.getPackungsgroesse();
 				if (menge % packungsGroesse == 0) {
 					k.getWarenkorb().artikelHinzufuegen(einArtikel, menge, einArtikel.getMenge());
-					return k.getWarenkorb().getInhalt();
+					
+					return k;
 				} else {
 					throw new ArtikelNurInEinheitenVerfügbarException(packungsGroesse);
 				}
 			} else {
 				k.getWarenkorb().artikelHinzufuegen(einArtikel, menge, einArtikel.getMenge());
-				return k.getWarenkorb().getInhalt();
+				return k;
 			}
 		} else { // gewollte Menge ist größer als die vorhandene Menge
 			ArtikelMengeReichtNichtException e = new ArtikelMengeReichtNichtException(menge, einArtikel.getMenge());

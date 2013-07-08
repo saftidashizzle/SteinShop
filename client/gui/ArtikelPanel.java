@@ -57,6 +57,7 @@ public class ArtikelPanel extends JPanel {
 				return false;
 			}
 		};
+		artikelListe.setAutoCreateRowSorter(true);
 		artikelScroll = new JScrollPane(artikelListe);
 	}
 

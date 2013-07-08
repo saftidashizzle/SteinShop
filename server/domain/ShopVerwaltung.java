@@ -89,16 +89,16 @@ public class ShopVerwaltung {
 	 * @return 
 	 * @throws ArtikelNummerFalsch 
 	 */
-	public HashMap<Artikel, Integer> artikelInWarenkorb(int artID, int menge, Kunde akteur) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException {	
+	public Kunde artikelInWarenkorb(int artID, int menge, Kunde akteur) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException {	
 		Artikel a = artVer.findArtikelByNumber(artID);
 		// überprüfe: sind schon mehr in warenkorb als im bestand?
-		try {		
-			return warkoVer.artikelInWarenkorb(a, menge, akteur);
+		try {
+			 return warkoVer.artikelInWarenkorb(a, menge, (Kunde)userVer.findUserByNumber(akteur.getNummer()));
+//			 userVer.setUser(k);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}	
 		return null;
-//		erVer.ereignisEinfuegen(akteur, a, menge, "in den Warenkorb getan.");
 	}
 	/**
 	 * Methode die einen artikel einliest und an die warenkorb verwaltung durchreicht

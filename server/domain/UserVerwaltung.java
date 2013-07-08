@@ -161,6 +161,14 @@ public class UserVerwaltung implements Serializable {
 			}
 		}
 		throw new LoginFehlgeschlagenException();
-	}	
+	}
+//	public void setUser(Kunde k) {
+//		for(User u:userBestand) {
+//			if (u.getNummer()==k.getNummer()) {
+//				userBestand.remove(u);
+//				userBestand.add(k);
+//			}
+//		}
+//	}	
 
 }

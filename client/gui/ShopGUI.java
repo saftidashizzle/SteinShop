@@ -12,6 +12,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,6 +20,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -30,6 +33,7 @@ import valueobjects.MehrfachArtikel;
 import valueobjects.Mitarbeiter;
 import valueobjects.Rechnung;
 import valueobjects.User;
+import domain.comperatorArtikelName;
 import domain.exceptions.ArtikelAngabenInkorrektException;
 import domain.exceptions.ArtikelMengeInkorrektException;
 import domain.exceptions.ArtikelMengeReichtNichtException;
@@ -134,8 +138,13 @@ public class ShopGUI extends JFrame {
 	}
 	/**
 	 * @param args
+	 * @throws UnsupportedLookAndFeelException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws ClassNotFoundException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		ShopGUI shop = new ShopGUI("SteinShop");
 		try {
 			shop.run();
@@ -320,6 +329,8 @@ public class ShopGUI extends JFrame {
 				char[] pw = loginPanel.getPasswort();
 				try {
 					aktuellerBenutzer = connection.userLogin(name, pw);
+					// TODO Methode wieder rauslöschen
+					connection.gibBenutzerWeiter(aktuellerBenutzer);
 					if (aktuellerBenutzer instanceof Kunde) {
 						kunde = (Kunde)aktuellerBenutzer;
 						frame.cardLayout.show(westPanel, "kundeMenu");
@@ -460,9 +471,14 @@ public class ShopGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				try {
-					HashMap<Artikel, Integer> warenkorbListe = connection.artikelInWarenkorb(artInWPanel.getArtikelNummer(), artInWPanel.getMenge(), (Kunde)aktuellerBenutzer);
+//					System.out.println("vorher: " + kunde.getWarenkorb().getInhalt());
+					kunde =  connection.artikelInWarenkorb(artInWPanel.getArtikelNummer(), artInWPanel.getMenge(), (Kunde)aktuellerBenutzer);
+					// hier muss ich dem kunden von gui auch den neuen warenkorb reinschreiben
+//					System.out.println("nacher: " + kunde.getWarenkorb().getInhalt());
+					HashMap<Artikel, Integer> warenkorbListe = kunde.getWarenkorb().getInhalt();
 					WarenkorbTableModell wtm = (WarenkorbTableModell) warenkorbPanel.warenkorbListe.getModel();
 					wtm.updateDataVector(warenkorbListe);
+					
 					frame.cardLayout.show(westPanel, "kundeMenu");
 				} catch (ArtikelNichtVerfuegbarException e) {
 					JOptionPane.showMessageDialog(null, e.getMessage()); 
@@ -482,11 +498,11 @@ public class ShopGUI extends JFrame {
 			public void valueChanged(ListSelectionEvent e) {
         		if(e.getValueIsAdjusting()) return;
         	        int row = artikelPanel.artikelListe.getSelectedRow();
-        	        int artikelNr = (int)artikelPanel.artikelListe.getValueAt(row, 0);
-        	        artInWPanel.setArtikelNummerTextfield("artikelNr");
+        	        String artikelNr = (String) artikelPanel.artikelListe.getValueAt(row, 0);
+        	        artInWPanel.setArtikelNummerTextfield("" + artikelNr);
         	        try {
-						if (connection.findArtikelByNumber(artikelNr) instanceof MehrfachArtikel) {
-						    artInWPanel.setArtikelMengeTextfield((String) artikelPanel.artikelListe.getValueAt(row, 5));
+						if (connection.findArtikelByNumber(Integer.parseInt(artikelNr)) instanceof MehrfachArtikel) {
+						    artInWPanel.setArtikelMengeTextfield((String) artikelPanel.artikelListe.getValueAt(row, 4));
 						} else {
 							artInWPanel.setArtikelMengeTextfield("1");
 						}
@@ -587,26 +603,30 @@ public class ShopGUI extends JFrame {
 		ActionListener listenerArtikelNamen = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				connection.artikelNachNamenOrdnen();
 				artikelListe = connection.gibAlleArtikel();
+				artikelListe = artikelNachNamenOrdnen(artikelListe);
 				ArtikelTableModell atm = (ArtikelTableModell) artikelPanel.artikelListe.getModel();
 				atm.updateDataVector(artikelListe);
 			}
 		};
 		kundeMenuPanel.addActionListenerArtikelNamen(listenerArtikelNamen);
 		// Listener für Artikel nach Nummern ordnen
-		ActionListener listenerArtikelNummern = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent ae) {
-				connection.artikelNachZahlenOrdnen();
-				artikelListe = connection.gibAlleArtikel();
-				ArtikelTableModell atm = (ArtikelTableModell) artikelPanel.artikelListe.getModel();
-				atm.updateDataVector(artikelListe);
-			}
-		};
-		kundeMenuPanel.addActionListenerArtikelNummer(listenerArtikelNummern);
+//		ActionListener listenerArtikelNummern = new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent ae) {
+//				connection.artikelNachZahlenOrdnen();
+//				artikelListe = connection.gibAlleArtikel();
+//				ArtikelTableModell atm = (ArtikelTableModell) artikelPanel.artikelListe.getModel();
+//				atm.updateDataVector(artikelListe);
+//			}
+//		};
+//		kundeMenuPanel.addActionListenerArtikelNummer(listenerArtikelNummern);
 	}
 	
+	protected List<Artikel> artikelNachNamenOrdnen(List<Artikel> artikelListe) {
+		Collections.sort(artikelListe, new comperatorArtikelName());
+		return artikelListe;
+	}
 	/**
 	 * Methode um alle Listener für das Mitarbeiter Menü zu initialisieren
 	 */

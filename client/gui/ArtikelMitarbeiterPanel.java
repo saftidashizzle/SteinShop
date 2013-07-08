@@ -47,6 +47,7 @@ public class ArtikelMitarbeiterPanel extends ArtikelPanel {
 				}
 			}
 		};
+		artikelListe.setAutoCreateRowSorter(true);
 		artikelScroll = new JScrollPane(artikelListe);
 	}
 }

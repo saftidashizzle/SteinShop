@@ -113,7 +113,7 @@ public class ClientInterfaceImpl implements ClientInterface {
 		session.fuegeUserEin(userName,pw1,anrede,name,str,parseInt,ort,land);
 	}
 
-	public HashMap<Artikel, Integer> artikelInWarenkorb(int artikelNummer, int menge, Kunde aktuellerBenutzer
+	public Kunde artikelInWarenkorb(int artikelNummer, int menge, Kunde aktuellerBenutzer
 			) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException {
 		return session.artikelInWarenkorb(artikelNummer, menge, aktuellerBenutzer);
 	}
@@ -129,14 +129,6 @@ public class ClientInterfaceImpl implements ClientInterface {
 
 	public void warenkorbLeeren(Kunde aktuellerBenutzer) throws WarenkorbIstLeerException {
 		session.warenkorbLeeren(aktuellerBenutzer);		
-	}
-
-	public void artikelNachNamenOrdnen() {
-		session.artikelNachNamenOrdnen();		
-	}
-
-	public void artikelNachZahlenOrdnen() {
-		session.artikelNachZahlenOrdnen();
 	}
 
 	public void fuegeArtikelEin(String titel, double d, User aktuellerBenutzer,
@@ -178,6 +170,10 @@ public class ClientInterfaceImpl implements ClientInterface {
 
 	public Artikel findArtikelByNumber(int artikelNr) throws ArtikelNichtVerfuegbarException {
 		return session.findArtikelByNumber(artikelNr);
+	}
+
+	public void gibBenutzerWeiter(User aktuellerBenutzer) {
+		session.gibBenutzerWeiter(aktuellerBenutzer);
 	}
 
 //	@Override

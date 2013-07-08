@@ -41,7 +41,7 @@ public interface SessionInterface extends Serializable, SimonUnreferenced {
 	public void fuegeUserEin(String userName, char[] pw1, String anrede,
 			String name, String str, int parseInt, String ort, String land) throws InkorrekteRegWerteException;
 
-	public HashMap<Artikel, Integer> artikelInWarenkorb(int artikelNummer, int menge,Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException;
+	public Kunde artikelInWarenkorb(int artikelNummer, int menge,Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException;
 
 	public HashMap<Artikel, Integer> artikelMengeImWarenkorbAendern(int artikelNummer, int menge,
 			Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException;
@@ -49,10 +49,6 @@ public interface SessionInterface extends Serializable, SimonUnreferenced {
 	public void artikelAusWarenkorb(int artikelNummer, Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException;
 
 	public void warenkorbLeeren(Kunde aktuellerBenutzer) throws WarenkorbIstLeerException;
-
-	public void artikelNachNamenOrdnen();
-
-	public void artikelNachZahlenOrdnen();
 
 	public void fuegeArtikelEin(String titel, double d, User aktuellerBenutzer,
 			int menge) throws ArtikelAngabenInkorrektException;
@@ -72,5 +68,7 @@ public interface SessionInterface extends Serializable, SimonUnreferenced {
 	public List<Ereignis> gibEreignisseNachArtikelUndTagen(Artikel a);
 
 	public Artikel findArtikelByNumber(int artikelNr) throws ArtikelNichtVerfuegbarException;
+
+	public void gibBenutzerWeiter(User aktuellerBenutzer);
 	
 }

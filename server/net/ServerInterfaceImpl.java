@@ -137,8 +137,9 @@ public class ServerInterfaceImpl implements ServerInterface {
 		
 	}
 
-	public HashMap<Artikel, Integer> artikelInWarenkorb(int artikelNummer, int menge, Kunde akteur) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException {
-		return shopVer.artikelInWarenkorb(artikelNummer,menge,akteur);
+	public Kunde artikelInWarenkorb(int artikelNummer, int menge, Kunde akteur) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException {
+		Kunde user = shopVer.artikelInWarenkorb(artikelNummer,menge,akteur);
+		return user;
 		
 	}
 
@@ -154,14 +155,6 @@ public class ServerInterfaceImpl implements ServerInterface {
 
 	public void warenkorbLeeren(Kunde aktuellerBenutzer) throws WarenkorbIstLeerException {
 		shopVer.warenkorbLeeren(aktuellerBenutzer);		
-	}
-
-	public void artikelNachNamenOrdnen() {
-		shopVer.artikelNachNamenOrdnen();		
-	}
-
-	public void artikelNachZahlenOrdnen() {
-		shopVer.artikelNachZahlenOrdnen();		
 	}
 
 	public void fuegeArtikelEin(String titel, double d, User aktuellerBenutzer,
@@ -202,5 +195,9 @@ public class ServerInterfaceImpl implements ServerInterface {
 
 	public Artikel findArtikelByNumber(int artikelNr) throws ArtikelNichtVerfuegbarException {
 		return shopVer.findArtikelByNumber(artikelNr);
+	}
+
+	public void gibBenutzerWeiter(User aktuellerBenutzer) {
+		System.out.println("<----> " + aktuellerBenutzer);
 	}
 }

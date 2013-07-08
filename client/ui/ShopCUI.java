@@ -33,6 +33,7 @@ public class ShopCUI {
 	}
 	
 	public static void main(String[] args) {
+		
 		ShopCUI shop = new ShopCUI();
 //		shop.shopVer.fuegeArtikelEin("EINSTEIN", 1.99, null, 12);
 //		shop.shopVer.fuegeArtikelEin("SECHSSTEIN", 9.99, null, 48, 6);

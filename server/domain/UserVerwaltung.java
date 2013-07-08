@@ -68,7 +68,7 @@ public class UserVerwaltung implements Serializable {
 			userBestand.remove(findUserByNumber(userNr));
 		}		
 		else{
-			throw new MitarbeiterNichtVorhandenException();
+			throw new MitarbeiterNichtVorhandenException(userNr);
 		}
 	}
 	public void gibBenutzerlisteAus() {
@@ -102,18 +102,18 @@ public class UserVerwaltung implements Serializable {
 		// muss aufgerufen werden, bevor der datenstrom zur eingabe verwendet werden soll
 		out.close();
 	}
-	public User findUserByNumber(int artID) throws MitarbeiterNichtVorhandenException {
+	public User findUserByNumber(int ID) throws MitarbeiterNichtVorhandenException {
 		Iterator<User> it = userBestand.iterator();
 		// Artikel erstellen
 		User user = null;
 		// Artikelverzeichnis durchlaufen
 		while (it.hasNext()) {
 			user = it.next();
-			// gesuchte Artikel ID gefunden
-			if(artID==user.getNummer()){
+			// gesuchter User gefunden
+			if(ID==user.getNummer()){
 				return user;				
-			} else if (!(artID==user.getNummer())&&!it.hasNext()){ // gesuchte Artikel ID nicht gefunden
-				throw new MitarbeiterNichtVorhandenException(); 
+			} else if (!(ID==user.getNummer())&&!it.hasNext()){ // gesuchte Artikel ID nicht gefunden
+				throw new MitarbeiterNichtVorhandenException(ID); 
 			}
 		}
 		return null;

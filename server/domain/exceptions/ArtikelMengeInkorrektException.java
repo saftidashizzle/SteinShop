@@ -6,7 +6,7 @@ public class ArtikelMengeInkorrektException extends Exception {
 	
 	private static final long serialVersionUID = 1L;
 
-	public ArtikelMengeInkorrektException() {
-		super("Ihre angegebene Menge ist nicht durchführbar");
+	public ArtikelMengeInkorrektException(int zahl) {
+		super("Ihre angegebene Menge(" + zahl + ") ist nicht durchführbar.");
 	}
 }

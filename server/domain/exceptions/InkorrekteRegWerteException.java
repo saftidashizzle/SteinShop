@@ -8,7 +8,7 @@ public class InkorrekteRegWerteException extends Exception {
 
 	public InkorrekteRegWerteException() {
 	
-	super("Falsche Werte bei der Registrierung.");
+	super("Falsche Werte bei der Registrierung. Wahrscheinlich ist die PLZ ungültig.");
 
 	}
 }

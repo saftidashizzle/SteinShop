@@ -74,7 +74,7 @@ public class Artikel implements Serializable {
 		if(zahl>=0){
 			menge = zahl;
 		} else {
-			throw new ArtikelMengeInkorrektException();
+			throw new ArtikelMengeInkorrektException(zahl);
 		}
 	}
 	/**

@@ -6,7 +6,7 @@ public class ArtikelAngabenInkorrektException extends Exception {
 	
 	private static final long serialVersionUID = 1L;
 
-	public ArtikelAngabenInkorrektException() {
-		super("Die Preis- oder Mengenangabe ist inkorrekt");
+	public ArtikelAngabenInkorrektException(String name, double preis, int menge) {
+		super("Die Preis- oder Mengenangabe ist inkorrekt. (Name: " + name + ", Preis: " + preis + " , Menge: " + menge + ")");
 	}
 }

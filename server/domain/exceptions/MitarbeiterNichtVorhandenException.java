@@ -6,7 +6,7 @@ public class MitarbeiterNichtVorhandenException extends Exception {
 	
 	private static final long serialVersionUID = 1L;
 
-	public MitarbeiterNichtVorhandenException() {
-		super("Zu löschender Mitarbeiter nicht vorhanden");
+	public MitarbeiterNichtVorhandenException(int nr) {
+		super("Zu löschender Mitarbeiter" + nr + " nicht vorhanden");
 	}
 }

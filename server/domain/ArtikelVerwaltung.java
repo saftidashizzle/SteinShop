@@ -37,7 +37,7 @@ public class ArtikelVerwaltung implements Serializable {
 	 */
 	public Artikel einfuegen(String titel, double preis, int menge) throws ArtikelAngabenInkorrektException{ 
 		if(preis<=0||menge<=0) {
-			throw new ArtikelAngabenInkorrektException();
+			throw new ArtikelAngabenInkorrektException(titel, preis, menge);
 		} else {
 			int nr = bestimmeNr();
 			Artikel einArtikel = new Artikel(titel, nr, preis, menge);
@@ -53,7 +53,7 @@ public class ArtikelVerwaltung implements Serializable {
 	 */
 	public MehrfachArtikel einfuegen(String titel, double preis, int menge, int packungsGroesse) throws ArtikelAngabenInkorrektException{ 
 		if(preis<=0||menge<=0){
-			throw new ArtikelAngabenInkorrektException();
+			throw new ArtikelAngabenInkorrektException(titel, preis, menge);
 		}
 		else{
 			int nr = bestimmeNr();

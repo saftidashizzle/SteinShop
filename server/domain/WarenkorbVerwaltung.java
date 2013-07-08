@@ -42,8 +42,9 @@ public class WarenkorbVerwaltung {
 	 * Methode um einen Artikel aus der Liste (warenkorb) zu löschen.
 	 * @param einArtikel der Artikel der rausgenommen werden soll.
 	 */
-	public void artikelAusWarenkorb(Artikel artikel, Kunde user){		
+	public Kunde artikelAusWarenkorb(Artikel artikel, Kunde user){		
 		user.getWarenkorb().artikelEntfernen(artikel);
+		return user;
 	}
 	/**
 	 * Methode um die Menge eines Artikels im Warenkorb zu ändern.

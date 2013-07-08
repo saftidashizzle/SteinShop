@@ -27,12 +27,18 @@ public class WarenkorbTableModell extends DefaultTableModel {
                 "Anzahl",
                 "Gesamtpreis"};
 		
-		data = new Object[warenkorb.size()][5];
+		data = new Object[warenkorb.size()+1][5];
 		int i =0;
+		double preis = 0;
 		for(Artikel key : ( warenkorb).keySet()){
 			String[] row = {"" + key.getNummer(), key.getName(), "" + key.getPreis(), "" + warenkorb.get(key), "" + key.getPreis()*warenkorb.get(key) };
 			data[i++] = row;
+			preis = preis + key.getPreis()*warenkorb.get(key);
 		}
+		
+		String[] row = {" ", " ", " ", " ", "" + preis };
+		data[i] = row;
+		i = 0;
 		setDataVector(data, columnNames);
 	}
 }

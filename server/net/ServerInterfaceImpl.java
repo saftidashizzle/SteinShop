@@ -109,7 +109,7 @@ public class ServerInterfaceImpl implements ServerInterface {
 		for (SessionInterface session : sessions){
 			ClientInterface client = session.getClient();
 			User u = client.getUser();
-			System.out.println("u: " + u + "\n user: " + user);
+//			User u = (Kunde)shopVer.findUserByNumber(user.getNummer());
 			if (u!=null && user.getNummer()==u.getNummer()) {
 				throw new UserIstSchonEingeloggtException();
 			}
@@ -144,17 +144,17 @@ public class ServerInterfaceImpl implements ServerInterface {
 	}
 
 	public HashMap<Artikel, Integer> artikelMengeImWarenkorbAendern(int artikelNummer, int menge,
-			Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException {
+			Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, MitarbeiterNichtVorhandenException {
 		return shopVer.artikelMengeImWarenkorbAendern(artikelNummer, menge, aktuellerBenutzer);
 		
 	}
 
-	public void artikelAusWarenkorb(int artikelNummer, Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException {
-		shopVer.artikelAusWarenkorb(artikelNummer, aktuellerBenutzer);
+	public Kunde artikelAusWarenkorb(int artikelNummer, Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, MitarbeiterNichtVorhandenException {
+		return shopVer.artikelAusWarenkorb(artikelNummer, aktuellerBenutzer);
 	}
 
-	public void warenkorbLeeren(Kunde aktuellerBenutzer) throws WarenkorbIstLeerException {
-		shopVer.warenkorbLeeren(aktuellerBenutzer);		
+	public Kunde warenkorbLeeren(Kunde aktuellerBenutzer) throws WarenkorbIstLeerException, MitarbeiterNichtVorhandenException {
+		return shopVer.warenkorbLeeren(aktuellerBenutzer);		
 	}
 
 	public void fuegeArtikelEin(String titel, double d, User aktuellerBenutzer,

@@ -111,12 +111,14 @@ public class ShopGUI extends JFrame {
 				connection.connectToServer();
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(this, e.getMessage());
+				e.printStackTrace();
 			}
 			
 			artikelListe = connection.gibAlleArtikel();
 			userListe = connection.gibAlleUser();
 			ereignisListe = connection.gibProtokollListe();
 		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage()); 
 			e.printStackTrace();
 		}
 		
@@ -150,7 +152,7 @@ public class ShopGUI extends JFrame {
 			shop.run();
 		}
 		catch (Exception e) {
-			System.out.println("Fehler bei der Eingabe");
+			JOptionPane.showMessageDialog(null, e); 
 			e.printStackTrace();
 		}		
 	}
@@ -164,6 +166,7 @@ public class ShopGUI extends JFrame {
 			//gibMenue(); wuerde das anfangsmenue liefern
 			// shopVer.speichereDaten();
 		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e); 
 			e.printStackTrace();
 		}
 	}
@@ -329,8 +332,6 @@ public class ShopGUI extends JFrame {
 				char[] pw = loginPanel.getPasswort();
 				try {
 					aktuellerBenutzer = connection.userLogin(name, pw);
-					// TODO Methode wieder rauslöschen
-					connection.gibBenutzerWeiter(aktuellerBenutzer);
 					if (aktuellerBenutzer instanceof Kunde) {
 						kunde = (Kunde)aktuellerBenutzer;
 						frame.cardLayout.show(westPanel, "kundeMenu");
@@ -348,6 +349,7 @@ public class ShopGUI extends JFrame {
 									// anschließend rechnung ausgeben
 									Rechnung re = connection.rechnungErstellen((Kunde)aktuellerBenutzer);
 								} catch (Exception e) {
+									JOptionPane.showMessageDialog(null, e.getMessage()); 
 									e.printStackTrace();
 								}
 							}
@@ -393,15 +395,15 @@ public class ShopGUI extends JFrame {
 				if(regPanel.getPw1().equals(regPanel.getPw2())) {
 					try {
 						frame.connection.fuegeUserEin(regPanel.getUserName(), regPanel.getPw1(), regPanel.getAnrede(), regPanel.getName(), regPanel.getStr(), Integer.parseInt(regPanel.getPlz()), regPanel.getOrt(), regPanel.getLand());
-						System.out.println("Benutzer erstellt.");
 						} catch (NumberFormatException e) {
-						e.printStackTrace();
+							JOptionPane.showMessageDialog(null, e.getMessage()); 
+							e.printStackTrace();
 					} catch (InkorrekteRegWerteException e) {
-						JOptionPane.showMessageDialog(null, e); 
+						JOptionPane.showMessageDialog(null, e.getMessage()); 
 						e.printStackTrace();
 					}
 				} else {
-					System.out.println("Passwort stimmt nicht überein.");
+					JOptionPane.showMessageDialog(null, "Passwort stimmt nicht überein.");
 				}
 				frame.cardLayout.show(centerPanel, "loginPanel");
 				frame.pack();			}
@@ -414,6 +416,7 @@ public class ShopGUI extends JFrame {
 			public void actionPerformed(ActionEvent ae) {
 				aktuellerBenutzer = null;
 				kunde = null;
+				connection.userLogout();
 				frame.eastPanel.setVisible(false);
 				frame.cardLayout.show(centerPanel, "loginPanel");
 				frame.westPanel.setVisible(false);
@@ -471,10 +474,8 @@ public class ShopGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				try {
-//					System.out.println("vorher: " + kunde.getWarenkorb().getInhalt());
-					kunde =  connection.artikelInWarenkorb(artInWPanel.getArtikelNummer(), artInWPanel.getMenge(), (Kunde)aktuellerBenutzer);
-					// hier muss ich dem kunden von gui auch den neuen warenkorb reinschreiben
-//					System.out.println("nacher: " + kunde.getWarenkorb().getInhalt());
+					kunde = connection.artikelInWarenkorb(artInWPanel.getArtikelNummer(), artInWPanel.getMenge(), (Kunde)aktuellerBenutzer);
+					System.out.println(kunde);
 					HashMap<Artikel, Integer> warenkorbListe = kunde.getWarenkorb().getInhalt();
 					WarenkorbTableModell wtm = (WarenkorbTableModell) warenkorbPanel.warenkorbListe.getModel();
 					wtm.updateDataVector(warenkorbListe);
@@ -507,6 +508,7 @@ public class ShopGUI extends JFrame {
 							artInWPanel.setArtikelMengeTextfield("1");
 						}
 					} catch (ArtikelNichtVerfuegbarException e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage()); 
 						e1.printStackTrace();
 					}	            	        	
 	        }            
@@ -532,6 +534,9 @@ public class ShopGUI extends JFrame {
 				} catch (ArtikelNichtVerfuegbarException e) {
 					JOptionPane.showMessageDialog(null, e.getMessage()); 
 					e.printStackTrace();
+				} catch (MitarbeiterNichtVorhandenException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage());
+					e.printStackTrace();
 				}
 			}
 		};
@@ -539,10 +544,24 @@ public class ShopGUI extends JFrame {
 		// Selection Listener für Artikelmenge im Warenkorb Ändern Panel
 		ListSelectionListener listSelectArtMeng = new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-	            		if(e.getValueIsAdjusting()) return;
-	            	        int row = artikelPanel.artikelListe.getSelectedRow();
-	            	        artMengeInWPanel.setArtikelNummerTextfield((String) artikelPanel.artikelListe.getValueAt(row, 0));
-	            	        artMengeInWPanel.setArtikelMengeTextfield((String) artikelPanel.artikelListe.getValueAt(row, 3));
+        		if(e.getValueIsAdjusting()) return;
+        			int row = artikelPanel.artikelListe.getSelectedRow();
+        	        String artikelNr = (String) artikelPanel.artikelListe.getValueAt(row, 0);
+            		try {
+						if (connection.findArtikelByNumber(Integer.parseInt(artikelNr)) instanceof MehrfachArtikel) {
+							artMengeInWPanel.setArtikelNummerTextfield(artikelNr);
+							artMengeInWPanel.setArtikelMengeTextfield((String) artikelPanel.artikelListe.getValueAt(row, 4));
+						} else {
+							artMengeInWPanel.setArtikelNummerTextfield(artikelNr);
+							artMengeInWPanel.setArtikelMengeTextfield("1");
+						}
+					} catch (NumberFormatException e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage()); 
+						e1.printStackTrace();
+					} catch (ArtikelNichtVerfuegbarException e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage());
+						e1.printStackTrace();
+					}
 	        }            
         };
         artikelPanel.addListSelectionListener(listSelectArtMeng);
@@ -559,7 +578,7 @@ public class ShopGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				try {
-					connection.artikelAusWarenkorb(artAusWPanel.getArtikelNummer(), (Kunde)aktuellerBenutzer);					
+					kunde = connection.artikelAusWarenkorb(artAusWPanel.getArtikelNummer(), (Kunde)aktuellerBenutzer);					
 					HashMap<Artikel, Integer> warenkorbListe = kunde.getWarenkorb().getInhalt();
 					WarenkorbTableModell wtm = (WarenkorbTableModell) warenkorbPanel.warenkorbListe.getModel();
 					wtm.updateDataVector(warenkorbListe);
@@ -568,6 +587,9 @@ public class ShopGUI extends JFrame {
 					JOptionPane.showMessageDialog(null, e.getMessage()); 
 					e.printStackTrace();
 				} catch (ArtikelNichtVerfuegbarException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage()); 
+					e.printStackTrace();
+				} catch (MitarbeiterNichtVorhandenException e) {
 					JOptionPane.showMessageDialog(null, e.getMessage()); 
 					e.printStackTrace();
 				}
@@ -588,41 +610,21 @@ public class ShopGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				try {
-					connection.warenkorbLeeren((Kunde)aktuellerBenutzer);
+					kunde = connection.warenkorbLeeren((Kunde)aktuellerBenutzer);
 					HashMap<Artikel, Integer> warenkorbListe = kunde.getWarenkorb().getInhalt();
 					WarenkorbTableModell wtm = (WarenkorbTableModell) warenkorbPanel.warenkorbListe.getModel();
 					wtm.updateDataVector(warenkorbListe);
 				} catch (WarenkorbIstLeerException e) {
 					JOptionPane.showMessageDialog(null, e.getMessage()); 
 					e.printStackTrace();
+				} catch (MitarbeiterNichtVorhandenException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage()); 
+					e.printStackTrace();
 				}
 			}
 		};
 		kundeMenuPanel.addActionListenerWarenkorbLeeren(listenerWarenkorbLeeren);
-		// Listener für Artikel nach Namen ordnen
-		ActionListener listenerArtikelNamen = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent ae) {
-				artikelListe = connection.gibAlleArtikel();
-				artikelListe = artikelNachNamenOrdnen(artikelListe);
-				ArtikelTableModell atm = (ArtikelTableModell) artikelPanel.artikelListe.getModel();
-				atm.updateDataVector(artikelListe);
-			}
-		};
-		kundeMenuPanel.addActionListenerArtikelNamen(listenerArtikelNamen);
-		// Listener für Artikel nach Nummern ordnen
-//		ActionListener listenerArtikelNummern = new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent ae) {
-//				connection.artikelNachZahlenOrdnen();
-//				artikelListe = connection.gibAlleArtikel();
-//				ArtikelTableModell atm = (ArtikelTableModell) artikelPanel.artikelListe.getModel();
-//				atm.updateDataVector(artikelListe);
-//			}
-//		};
-//		kundeMenuPanel.addActionListenerArtikelNummer(listenerArtikelNummern);
 	}
-	
 	protected List<Artikel> artikelNachNamenOrdnen(List<Artikel> artikelListe) {
 		Collections.sort(artikelListe, new comperatorArtikelName());
 		return artikelListe;

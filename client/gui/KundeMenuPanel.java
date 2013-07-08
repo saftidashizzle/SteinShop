@@ -13,8 +13,6 @@ public class KundeMenuPanel extends JPanel {
 	private static final long serialVersionUID = -1550997639417571062L;
 	private JButton logoutButton;
 	private JButton artikelInWarenkorbButton;
-	private JButton artikelNachNamenButton;
-	private JButton artikelNachNummernButton;
 	private JButton artikelEntfernenButton;
 	private JButton warenkorbLeerenButton;
 	private JButton artikelmengeAendernButton;
@@ -27,12 +25,6 @@ public class KundeMenuPanel extends JPanel {
 		
 		artikelmengeAendernButton = new JButton("Artikelmenge im Warenkorb ändern");
 		this.add(artikelmengeAendernButton);
-		
-		artikelNachNamenButton = new JButton("Artikel nach Namen ordnen");
-		this.add(artikelNachNamenButton);
-		
-		artikelNachNummernButton = new JButton("Artikel nach Nummern ordnen"); 
-		this.add(artikelNachNummernButton);
 		
 		artikelEntfernenButton = new JButton("Artikel aus Warenkorb entfernen"); 
 		this.add(artikelEntfernenButton);
@@ -61,11 +53,4 @@ public class KundeMenuPanel extends JPanel {
 	public void addActionListenerWarenkorbLeeren(ActionListener a) {
 		this.warenkorbLeerenButton.addActionListener(a);
 	}
-	public void addActionListenerArtikelNamen(ActionListener a) {
-		this.artikelNachNamenButton.addActionListener(a);		
-	}
-	public void addActionListenerArtikelNummer(ActionListener a) {
-		this.artikelNachNummernButton.addActionListener(a);		
-	}
-
 }

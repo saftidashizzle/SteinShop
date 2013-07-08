@@ -39,27 +39,28 @@ public class WarenkorbPanel extends JPanel {
 		this.add(kassenZeile, BorderLayout.SOUTH);		
 	}
 	public void fill(Warenkorb w) {
-		String[] columnNames = {"Name",
+		String[] columnNames = {"Nummer",
+				"Name",
                 "Anzahl",
                 "Einzelpreis",
                 "Gesamtpreis"};
 		HashMap<Artikel, Integer> warenkorb = w.getInhalt();
 		//wenn warenkorb leer ist
 		if(warenkorb.isEmpty()){
-			String [] row = { "Keine Artikel im Warenkorb", "0", "0.00", "0.00" };
-			data = new Object[1][4];
+			String [] row = { "Keine ", "Artikel ", "im ", "Warenkorb ", "KAUF WAS!" };
+			data = new Object[1][5];
 			data [0] = row;
 		} else {
 		//die einzelnen Elemente aus der HashMap durchgehen und ausgeben
-			data = new Object[warenkorb.size()+1][4];
+			data = new Object[warenkorb.size()+1][5];
 			int i = 0;
 			double preis = 0;
 			for (Artikel key:warenkorb.keySet()) {
-				String[] row = { ""  + key.getName(), "" + warenkorb.get(key), "" + key.getPreis(), "" + key.getPreis()*warenkorb.get(key) };
+				String[] row = { ""  + key.getNummer(), ""  + key.getName(), "" + warenkorb.get(key), "" + key.getPreis(), "" + key.getPreis()*warenkorb.get(key) };
 				preis = preis + key.getPreis()*warenkorb.get(key);
 				data[i++] = row;
 			}
-			String[] row = { " ", " ", " ", "" + preis };
+			String[] row = {" ", " ", " ", " ", "" + preis };
 			data[i] = row;
 			i = 0;
 		}

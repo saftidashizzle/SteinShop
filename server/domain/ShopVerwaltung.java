@@ -103,22 +103,27 @@ public class ShopVerwaltung {
 	/**
 	 * Methode die einen artikel einliest und an die warenkorb verwaltung durchreicht
 	 * @param artID Artikel ID des zu entfernenden Artikels
+	 * @return 
+	 * @throws MitarbeiterNichtVorhandenException 
 	 */
 
-	public void artikelAusWarenkorb(int artID, Kunde akteur) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException {	
+	public Kunde artikelAusWarenkorb(int artID, Kunde akteur) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, MitarbeiterNichtVorhandenException {	
 		Artikel a = artVer.findArtikelByNumber(artID);
-		warkoVer.artikelAusWarenkorb(a, akteur);
+		Kunde kunde = warkoVer.artikelAusWarenkorb(a, (Kunde)userVer.findUserByNumber(akteur.getNummer()));
 		erVer.ereignisEinfuegen(akteur, a, a.getMenge(), "Artikel " + a.getName() + " aus dem Warenkorb entfernt.");
+		return kunde;
 	}
 	/**
 	 * Methode die, die Warenkorb Liste löscht.
 	 * @return Die Artikelliste.
 	 * @throws WarenkorbIstLeerException 
+	 * @throws MitarbeiterNichtVorhandenException 
 	 */
 
-	public void warenkorbLeeren(Kunde akteur) throws WarenkorbIstLeerException{
-		
+	public Kunde warenkorbLeeren(Kunde akteur) throws WarenkorbIstLeerException, MitarbeiterNichtVorhandenException{
+		akteur = (Kunde)userVer.findUserByNumber(akteur.getNummer());
 		akteur.getWarenkorb().leeren();
+		return akteur;
 		
 	}
 	public Artikel findArtikelByNumber(int artID) throws ArtikelNichtVerfuegbarException {
@@ -128,8 +133,9 @@ public class ShopVerwaltung {
 	 * Methode um den Warenkorb einzukaufen.
 	 * @param User aktuellerBenutzer
 	 * @throws ArtikelNichtVerfuegbarException 
+	 * @throws MitarbeiterNichtVorhandenException 
 	 */
-	public void rechnungErstellen(Kunde akteur) throws ArtikelNichtVerfuegbarException, WarenkorbIstLeerException, ArtikelMengeInkorrektException{
+	public void rechnungErstellen(Kunde akteur) throws ArtikelNichtVerfuegbarException, WarenkorbIstLeerException, ArtikelMengeInkorrektException, MitarbeiterNichtVorhandenException{
 		// key == Artikel
 		HashMap<Artikel, Integer> warenkorb = akteur.getWarenkorb().getInhalt();
 		if(warenkorb.isEmpty()){
@@ -254,10 +260,11 @@ public class ShopVerwaltung {
 	 * @param akteur
 	 * @return 
 	 * @throws ArtikelNichtVerfuegbarException
+	 * @throws MitarbeiterNichtVorhandenException 
 	 */
-	public HashMap<Artikel, Integer> artikelMengeImWarenkorbAendern(int artID, int menge, Kunde akteur) throws ArtikelNichtVerfuegbarException {			
+	public HashMap<Artikel, Integer> artikelMengeImWarenkorbAendern(int artID, int menge, Kunde akteur) throws ArtikelNichtVerfuegbarException, MitarbeiterNichtVorhandenException {			
 		Artikel a = artVer.findArtikelByNumber(artID);
-		return warkoVer.setArtikelMenge(a, menge, akteur);
+		return warkoVer.setArtikelMenge(a, menge, (Kunde)userVer.findUserByNumber(akteur.getNummer()));
 	}
 	public void einkaufsVerlauf(int artID) throws ArtikelNichtVerfuegbarException {
 		Artikel a = artVer.findArtikelByNumber(artID);

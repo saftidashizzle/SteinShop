@@ -79,17 +79,17 @@ public class Session implements SessionInterface {
 	}
 	@Override
 	public HashMap<Artikel, Integer> artikelMengeImWarenkorbAendern(int artikelNummer, int menge,
-			Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException {
+			Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, MitarbeiterNichtVorhandenException {
 		return server.artikelMengeImWarenkorbAendern(artikelNummer, menge, aktuellerBenutzer);
 		
 	}
 	@Override
-	public void artikelAusWarenkorb(int artikelNummer, Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException {
-		server.artikelAusWarenkorb(artikelNummer, aktuellerBenutzer);
+	public Kunde artikelAusWarenkorb(int artikelNummer, Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, MitarbeiterNichtVorhandenException {
+		return server.artikelAusWarenkorb(artikelNummer, aktuellerBenutzer);
 	}
 	@Override
-	public void warenkorbLeeren(Kunde aktuellerBenutzer) throws WarenkorbIstLeerException {
-		server.warenkorbLeeren(aktuellerBenutzer);
+	public Kunde warenkorbLeeren(Kunde aktuellerBenutzer) throws WarenkorbIstLeerException, MitarbeiterNichtVorhandenException {
+		return server.warenkorbLeeren(aktuellerBenutzer);
 		
 	}
 	@Override
@@ -135,6 +135,10 @@ public class Session implements SessionInterface {
 	@Override
 	public void gibBenutzerWeiter(User aktuellerBenutzer) {
 		server.gibBenutzerWeiter(aktuellerBenutzer);
+	}
+	@Override
+	public void userLogout() {
+		client.userLogout();
 	}
 
 }

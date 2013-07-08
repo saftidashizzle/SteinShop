@@ -44,11 +44,11 @@ public interface SessionInterface extends Serializable, SimonUnreferenced {
 	public Kunde artikelInWarenkorb(int artikelNummer, int menge,Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException;
 
 	public HashMap<Artikel, Integer> artikelMengeImWarenkorbAendern(int artikelNummer, int menge,
-			Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException;
+			Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, MitarbeiterNichtVorhandenException;
 
-	public void artikelAusWarenkorb(int artikelNummer, Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException;
+	public Kunde artikelAusWarenkorb(int artikelNummer, Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, MitarbeiterNichtVorhandenException;
 
-	public void warenkorbLeeren(Kunde aktuellerBenutzer) throws WarenkorbIstLeerException;
+	public Kunde warenkorbLeeren(Kunde aktuellerBenutzer) throws WarenkorbIstLeerException, MitarbeiterNichtVorhandenException;
 
 	public void fuegeArtikelEin(String titel, double d, User aktuellerBenutzer,
 			int menge) throws ArtikelAngabenInkorrektException;
@@ -70,5 +70,7 @@ public interface SessionInterface extends Serializable, SimonUnreferenced {
 	public Artikel findArtikelByNumber(int artikelNr) throws ArtikelNichtVerfuegbarException;
 
 	public void gibBenutzerWeiter(User aktuellerBenutzer);
+
+	public void userLogout();
 	
 }

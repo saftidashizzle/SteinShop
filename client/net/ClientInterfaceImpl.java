@@ -66,7 +66,7 @@ public class ClientInterfaceImpl implements ClientInterface {
 	
 	public void logout(){
 		safeLogout = true;
-		aktuellerBenutzer=null;
+//		aktuellerBenutzer=null;
 		// Lookup-Bindung wieder lösen
 		lookup.release(server);
 	}
@@ -119,16 +119,16 @@ public class ClientInterfaceImpl implements ClientInterface {
 	}
 
 	public HashMap<Artikel, Integer> artikelMengeImWarenkorbAendern(int artikelNummer, int menge,
-			Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException {
+			Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, MitarbeiterNichtVorhandenException {
 		return session.artikelMengeImWarenkorbAendern(artikelNummer, menge, aktuellerBenutzer);
 	}
 
-	public void artikelAusWarenkorb(int artikelNummer, Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException {
-		session.artikelAusWarenkorb(artikelNummer, aktuellerBenutzer);
+	public Kunde artikelAusWarenkorb(int artikelNummer, Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, MitarbeiterNichtVorhandenException {
+		return session.artikelAusWarenkorb(artikelNummer, aktuellerBenutzer);
 	}
 
-	public void warenkorbLeeren(Kunde aktuellerBenutzer) throws WarenkorbIstLeerException {
-		session.warenkorbLeeren(aktuellerBenutzer);		
+	public Kunde warenkorbLeeren(Kunde aktuellerBenutzer) throws WarenkorbIstLeerException, MitarbeiterNichtVorhandenException {
+		return session.warenkorbLeeren(aktuellerBenutzer);		
 	}
 
 	public void fuegeArtikelEin(String titel, double d, User aktuellerBenutzer,
@@ -174,6 +174,10 @@ public class ClientInterfaceImpl implements ClientInterface {
 
 	public void gibBenutzerWeiter(User aktuellerBenutzer) {
 		session.gibBenutzerWeiter(aktuellerBenutzer);
+	}
+
+	public void userLogout() {
+		aktuellerBenutzer = null;
 	}
 
 //	@Override

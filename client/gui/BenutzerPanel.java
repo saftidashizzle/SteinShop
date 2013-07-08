@@ -35,7 +35,16 @@ public class BenutzerPanel extends JPanel {
                 "Vor und Nachname"};
 		
         model = new BenutzerTableModell(liste, columnNames);
-		benutzerListe = new JTable(model);
+		benutzerListe = new JTable(model) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -4378437356611858223L;
+
+			public boolean isCellEditable(int x, int y) {
+				return false;
+			}
+		};
 		
 		benutzerListe.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {

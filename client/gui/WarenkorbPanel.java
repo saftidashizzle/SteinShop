@@ -29,20 +29,7 @@ public class WarenkorbPanel extends JPanel {
 		super();
 		
 		this.setLayout(new BorderLayout ());
-//		
-//		artikelListe = new JPanel();
-//		
-//		// Artikelliste erstellen
-//		artikelZeile = new JPanel();
-//		artikelZeile.setLayout(new GridLayout(2,3));
-//		artikelZeile.add(new JLabel(" "));
-//		artikelZeile.add(new JLabel("Warenkorb"));
-//		artikelZeile.add(new JLabel(" "));
-//		artikelZeile.add(new JLabel("Name"));
-//		artikelZeile.add(new JLabel("Anzahl"));
-//		artikelZeile.add(new JLabel("Gesamtpreis"));
-//
-//		this.add(artikelZeile, BorderLayout.NORTH);
+
 		fill(warenkorb);
 		
 		kassenZeile = new JPanel();

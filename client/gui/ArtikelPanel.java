@@ -44,8 +44,18 @@ public class ArtikelPanel extends JPanel {
 		}
 		i = 0;
 		model = new ArtikelTableModell(data, columnNames);
+	
 		
-		artikelListe = new JTable(model);
+		artikelListe = new JTable(model) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1824987424405259505L;
+
+			public boolean isCellEditable(int x, int y) {
+				return false;
+			}
+		};
 		artikelScroll = new JScrollPane(artikelListe);
 	}
 }

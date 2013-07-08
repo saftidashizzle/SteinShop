@@ -8,6 +8,8 @@ import java.awt.MenuBar;
 import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -290,6 +292,16 @@ public class ShopGUI extends JFrame {
 			}
 		};
 		menuItemQuit.addActionListener(listenerQuit);
+		
+		// WINDOW LISTENER
+		this.addWindowListener(new WindowAdapter(){
+			public void windowClosing(WindowEvent e){
+				super.windowClosing(e);
+				connection.logout();
+				System.exit(0);
+			}
+		});
+
 
 		// Back Button für Registrier Panel
 		ActionListener listenerBack = new ActionListener() {

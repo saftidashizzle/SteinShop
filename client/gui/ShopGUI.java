@@ -379,8 +379,6 @@ public class ShopGUI extends JFrame {
 							public void valueChanged(ListSelectionEvent e) {
 				        		if(e.getValueIsAdjusting()) return;
 				        	        int row = protokollMenuPanel.artikelListe.getSelectedRow();
-				        	        frame.cardLayout.removeLayoutComponent(protokollPanel);
-				        	        protokollPanel = null;
 				        	        Artikel a = null;
 									try {
 										a = connection.findArtikelByNumber(Integer.parseInt((String) protokollMenuPanel.artikelListe.getValueAt(row, 0)));
@@ -389,13 +387,9 @@ public class ShopGUI extends JFrame {
 										JOptionPane.showMessageDialog(null, e); 
 										e1.printStackTrace();
 									}
-				        	        protokollPanel = new ArtikelProtokollPanel(connection.gibEreignisseNachArtikelUndTagen(a), a.getName());
-				        	        centerPanel.add(protokollPanel, "protokollPanel");
-//				        	        frame.cardLayout.addLayoutComponent(centerPanel, "protokollPanel");
-				        	        frame.cardLayout.show(centerPanel, "protokollPanel");
+									protokollPanel.drawChart(connection.gibEreignisseNachArtikelUndTagen(a), a.getName());
 				        	        frame.repaint();
 				        	        frame.revalidate();
-				        	        frame.pack();
 				        	        
 					        }            
 				        };

@@ -271,14 +271,7 @@ public class ShopGUI extends JFrame {
 		// WestPanel hinzufügen
 		this.add(westPanel, BorderLayout.WEST);
 		westPanel.setVisible(false);
-		
-		// Top Panel und Bot Panel erstellen und hinzufügen
-		topPanel = new TopPanel();
-		this.add(topPanel, BorderLayout.NORTH);
-		
-		// Bottom Panel 
-		botPanel = new BottomPanel();
-		this.add(botPanel, BorderLayout.SOUTH);
+		this.pack();
 	}
 	/**
 	 * Initialisieren und registrieren aller Listener und Event-Handler
@@ -334,6 +327,13 @@ public class ShopGUI extends JFrame {
 				try {
 					aktuellerBenutzer = connection.userLogin(name, pw);
 					if (aktuellerBenutzer instanceof Kunde) {
+						// Top Panel und Bot Panel erstellen und hinzufügen
+						topPanel = new TopPanel();
+						frame.add(topPanel, BorderLayout.NORTH);
+						
+						// Bottom Panel 
+						botPanel = new BottomPanel();
+						frame.add(botPanel, BorderLayout.SOUTH);
 						kunde = (Kunde)aktuellerBenutzer;
 						frame.cardLayout.show(westPanel, "kundeMenu");
 						frame.cardLayout.show(centerPanel, "artikelPanel");
@@ -362,6 +362,13 @@ public class ShopGUI extends JFrame {
 						frame.eastPanel.setVisible(true);						
 
 					} else if(aktuellerBenutzer instanceof Mitarbeiter) {
+						// Top Panel und Bot Panel erstellen und hinzufügen
+						topPanel = new TopPanel();
+						frame.add(topPanel, BorderLayout.NORTH);
+						
+						// Bottom Panel 
+						botPanel = new BottomPanel();
+						frame.add(botPanel, BorderLayout.SOUTH);
 						// protokollMenu wird erstellt
 						protokollMenuPanel = new ProtokollMenuPanel(connection.gibAlleArtikel());
 						protokollMenuPanel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -373,6 +380,7 @@ public class ShopGUI extends JFrame {
 				        		if(e.getValueIsAdjusting()) return;
 				        	        int row = protokollMenuPanel.artikelListe.getSelectedRow();
 				        	        frame.cardLayout.removeLayoutComponent(protokollPanel);
+				        	        protokollPanel = null;
 				        	        Artikel a = null;
 									try {
 										a = connection.findArtikelByNumber(Integer.parseInt((String) protokollMenuPanel.artikelListe.getValueAt(row, 0)));
@@ -382,9 +390,11 @@ public class ShopGUI extends JFrame {
 										e1.printStackTrace();
 									}
 				        	        protokollPanel = new ArtikelProtokollPanel(connection.gibEreignisseNachArtikelUndTagen(a), a.getName());
-				        	        centerPanel.add(protokollPanel);
-//				        	        frame.cardLayout.addLayoutComponent(centerPanel, protokollPanel);
+				        	        centerPanel.add(protokollPanel, "protokollPanel");
+//				        	        frame.cardLayout.addLayoutComponent(centerPanel, "protokollPanel");
 				        	        frame.cardLayout.show(centerPanel, "protokollPanel");
+				        	        frame.repaint();
+				        	        frame.revalidate();
 				        	        frame.pack();
 				        	        
 					        }            
@@ -459,6 +469,8 @@ public class ShopGUI extends JFrame {
 				aktuellerBenutzer = null;
 				kunde = null;
 				connection.userLogout();
+				frame.topPanel.setVisible(false);
+				frame.botPanel.setVisible(false);
 				frame.eastPanel.setVisible(false);
 				frame.cardLayout.show(centerPanel, "loginPanel");
 				frame.westPanel.setVisible(false);

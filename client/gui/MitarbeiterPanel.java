@@ -10,13 +10,12 @@ import javax.swing.JTabbedPane;
 
 import valueobjects.Artikel;
 import valueobjects.Ereignis;
-import valueobjects.User;
 
 public class MitarbeiterPanel extends JPanel {
     /**
 	 * 
 	 */
-	ArtikelPanel artikelPanel;
+	ArtikelMitarbeiterPanel artikelPanel;
 	BenutzerPanel benutzerPanel;
 	public JTabbedPane tabbedPane;
 	private static final long serialVersionUID = -8768799264538074055L;
@@ -26,7 +25,7 @@ public class MitarbeiterPanel extends JPanel {
         
         tabbedPane = new JTabbedPane();
         
-        artikelPanel = new ArtikelPanel(artikelListe);
+        artikelPanel = new ArtikelMitarbeiterPanel(artikelListe);
         tabbedPane.addTab("Artikelliste", artikelPanel);
         tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
         

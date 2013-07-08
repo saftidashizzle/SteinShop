@@ -64,6 +64,7 @@ public class ShopGUI extends JFrame {
 	private WarenkorbPanel warenkorbPanel;
 	// Center
 	private ArtikelPanel artikelPanel;
+	private ArtikelMitarbeiterPanel artikelMitarbeiterPanel;
 	private MitarbeiterPanel mitarbeiterPanel;
 	private ArtikelProtokollPanel protokollPanel;
 	// West, Mitarbeitermenue

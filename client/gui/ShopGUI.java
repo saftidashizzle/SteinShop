@@ -359,6 +359,12 @@ public class ShopGUI extends JFrame {
 										@Override
 										public void actionPerformed(ActionEvent ae) {
 											frame.cardLayout.show(centerPanel, "artikelPanel");
+											artikelListe = connection.gibAlleArtikel();	
+											// TODO artikel liste aktualisren
+											centerPanel.remove(artikelPanel);
+											artikelPanel = new ArtikelPanel(artikelListe);
+											centerPanel.add(artikelPanel, "artikelPanel");
+											frame.cardLayout.show(centerPanel, "artikelPanel");
 											frame.pack();
 										}
 									};
@@ -832,6 +838,8 @@ public class ShopGUI extends JFrame {
 	    		if(e.getValueIsAdjusting()) return;
 	    	        int row = mitarbeiterPanel.artikelPanel.artikelListe.getSelectedRow();
 	    	        artDelPanel.setArtikelNummerTextfield((String) mitarbeiterPanel.artikelPanel.artikelListe.getValueAt(row, 0));
+	    	        artikelListe = connection.gibAlleArtikel();
+					mitarbeiterPanel.updateArtikelListe(artikelListe);
 	        	}            
 	        };
 	        mitarbeiterPanel.artikelPanel.addListSelectionListener(listSelectArtDel);

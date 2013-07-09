@@ -59,7 +59,7 @@ public class ArtikelPanel extends JPanel {
 				return false;
 			}
 		};
-		artikelListe.setAutoCreateRowSorter(true);
+//		artikelListe.setAutoCreateRowSorter(true);
 		final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>( model );
 		sorter.setComparator( 0, new Comparator<String>() {
 			  public int compare( String s1, String s2 )

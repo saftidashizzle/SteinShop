@@ -365,7 +365,6 @@ public class ShopGUI extends JFrame {
 										public void actionPerformed(ActionEvent ae) {
 											frame.cardLayout.show(centerPanel, "artikelPanel");
 											artikelListe = connection.gibAlleArtikel();	
-											// TODO artikel liste aktualisren
 											centerPanel.remove(artikelPanel);
 											artikelPanel = new ArtikelPanel(artikelListe);
 											centerPanel.add(artikelPanel, "artikelPanel");

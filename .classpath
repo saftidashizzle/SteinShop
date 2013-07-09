@@ -4,9 +4,9 @@
 	<classpathentry kind="src" path="commons"/>
 	<classpathentry kind="src" path="server"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="lib" path="C:/Users/philipp/Dropbox/PROG MINF GEST rock the house/PROG/SIMON/simon commons/libs/simon-1.1.3-jar-with-dependencies.jar"/>
-	<classpathentry kind="lib" path="C:/Users/philipp/Downloads/jfreechart-1.0.15/jfreechart-1.0.15-demo.jar"/>
 	<classpathentry kind="lib" path="forms-1.3.0.jar" sourcepath="forms-1.3.0-src.zip"/>
 	<classpathentry kind="lib" path="miglayout15-swing.jar" sourcepath="miglayout-src.zip"/>
+	<classpathentry kind="lib" path="/commons/libs/simon-1.1.3-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="C:/Hochschule/eclipse/jfreechart-1.0.15/jfreechart-1.0.15-demo.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

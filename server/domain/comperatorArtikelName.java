@@ -5,6 +5,9 @@ import java.util.Comparator;
 import valueobjects.Artikel;
 
 	public class comperatorArtikelName implements Comparator<Artikel>{
+		/**
+		 * Methode, um nach Namen zu sortieren
+		 */
 		public comperatorArtikelName() {
 			super();
 		}

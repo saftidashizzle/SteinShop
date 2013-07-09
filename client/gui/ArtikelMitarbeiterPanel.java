@@ -1,24 +1,27 @@
 package gui;
 
-import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 import valueobjects.Artikel;
 
 public class ArtikelMitarbeiterPanel extends ArtikelPanel {
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = -7837851496937539934L;
+	
+	/**
+	 * Methode, die eine liste übergeben bekommt
+	 * @param liste
+	 */
 	public ArtikelMitarbeiterPanel(List<Artikel> liste) {
 		super(liste);
 	}
+	/**
+	 * Methode, die eine liste befüllt
+	 */
 	public void fill(List<Artikel> liste) {
 		String[] columnNames = {"Nummer",
                 "Name",
@@ -43,32 +46,14 @@ public class ArtikelMitarbeiterPanel extends ArtikelPanel {
 			private static final long serialVersionUID = 1824987424405259505L;
 
 			public boolean isCellEditable(int x, int y) {
-				// das ist für editierung direkt im table und bestätigung mittels enter, haben wir allerdings doch nicht implementiert, 
-				/*
 				if (y==0) {
 					return false;
 				} else {
 					return true;
-				}*/
-				return false;
+				}
 			}
 		};
-		final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>( model );
-		sorter.setComparator( 0, new Comparator<String>() {
-			  public int compare( String s1, String s2 )
-			  {
-			    int i1 = Integer.parseInt( s1 );
-			    int i2 = Integer.parseInt( s2 );
-			    if(i1>i2) {
-			    	return 1;
-			    } else if (i2==i1) {
-			    	return 0;
-			    } else {
-			    	return -1;
-			    }
-			  }
-			} );
-		artikelListe.setRowSorter(sorter);
+		artikelListe.setAutoCreateRowSorter(true);
 		artikelScroll = new JScrollPane(artikelListe);
 	}
 }

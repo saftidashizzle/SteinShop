@@ -84,7 +84,10 @@ public class Artikel implements Serializable {
 	public double getPreis(){
 		return preis;
 	}
-
+	/**
+	 * Methode, die die PAckungsgroesse zurückgibt.
+	 * @return zurückgegebene Packungsgroesse
+	 */
 	public int getPackungsgroesse() {
 		return 1;
 	}

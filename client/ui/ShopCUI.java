@@ -32,7 +32,11 @@ public class ShopCUI {
 		aktuellerBenutzer = null;
 		in = new BufferedReader(new InputStreamReader(System.in));
 	}
-	
+	/**main Methode
+	 * 
+	 * @param args
+	 * @throws ArtikelAngabenInkorrektException
+	 */
 	public static void main(String[] args) throws ArtikelAngabenInkorrektException {
 		
 		ShopCUI shop = new ShopCUI();
@@ -257,7 +261,10 @@ public class ShopCUI {
 			System.out.println(e);				
 		}
 	}
-
+	/**
+	 * Methode, zum erstellen eines neuen Mitarbeiters
+	 * @throws IOException
+	 */
 	private void mitarbeiterErstellen() throws IOException {
 		System.out.println("Waehle deinen Benutzernamen:");
 		String benutzername = liesEingabe();
@@ -280,6 +287,10 @@ public class ShopCUI {
 			System.out.println(e);				
 		}
 	}
+	/**
+	 * Methode, zum ändern der Artikelmenge
+	 * @throws IOException
+	 */
 	private void artikelmengeAendern() throws IOException {
 		System.out.println("Artikelliste:");
 		gibArtikellisteAus();
@@ -296,6 +307,10 @@ public class ShopCUI {
 		}
 		System.out.println("Artikel wurden hinzugefügt!");
 	}
+	/**
+	 * Methode, um einen neuen Artikel anzulegen
+	 * @throws IOException
+	 */
 	private void neuenArtikelAnlegen() throws IOException {
 		System.out.println("Moechtes du einen Mehrfachartikel speichern? (j für ja und n für nein)");
 		String mehrfach = liesEingabe();
@@ -359,15 +374,7 @@ public class ShopCUI {
 				} catch (Exception e) {
 					System.out.println(e);
 				}
-				
-				//gibArtikellisteAus();
 				break;
-//			case "b": 
-//				System.out.println("Welchen Artikel?");
-//				eingabe = liesEingabe();
-//				int artID = Integer.parseInt(eingabe);
-//				artikelBeschreibung(artID);
-//				break;
 			case "n": shopVer.artikelNachNamenOrdnen();
 					break;
 			case "f": shopVer.artikelNachZahlenOrdnen();

@@ -21,13 +21,21 @@ public class ProtokollPanel extends JPanel {
 	Object[][] data;
     TableModel model;
 	private static final long serialVersionUID = 2332524247825957602L;
-
+	
+	/**
+	 * Setzen des Layouts und befüllen mit Inhalt
+	 * @param liste
+	 */
 	public ProtokollPanel(List<Ereignis> liste) {
 		super();
 		setLayout(new GridLayout(1, 1));
 		fill(liste);				
 		this.add(ereignisScroll);
 	}
+	/**
+	 * Methode zum befüllen einer Liste
+	 * @param liste
+	 */
 	public void fill(List<Ereignis> liste) {
 		String[] columnNames = {"Datum",
                 "Artikel",

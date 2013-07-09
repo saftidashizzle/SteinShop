@@ -9,6 +9,9 @@ public class BottomPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 2918283340094782157L;
 	
+	/**
+	 * Setzen des Layouts und befüllen mit Inhalt
+	 */
 	public BottomPanel() {
 		super();
 		

@@ -19,7 +19,13 @@ public class MitarbeiterPanel extends JPanel {
 	BenutzerPanel benutzerPanel;
 	public JTabbedPane tabbedPane;
 	private static final long serialVersionUID = -8768799264538074055L;
-
+	
+	/**
+	 * Setzen des Layouts und befüllen mit Inhalt
+	 * @param artikelListe
+	 * @param benutzerListe
+	 * @param protokoll
+	 */
 	public MitarbeiterPanel(List<Artikel> artikelListe, Object[][] benutzerListe, List<Ereignis> protokoll) {
         super(new GridLayout(1, 1));
         
@@ -43,10 +49,18 @@ public class MitarbeiterPanel extends JPanel {
         //The following line enables to use scrolling tabs.
         tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
     }
+	/**
+	 * Methode, die die Artikelliste aktualisiert
+	 * @param liste
+	 */
 	public void updateArtikelListe(List<Artikel> liste) {
 		ArtikelTableModell atm = (ArtikelTableModell) artikelPanel.artikelListe.getModel();
 		atm.updateDataVector(liste);
 	}
+	/**
+	 * Methode, die die Benutzerliste aktualisiert
+	 * @param userListe
+	 */
 	public void updateUserListe(Object[][] userListe) {
 		BenutzerTableModell atm = (BenutzerTableModell) benutzerPanel.benutzerListe.getModel();
 		atm.updateDataVector(userListe);

@@ -24,6 +24,10 @@ public class ProtokollMenuPanel extends JPanel {
 	private Object[][] data;
 	private ArtikelTableModell model;
 	
+	/**
+	 * Setzen des Layouts und befüllen mit Inhalt
+	 * @param liste
+	 */
 	public ProtokollMenuPanel(List<Artikel> liste) {
 		super();
 		this.setBackground(Color.white);
@@ -61,11 +65,17 @@ public class ProtokollMenuPanel extends JPanel {
 		this.add(backButton);
 		
 	}
-
+	/**
+	 * Fügt einen SelectionListener zur Artikelliste hinzu
+	 * @param a
+	 */
 	public void addListSelectionListener(ListSelectionListener a) {
 		artikelListe.getSelectionModel().addListSelectionListener(a);
 	}
-	
+	/**
+	 * Fügt einen ActionListener zum Back Button hinzu
+	 * @param a
+	 */
 	public void addActionListenerBack(ActionListener a) {
 		this.backButton.addActionListener(a);
 	}

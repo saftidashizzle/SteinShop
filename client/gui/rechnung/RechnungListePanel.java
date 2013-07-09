@@ -17,7 +17,10 @@ public class RechnungListePanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = -2802210553999627458L;
-
+	/**
+	 * Setzen des Layouts und befüllen mit Inhalt
+	 * @param rechnung
+	 */
 	public RechnungListePanel(Rechnung rechnung){
 		this.setLayout(new BorderLayout(10,10));
 		this.add(new JLabel("Rechnung"), BorderLayout.NORTH);

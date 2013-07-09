@@ -15,7 +15,10 @@ public class GekauftListePanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 336606700357886974L;
-	
+	/**
+	 * Setzen des Layouts und befüllen mit Inhalt
+	 * @param warenkorb
+	 */
 	public GekauftListePanel(Warenkorb warenkorb){
 		this.setLayout(new GridLayout(warenkorb.getInhalt().size()+1,5));
 		this.add(new JLabel("Nr"));

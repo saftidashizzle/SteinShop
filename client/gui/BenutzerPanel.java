@@ -18,6 +18,10 @@ public class BenutzerPanel extends JPanel {
 	JScrollPane benutzerScroll;
     TableModel model;
     
+    /**
+     * Setzen des Layouts und befüllen mit Inhalt
+     * @param liste
+     */
 	public BenutzerPanel(Object[][] liste) {
 		super();
 		this.setLayout(new GridLayout(1,1));
@@ -26,6 +30,10 @@ public class BenutzerPanel extends JPanel {
 		fill(liste);
 		this.add(benutzerScroll);
 	}
+	/**
+	 * Methode, zum befüllen einer Liste
+	 * @param liste
+	 */
 	public void fill(Object[][] liste) {
 		String[] columnNames = {"Nummer",
                 "Name",
@@ -46,17 +54,14 @@ public class BenutzerPanel extends JPanel {
 		benutzerListe.setAutoCreateRowSorter(true);
 
 		
-//		benutzerListe.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-//			public void valueChanged(ListSelectionEvent e) {
-//	            		if(e.getValueIsAdjusting()) return;
-//	            	        int row = benutzerListe.getSelectedRow()+1;
-//	            	        System.out.println("Selected row: "+row);
-//	        }            
-//        });
-		
+
 		benutzerScroll = new JScrollPane(benutzerListe);
 		
 	}
+	/**
+	 * Fügt einen SelectionListener zur Benutzerliste hinzu
+	 * @param a
+	 */
 	public void addListSelectionListener(ListSelectionListener a) {
 		benutzerListe.getSelectionModel().addListSelectionListener(a);
 

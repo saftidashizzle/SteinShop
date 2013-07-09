@@ -26,7 +26,10 @@ public class RegPanel extends JPanel {
 	private JTextField ortTextfield;
 	private JTextField landTextfield;
 	private static final long serialVersionUID = -286039067067091624L;
-
+	
+	/**
+	 * Setzen des Layouts und befüllen mit Inhalt
+	 */
 	public RegPanel() {
 		super();
 		this.setLayout(new GridLayout(10, 2));
@@ -81,30 +84,66 @@ public class RegPanel extends JPanel {
 	public void addActionListenerBack(ActionListener a) {
 		this.backButton.addActionListener(a);
 	}
+	/**
+	 * Methode, die einen Namen zurückgibt
+	 * @return zurückgegebener NAme
+	 */
 	public String getUserName() {
 		return this.userNameTextfield.getText();
 	}
+	/**
+	 * MEthode, die ein PAsswort zurückgibt
+	 * @return zurückgegebenes Passwort
+	 */
 	public char[] getPw1() {
 		return this.pw1Textfield.getPassword();
 	}
+	/**
+	 * Methode, die ein PAsswort zurückgibt
+	 * @return zurückgegebenes Passwort
+	 */
 	public char[] getPw2() {
 		return this.pw2Textfield.getPassword();
 	}
+	/**
+	 * Methode, die eine Anrede zurückgibt
+	 * @return zurückgegebene Anrede
+	 */
 	public String getAnrede() {
 		return (String) this.dropdownmenu.getSelectedItem();
 	}
+	/**
+	 * Methode, die einen Namen zurückgibt
+	 * @return zurückgegebener Name
+	 */
 	public String getName() {
 		return this.nameTextfield.getText();
 	}
+	/**
+	 * Methode, die eine Strasse zurückgibt
+	 * @return zurückgegebene Strasse
+	 */
 	public String getStr() {
 		return this.strTextfield.getText();
 	}
+	/**
+	 * Methode, die eine PLZ zurückgibt
+	 * @return zurückgegebene PLZ
+	 */
 	public String getPlz() {
 		return this.plzTextfield.getText();
 	}
+	/**
+	 * Methode, die einen Ort zurückgibt
+	 * @return zurückgegebener Ort
+	 */
 	public String getOrt() {
 		return this.ortTextfield.getText();
 	}
+	/**
+	 * Methode, die ein Land zurückgibt
+	 * @return zurückgegebenes Land
+	 */
 	public String getLand() {
 		return this.landTextfield.getText();
 	}

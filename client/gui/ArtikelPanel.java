@@ -24,6 +24,11 @@ public class ArtikelPanel extends JPanel {
 	JTable artikelListe;
 	Object[][] data;
 	TableModel model;
+	
+	/**
+	 * Setzen des Layouts und befüllen mit Inhalt
+	 * @param liste
+	 */
 	public ArtikelPanel(List<Artikel> liste) {
 		super();
 		this.setLayout(new GridLayout(1,1));
@@ -32,6 +37,10 @@ public class ArtikelPanel extends JPanel {
 		fill(liste);
 		this.add(artikelScroll);
 	}
+	/**
+	 * Methode, die eine liste befüllt
+	 * @param liste
+	 */
 	public void fill(List<Artikel> liste) {
 		String[] columnNames = {"Nummer",
                 "Name",
@@ -59,7 +68,7 @@ public class ArtikelPanel extends JPanel {
 				return false;
 			}
 		};
-//		artikelListe.setAutoCreateRowSorter(true);
+		artikelListe.setAutoCreateRowSorter(true);
 		final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>( model );
 		sorter.setComparator( 0, new Comparator<String>() {
 			  public int compare( String s1, String s2 )
@@ -78,7 +87,10 @@ public class ArtikelPanel extends JPanel {
 		artikelListe.setRowSorter(sorter);
 		artikelScroll = new JScrollPane(artikelListe);
 	}
-
+	/**
+	 * Fügt einen SelectionListener der Liste hinzu
+	 * @param a
+	 */
 	public void addListSelectionListener(ListSelectionListener a) {
 		artikelListe.getSelectionModel().addListSelectionListener(a);
 	}

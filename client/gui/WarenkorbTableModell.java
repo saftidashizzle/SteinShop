@@ -19,6 +19,10 @@ public class WarenkorbTableModell extends DefaultTableModel {
 		rowCount = data.length;
 		
 	}
+	/**
+	 * Methode, zum Aktualisieren des Warenkorbs
+	 * @param warenkorb
+	 */
 	public void updateDataVector(HashMap<Artikel, Integer> warenkorb) {
 		
 		String[] columnNames = {"Nummer",

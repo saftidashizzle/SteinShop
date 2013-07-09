@@ -13,12 +13,16 @@ public class NewArtPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = -7268405076864774172L;
-	JTextField artikelNameTextfield;
+	private JTextField artikelNameTextfield;
 	private JTextField mengeTextfield;
 	private JTextField preisTextfield;
 	private JTextField sizeTextfield;
 	private JButton okButton;
 	private JButton backButton;
+	
+	/**
+	 * Setzen des Layouts und befüllen mit Inhalt
+	 */
 	public NewArtPanel() {
 		super();
 		this.setLayout(new GridLayout(5, 2));
@@ -56,15 +60,31 @@ public class NewArtPanel extends JPanel {
 	public void addActionListenerOK(ActionListener a) {
 		this.okButton.addActionListener(a);
 	}
+	/**
+	 * Methode, die einen Artikelnamen zurückgibt
+	 * @return zurückgegebener Artikelname
+	 */
 	public String getArtikelName() {
 		return this.artikelNameTextfield.getText();
 	}
+	/**
+	 * Methode, die eine Menge zurückgibt
+	 * @return zurückgegebene Menge
+	 */
 	public int getMenge() {
 		return Integer.parseInt(this.mengeTextfield.getText());
 	}
+	/**
+	 * Methode, die einen Preis zurückgibt
+	 * @return zurückgegebener Preis
+	 */
 	public double getPreis() {
 		return Double.parseDouble(this.preisTextfield.getText());
 	}
+	/**
+	 * Methode, die die Packungsgroesse zurückgibt
+	 * @return zurückgegebene Packungsgroesse
+	 */
 	public int getPackungsgroesse() {
 		return Integer.parseInt(this.sizeTextfield.getText());
 	}

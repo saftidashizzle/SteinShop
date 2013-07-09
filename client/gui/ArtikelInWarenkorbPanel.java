@@ -14,10 +14,14 @@ public class ArtikelInWarenkorbPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = -2662697469208559962L;
-	JTextField artnrTextfield;
+	private JTextField artnrTextfield;
 	private JTextField mengeTextfield;
 	private JButton okButton;
 	private JButton backButton;
+	
+	/**
+	 * Setzen des Layouts und befüllen mit Inhalt
+	 */
 	public ArtikelInWarenkorbPanel() {
 		super();
 		this.setLayout(new GridLayout(3, 2));
@@ -50,15 +54,31 @@ public class ArtikelInWarenkorbPanel extends JPanel {
 	public void addActionListenerOK(ActionListener a) {
 		this.okButton.addActionListener(a);
 	}
+	/**
+	 * Methode, die eine Artikelnummer zurückgibt
+	 * @return zurückgegebene Artikelnummer
+	 */
 	public int getArtikelNummer() {
 		return Integer.parseInt(this.artnrTextfield.getText());
 	}
+	/**
+	 * Methode, die eine Menge zurückgibt
+	 * @return zurückgegebene Menge
+	 */
 	public int getMenge() {
 		return Integer.parseInt(this.mengeTextfield.getText());
 	}
+	/**
+	 * Methode, zum setzen/vorgeben der Artikelnummer
+	 * @param nr 
+	 */
 	public void setArtikelNummerTextfield(String nr) {
 		this.artnrTextfield.setText(nr);
 	}
+	/**
+	 * Methode, zum setzen/vorgeben der Menge
+	 * @param m
+	 */
 	public void setArtikelMengeTextfield(String m) {
 		this.mengeTextfield.setText(m);
 	}

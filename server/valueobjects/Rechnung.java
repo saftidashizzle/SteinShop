@@ -35,45 +35,21 @@ public class Rechnung implements Serializable {
 		System.out.println("Gesamtpreis: " + gesamtpreis);
 		this.gesamtpreis = gesamtpreis;
 	}
-	/**
-	 * Methode, die die Anrede des Kunden zurückgibt
-	 * @return zurückgegebene Anrede
-	 */
 	public String getAnrede() {		
 		return kunde.getAnrede();
 	}
-	/**
-	 * Methode, die den Vor und Zunamen des Kunden zurückgibt
-	 * @return zurückgegebenen Vor und Zunamen
-	 */
 	public String getVorZuname() {		
 		return kunde.getVorUndZuName();
 	}
-	/**
-	 * Methode, die die Adressdaten des Kunden zurückgibt
-	 * @return zurückgegebene Adressdaten
-	 */
 	public String getAdresse() {		
 		return kunde.getAdresse();
 	}
-	/**
-	 * Methode, die das Datum zurückgibt
-	 * @return zurückgegebenes Datum
-	 */
 	public Date getDatum() {
 		return this.datum;
 	}
-	/**
-	 * Methode, die den Gesamtbetrag zurückgibt
-	 * @return zurückgegebenen Gesamtbetrag
-	 */
 	public double getGesamtbetrag() {
 		return this.gesamtpreis;
-	} 
-	/**
-	 * Methode, die den Warenkorb zurückgibt
-	 * @return zurückgegebenen Warenkorb
-	 */
+	}
 	public Warenkorb getWarenkorb(){
 		return this.warenkorb;
 	}

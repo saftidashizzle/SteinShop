@@ -13,15 +13,17 @@ public class ArtikelTableModell extends DefaultTableModel {
 	private static final long serialVersionUID = -8059390534653512407L;
 	Object[][] data;
 	int rowCount;	
-
+	
 	public ArtikelTableModell(Object[][] data, String[] columnNames) {
 		super(data, columnNames);
 		rowCount = data.length;
 		
 	}
-	/**
-	 * Methode, zum Aktualisieren der Artikelliste
-	 * @param liste
+	/*
+	 * Ziel: Ein Table Modell für: Artikel, Benutzer, Ereignisse, Warenkorb
+	 * 
+	 * Mehrere updateDAtaVector funktionen: je nachdem was für ein Typ von Liste übergeben wird
+	 * 
 	 */
 	public void updateDataVector(List<Artikel> liste) {
 			

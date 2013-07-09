@@ -43,6 +43,13 @@ public class Kunde extends User{
 	public String getName(){
 		return name;
 	}
+//	/**
+//	 * Getter für das Passwort
+//	 * @return gibt das Passwort des Benutzerobjekts zurück.
+//	 */
+//	public char[] getPasswort(){
+//		return passwort;
+//	}
 	/** 
 	 * Methode die die Nummer des Userobjektes zurück gibt.
 	 * @return Die zurückgegebene Nummer.

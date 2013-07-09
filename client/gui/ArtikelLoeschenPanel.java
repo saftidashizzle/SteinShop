@@ -13,13 +13,9 @@ public class ArtikelLoeschenPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = -2662697469208559962L;
-	public JTextField artnrTextfield;
+	JTextField artnrTextfield;
 	private JButton okButton;
 	private JButton backButton;
-	
-	/**
-	 * Setzen des Layouts und befüllen mit Inhalt
-	 */
 	public ArtikelLoeschenPanel() {
 		super();
 		this.setLayout(new GridLayout(2, 2));
@@ -48,17 +44,9 @@ public class ArtikelLoeschenPanel extends JPanel {
 	public void addActionListenerOK(ActionListener a) {
 		this.okButton.addActionListener(a);
 	}
-	/**
-	 * Methode, die eine Artikelnummer zurückgibt
-	 * @return zurückgegebene Artikelnummer
-	 */
 	public int getArtikelNummer() {
 		return Integer.parseInt(this.artnrTextfield.getText());
 	}
-	/**
-	 * MEthode, zum setzen/vorgeben der Artikelnummer
-	 * @param valueAt
-	 */
 	public void setArtikelNummerTextfield(String valueAt) {
 		this.artnrTextfield.setText(valueAt);
 	}

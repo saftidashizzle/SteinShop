@@ -11,9 +11,6 @@ public class FussTextPanel extends JLabel {
 	 * 
 	 */
 	private static final long serialVersionUID = -4907253899870936333L;
-	/**
-	 * Setzen des Layouts und befüllen mit Inhalt
-	 */
 	public FussTextPanel() {
 		super();
 		this.setLayout(new FlowLayout());

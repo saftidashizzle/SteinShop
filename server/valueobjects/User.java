@@ -72,17 +72,11 @@ public abstract class User implements Serializable {
 	public String getAdresse() {
 		return null;
 	}
-	/**
-	 * Methode, die die Anrede des Userobjekts zurückgibt.
-	 * @return Die zurückgegebene Anrede
-	 */
+
 	public String getAnrede() {
 		return anrede;
 	}
-	/**
-	 * Methode, die den Vor und Zunamen des Userobjektes zurückgibt.
-	 * @return Den zurückgegebenen Vor und Zuname
-	 */
+
 	public String getVorUndZuName() {
 		return vorUndZuName;
 	}

@@ -22,10 +22,12 @@ import domain.exceptions.ArtikelNichtVerfuegbarException;
 
 public class ArtikelVerwaltung implements Serializable {
 
-	
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 7311633406194415444L;
 	private List<Artikel> artikelBestand = new Vector<Artikel>();
-	private int laufnr;
+	private int laufnr = 0;
 	
 	/**
 	 * Methode um einen neuen Artikel in die Liste einzufügen.
@@ -130,11 +132,6 @@ public class ArtikelVerwaltung implements Serializable {
 	private int bestimmeNr() {
 		return ++laufnr;
 	}
-	/**
-	 * Methode, zum Serialisieren/Speichern der Daten
-	 * @throws FileNotFoundException
-	 * @throws IOException
-	 */
 	public void schreibeDaten() throws FileNotFoundException, IOException {
 		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Artikel.ser")); 
 		// hier schleife in der dir jeweiligen objekte (artikel, user, ereignisse durchgegangen werden
@@ -154,12 +151,6 @@ public class ArtikelVerwaltung implements Serializable {
 		// muss aufgerufen werden, bevor der datenstrom zur eingabe verwendet werden soll
 		out.close();
 	}
-	/**
-	 * Methode, zum Laden der serialisierten Daten
-	 * @throws FileNotFoundException
-	 * @throws IOException
-	 * @throws ClassNotFoundException
-	 */
 	public void ladeDaten() throws FileNotFoundException, IOException, ClassNotFoundException {
 		int count = 0;
 		ObjectInputStream in = new ObjectInputStream(new FileInputStream("Artikel.ser"));

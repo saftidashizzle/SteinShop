@@ -22,92 +22,27 @@ public class LoginPanel extends JPanel {
 	private JPasswordField pwTextfield;
 	private JButton regButton;
 	private static final long serialVersionUID = -286039067067091624L;
-	
-	/**
-	 * Setzen des Layouts und befüllen mit Inhalt
-	 */
+
 	public LoginPanel() {
 		super();
 		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 200));
 		loginButton = new JButton("Login");
 		regButton = new JButton("Registrieren");
-		pwTextfield = new JPasswordField("123");
-		userTextfield = new JTextField("Kunde");
+		pwTextfield = new JPasswordField();
+		userTextfield = new JTextField();
 		JPanel pane = new JPanel();
 		pane.setLayout(new GridLayout(2, 3));
 		this.add(pane);
 		
 		pane.add(new JLabel("User: "));
-		
 		pane.add(userTextfield);
 		pane.add(loginButton);
 		pane.add(new JLabel("Passwort: "));
 		pane.add(pwTextfield);
 		pane.add(regButton);
 		
-
 			
-//			//BoxLayout für das this einstellen
-//			this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
-//			
-//			//JLabels und JTextfields zur Eingabe
-//			JLabel lblUser = new JLabel("Login:");
-//			JTextField txtUser = new JTextField("User");
-//			JLabel lblPass = new JLabel("Password:");
-//			JPasswordField txtPass = new JPasswordField("pass");
-//			
-//			this.add(lblUser);
-//			
-//			this.add(Box.createRigidArea(new Dimension(0,5)));
-//			
-//			this.add(txtUser);
-//			
-//			this.add(
-//			Box.createRigidArea(new Dimension(0,5)));
-//			
-//			this.add(lblPass);
-//			
-//			this.add(
-//			Box.createRigidArea(new Dimension(0,5)));
-//			
-//			this.add(txtPass);
-//			
-//			/*
-//			* Buttonbereich des JFrames einstellen
-//			*/
-//			
-//			//JPanel für die Buttons
-//			JPanel buttonPanel = new JPanel();
-//			
-//			//BoxLayout für das buttonPanel einstellen
-//			buttonPanel.setLayout(
-//			new BoxLayout(
-//			buttonPanel,BoxLayout.LINE_AXIS));
-//			
-//			//oben, links, unten, rechts
-//			buttonPanel.setBorder(
-//			BorderFactory.createEmptyBorder(5,0,5,0));
-//			
-//			//JButtons erstellen
-//			btnOk = new JButton("Ok");
-//			btnCancel = new JButton("Cancel");
-//			
-//			buttonPanel.add(
-//			Box.createHorizontalGlue());
-//			
-//			buttonPanel.add(btnOk);
-//			
-//			buttonPanel.add(
-//			Box.createRigidArea(
-//			new Dimension(5,0)));
-//			
-//			buttonPanel.add(btnCancel);
-//			
-//			setSize(220,160);
-//			setLocation(50,50);
-		
-			
-			setVisible(true);
+		setVisible(true);
 	}
 	/**
 	 * Fügt einen ActionListener zu dieser Komponente (dem loginButton) hinzu

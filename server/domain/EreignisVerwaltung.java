@@ -20,13 +20,7 @@ import valueobjects.User;
 
 public class EreignisVerwaltung {
 	private List<Ereignis> protokoll = new Vector<Ereignis>();
-	/**
-	 * Methode, die ein Ereignis einfügt
-	 * @param akteur
-	 * @param derWars
-	 * @param anzahl
-	 * @param aktion
-	 */
+
 	public void ereignisEinfuegen(User akteur, Artikel derWars, int anzahl, String aktion) {
 		Ereignis ereignis = new Ereignis(akteur, derWars, anzahl, aktion);
 		protokoll.add(ereignis);
@@ -47,11 +41,6 @@ public class EreignisVerwaltung {
 		}
 		System.out.println(" ");
 	}
-	/**
-	 * Methode, die die Ereignisliste ausgibt
-	 * @param a
-	 * @return Ereignisliste
-	 */
 	public List<Ereignis> gibEreignisseNachArtikelUndTagen(Artikel a) {
 	// anzahl tage wird nicht benutzt
 		List<Ereignis> liste = new Vector<Ereignis>();
@@ -78,12 +67,6 @@ public class EreignisVerwaltung {
 			
 	
 	}
-	/**
-	 * Methode, zum Laden der serialisierten/gespeicherten Daten
-	 * @throws FileNotFoundException
-	 * @throws IOException
-	 * @throws ClassNotFoundException
-	 */
 	public void ladeDaten() throws FileNotFoundException, IOException, ClassNotFoundException {
 		int count = 0;
 		ObjectInputStream in = new ObjectInputStream(new FileInputStream("Ereignisse.ser"));
@@ -111,11 +94,6 @@ public class EreignisVerwaltung {
 				}
 		}
 	}
-	/**
-	 * Methode, zum Serialisieren/Speichern der Daten
-	 * @throws FileNotFoundException
-	 * @throws IOException
-	 */
 	public void schreibeDaten() throws FileNotFoundException, IOException {
 		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Ereignisse.ser")); 
 		// hier schleife in der dir jeweiligen objekte (artikel, user, ereignisse durchgegangen werden

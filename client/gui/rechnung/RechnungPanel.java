@@ -14,11 +14,8 @@ public class RechnungPanel extends JPanel {
 	private static final long serialVersionUID = -3010974526025246317L;
 	private AnschriftPanel anschriftPanel;
 	public RechnungListePanel rechnungListePanel;
+//	private FussTextPanel fussTextPanel;
 	
-	/**
-	 * Setzen des Layouts und befüllen mit Inhalt
-	 * @param rechnung
-	 */
 	public RechnungPanel(Rechnung rechnung) {
 		this.setLayout(new BorderLayout(10,10));
 		System.out.println("" + rechnung.getAdresse());
@@ -26,5 +23,7 @@ public class RechnungPanel extends JPanel {
 		this.add(anschriftPanel, BorderLayout.NORTH);
 		rechnungListePanel = new RechnungListePanel(rechnung);
 		this.add(rechnungListePanel, BorderLayout.CENTER);
+//		fussTextPanel = new FussTextPanel();
+//		this.add(fussTextPanel, BorderLayout.SOUTH);
 	}
 }

@@ -13,14 +13,10 @@ public class ArtikelmengeAendernPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = -2662697469208559962L;
-	public JTextField artnrTextfield;
+	JTextField artnrTextfield;
 	private JTextField mengeTextfield;
 	private JButton okButton;
 	private JButton backButton;
-	
-	/**
-	 * Setzen des Layout und befüllen mit Inhalt
-	 */
 	public ArtikelmengeAendernPanel() {
 		super();
 		this.setLayout(new GridLayout(3, 2));
@@ -53,31 +49,15 @@ public class ArtikelmengeAendernPanel extends JPanel {
 	public void addActionListenerOK(ActionListener a) {
 		this.okButton.addActionListener(a);
 	}
-	/**
-	 * Methode, die eine Nummer zurückgibt
-	 * @return zurückgegebene Nummer
-	 */
 	public int getNummer() {
 		return Integer.parseInt(this.artnrTextfield.getText());
 	}
-	/**
-	 * Methode, die eine Menge zurückgibt
-	 * @return zurückgegebene Menge
-	 */
 	public int getMenge() {
 		return Integer.parseInt(this.mengeTextfield.getText());
 	}
-	/**
-	 * Methode, zum setzen/vorgeben der Artikelnummer
-	 * @param valueAt
-	 */
 	public void setArtikelNummerTextfield(String valueAt) {
 		this.artnrTextfield.setText(valueAt);
 	}
-	/**
-	 * Methode, zum setzen/vorgeben der Menge
-	 * @param valueAt
-	 */
 	public void setArtikelMengeTextfield(String valueAt) {
 		this.mengeTextfield.setText(valueAt);		
 	}

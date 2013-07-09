@@ -16,10 +16,6 @@ public class KundeMenuPanel extends JPanel {
 	private JButton artikelEntfernenButton;
 	private JButton warenkorbLeerenButton;
 	private JButton artikelmengeAendernButton;
-	
-	/**
-	 * Setzen des Layouts und befüllen mit Inhalt
-	 */
 	public KundeMenuPanel(){
 		super();
 		this.setLayout(new GridLayout(7,1));
@@ -40,38 +36,20 @@ public class KundeMenuPanel extends JPanel {
 		this.add(logoutButton);
 		
 	}
-	/**
-	 * Fügt einen ActionListener zum Logout Button hinzu
-	 * @param a
-	 */
+
 	public void addActionListenerLogout(ActionListener a) {
 		this.logoutButton.addActionListener(a);
 	}
-	/**
-	 * Fügt einen ActionListener zum Artikel in Warenkorb Button hinzu
-	 * @param a
-	 */
 	public void addActionListenerArtInW(ActionListener a) {
 		this.artikelInWarenkorbButton.addActionListener(a);
 	}
-	/**
-	 * Fügt einen ActionListener zum Artikelmenge ändern Button hinzu
-	 * @param a
-	 */
 	public void addActionListenerArtMenge(ActionListener a) {
 		this.artikelmengeAendernButton.addActionListener(a);		
 	}
-	/**
-	 * Fügt einen ActionListener zum Artikel entfernen Button hinzu
-	 * @param a
-	 */
 	public void addActionListenerArtAusW(ActionListener a) {
 		this.artikelEntfernenButton.addActionListener(a);
 	}
-	/**
-	 * Fügt einen ActionListener zum Warenkorb leeren Button hinzu
-	 * @param a
-	 */
+
 	public void addActionListenerWarenkorbLeeren(ActionListener a) {
 		this.warenkorbLeerenButton.addActionListener(a);
 	}

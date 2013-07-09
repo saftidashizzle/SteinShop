@@ -17,9 +17,6 @@ public class MitarbeiterMenuPanel extends JPanel {
 	private JButton artikelProtokollButton;
 	private JButton mitarbeiterRegistrierenButton;
 	
-	/**
-	 * Setzen des Layouts und befüllen mit Inhalt
-	 */
 	public MitarbeiterMenuPanel() {
 		super();
 		this.setLayout(new GridLayout(7,1));
@@ -46,52 +43,24 @@ public class MitarbeiterMenuPanel extends JPanel {
 		this.add(logoutButton);
 
 	}
-	/**
-	 * Fügt einen ActionListener zum Logout Button hinzu
-	 * @param a
-	 */
 	public void addActionListenerLogout(ActionListener a) {
 		this.logoutButton.addActionListener(a);
 	}
-	/**
-	 * Fügt einen ActionListener zum Artikel anlegen Button hinzu
-	 * @param a
-	 */
 	public void addActionListenerNewArt(ActionListener a) {
 		this.artikelAnlegenButton.addActionListener(a);
 	}
-	/**
-	 * Fügt einen ActionListener zum Menge ändern Button hinzu
-	 * @param a
-	 */
 	public void addActionListenerArtMeng(ActionListener a) {
 		this.mengeAendernButton.addActionListener(a);
 	}
-	/**
-	 * Fügt einen ActionListener zum Artikel löschen Button hinzu
-	 * @param a
-	 */
 	public void addActionListenerDelArt(ActionListener a) {
 		this.artikelLoeschenButton.addActionListener(a);
 	}
-	/**
-	 * Fügt einen ActionListener zum Mitarbeiter Registrieren Button hinzu
-	 * @param a
-	 */
 	public void addActionListenerMitReg(ActionListener a) {
 		this.mitarbeiterRegistrierenButton.addActionListener(a);
 	}
-	/**
-	 * Fügt einen ActionListener zum Mitarbeiter löschen Button hinzu
-	 * @param a
-	 */
 	public void addActionListenerUsrDel(ActionListener a) {
 		this.mitarbeiterLoeschenButton.addActionListener(a);
 	}
-	/**
-	 * Fügt einen ActionListener zum Artikel Protokoll Button hinzu
-	 * @param a
-	 */
 	public void addActionListenerProtokoll(ActionListener a) {
 		this.artikelProtokollButton.addActionListener(a);
 	}

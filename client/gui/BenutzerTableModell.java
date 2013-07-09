@@ -16,10 +16,7 @@ public class BenutzerTableModell extends DefaultTableModel {
 		rowCount = data.length;
 		
 	}
-	/**
-	 * Methode, zum Aktualisieren der Benutzerliste
-	 * @param liste
-	 */
+	
 	public void updateDataVector(Object[][] liste) {
 			
 			String[] columnNames = {"Nummer",

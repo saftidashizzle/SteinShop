@@ -1,6 +1,6 @@
 package domain.exceptions;
 /**
- * Exception, die sagt, dass die eingegebene Menge nicht durchführbar ist
+ * Exception, ??
  */
 public class ArtikelMengeInkorrektException extends Exception {
 	

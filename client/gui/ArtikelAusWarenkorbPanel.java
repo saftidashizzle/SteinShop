@@ -14,12 +14,9 @@ public class ArtikelAusWarenkorbPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = -2662697469208559962L;
-	private JTextField artnrTextfield;
+	JTextField artnrTextfield;
 	private JButton okButton;
 	private JButton backButton;
-	/**
-	 * Setzen des Layouts und befüllen mit Inhalt
-	 */
 	public ArtikelAusWarenkorbPanel() {
 		super();
 		this.setLayout(new GridLayout(2, 2));
@@ -48,17 +45,9 @@ public class ArtikelAusWarenkorbPanel extends JPanel {
 	public void addActionListenerOK(ActionListener a) {
 		this.okButton.addActionListener(a);
 	}
-	/**
-	 * Methode, die eine Artikelnummer zurückgibt
-	 * @return zurückgegebene Artikelnummer
-	 */
 	public int getArtikelNummer() {
 		return Integer.parseInt(this.artnrTextfield.getText());
 	}
-	/**
-	 * Methode, zum setzen/vorgeben einer Artikelnummer
-	 * @param arg0
-	 */
 	public void setArtikelNummerTextfield(String arg0) {
 		this.artnrTextfield.setText(arg0);
 	}

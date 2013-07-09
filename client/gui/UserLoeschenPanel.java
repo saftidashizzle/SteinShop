@@ -13,13 +13,9 @@ public class UserLoeschenPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = -2662697469208559962L;
-	private JTextField usernrTextfield;
+	JTextField usernrTextfield;
 	private JButton okButton;
 	private JButton backButton;
-	
-	/**
-	 * Setzen des Layouts und befüllen mit Inhalt
-	 */
 	public UserLoeschenPanel() {
 		super();
 		this.setLayout(new GridLayout(2, 2));
@@ -48,17 +44,9 @@ public class UserLoeschenPanel extends JPanel {
 	public void addActionListenerOK(ActionListener a) {
 		this.okButton.addActionListener(a);
 	}
-	/**
-	 * MEthode, die eine Nummer zurückgibt
-	 * @return zurückgegebene Nummer
-	 */
 	public int getUserNummer() {
 		return Integer.parseInt(this.usernrTextfield.getText());
 	}
-	/**
-	 * Methode, zum setzen/vorgeben einer Artikelnummer
-	 * @param valueAt
-	 */
 	public void setArtikelNummerTextfield(String valueAt) {
 		this.usernrTextfield.setText(valueAt);
 	}

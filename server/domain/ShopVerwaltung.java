@@ -127,19 +127,13 @@ public class ShopVerwaltung {
 		return akteur;
 		
 	}
-	/**
-	 * Methode, um einen Artikel nach der Nummer zu suchen
-	 * @param artID
-	 * @return Artikel, mit "der" Nummer
-	 * @throws ArtikelNichtVerfuegbarException
-	 */
 	public Artikel findArtikelByNumber(int artID) throws ArtikelNichtVerfuegbarException {
 		return artVer.findArtikelByNumber(artID);
 	}
 	/** 
 	 * Methode um den Warenkorb einzukaufen.
 	 * @param User aktuellerBenutzer
-	 * @return rechnung
+	 * @return 
 	 * @throws ArtikelNichtVerfuegbarException 
 	 * @throws MitarbeiterNichtVorhandenException 
 	 */
@@ -236,14 +230,11 @@ public class ShopVerwaltung {
 		userVer.loescheUser(userNr, aktuellerBenutzer);
 	}
 	/**
-	 * Methode die, die Artikelliste ausgibt
+	 * Methode die, die Artikelliste ausgiebt
 	 */
 	public void gibArtikellisteAus() {
 		artVer.gibArtikellisteAus();		
 	}
-	/**
-	 * Methode, die die Benutzerliste ausgibt
-	 */
 	public void gibBenutzerlisteAus() {
 		userVer.gibBenutzerlisteAus();
 	}
@@ -254,23 +245,12 @@ public class ShopVerwaltung {
 	public void getWarenkorbInhalt(User user){
 		warkoVer.getWarenkorbInhalt(user);
 	}
-	/**
-	 * Methode, die die ladeDaten Methoden der unteren Verwaltungen aufruft
-	 * @throws FileNotFoundException
-	 * @throws IOException
-	 * @throws ClassNotFoundException
-	 */
 	public void ladeDaten() throws FileNotFoundException, IOException, ClassNotFoundException {
 		artVer.ladeDaten(); //funktioniert
 		userVer.ladeDaten(); // user objekte
 		erVer.ladeDaten();			
 	
 	}
-	/**
-	 * Methode, die die speichereDaten Methoden der unteren Verwaltungen aufruft
-	 * @throws FileNotFoundException
-	 * @throws IOException
-	 */
 	public void speichereDaten() throws FileNotFoundException, IOException {
 		artVer.schreibeDaten();
 		userVer.schreibeDaten2(); //user objekte
@@ -289,11 +269,6 @@ public class ShopVerwaltung {
 		Artikel a = artVer.findArtikelByNumber(artID);
 		return warkoVer.setArtikelMenge(a, menge, (Kunde)userVer.findUserByNumber(akteur.getNummer()));
 	}
-	/**
-	 * Methode, die den Mengenverlauf eines Artikels ausgibt
-	 * @param artID
-	 * @throws ArtikelNichtVerfuegbarException
-	 */
 	public void einkaufsVerlauf(int artID) throws ArtikelNichtVerfuegbarException {
 		Artikel a = artVer.findArtikelByNumber(artID);
 		// die soll ich verwenden und bauen
@@ -320,13 +295,6 @@ public class ShopVerwaltung {
 		erVer.ereignisEinfuegen(aktuellerBenutzer, a, a.getMenge(), "Artikel gelöscht.");
 		artVer.loescheArtikel(a);		
 	}
-	/**
-	 * Methode, um sich einzuloggen
-	 * @param name
-	 * @param passwort
-	 * @return
-	 * @throws LoginFehlgeschlagenException
-	 */
 	public User userLogin(String name, char[] passwort) throws LoginFehlgeschlagenException {
 		return userVer.userLogin(name, passwort);
 	}

@@ -1,5 +1,6 @@
 package gui;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -11,6 +12,6 @@ public class TopPanel extends JPanel {
 
 	public TopPanel() {
 		super();
-		this.add(new JLabel("Stein Shop: Hallo!"));
+		this.add(new JLabel(new ImageIcon("Bild.png")));
 	}
 }

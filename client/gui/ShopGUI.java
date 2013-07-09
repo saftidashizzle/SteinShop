@@ -753,6 +753,7 @@ public class ShopGUI extends JFrame {
 				frame.cardLayout.show(centerPanel, "mitarbeiterPanel");
 				frame.mitarbeiterPanel.tabbedPane.setSelectedIndex(0);
 				frame.cardLayout.show(westPanel, "artMengPanel");
+				artMengPanel.artnrTextfield.requestFocus();
 				frame.pack();
 			}
 		};
@@ -785,7 +786,7 @@ public class ShopGUI extends JFrame {
         		if(e.getValueIsAdjusting()) return;
         	        int row = mitarbeiterPanel.artikelPanel.artikelListe.getSelectedRow();
         	        artMengPanel.setArtikelNummerTextfield((String) mitarbeiterPanel.artikelPanel.artikelListe.getValueAt(row, 0));
-        	        artMengPanel.setArtikelMengeTextfield((String) mitarbeiterPanel.artikelPanel.artikelListe.getValueAt(row, 3));
+        	        artMengPanel.setArtikelMengeTextfield((String) mitarbeiterPanel.artikelPanel.artikelListe.getValueAt(row, 4));
 	        }            
         };
         mitarbeiterPanel.artikelPanel.addListSelectionListener(listSelectArtMenge);
@@ -796,6 +797,8 @@ public class ShopGUI extends JFrame {
 				frame.cardLayout.show(centerPanel, "mitarbeiterPanel");
 				frame.mitarbeiterPanel.tabbedPane.setSelectedIndex(0);
 				frame.cardLayout.show(westPanel, "artDelPanel");
+				// TODO hier steht der code
+				artDelPanel.artnrTextfield.requestFocus();
 				frame.pack();
 			}
 		};

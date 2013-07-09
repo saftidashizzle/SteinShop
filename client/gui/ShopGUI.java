@@ -780,16 +780,15 @@ public class ShopGUI extends JFrame {
 		};
 		artMengPanel.addActionListenerOK(listenerArtMengOK);
 		// Selection Listener für Artikelmenge Ändern Panel
-		// TODO Funktioniert komischerweise nicht
 		ListSelectionListener listSelectArtMenge = new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
         		if(e.getValueIsAdjusting()) return;
-        	        int row = artikelPanel.artikelListe.getSelectedRow();
-        	        artMengPanel.setArtikelNummerTextfield((String) artikelPanel.artikelListe.getValueAt(row, 0));
-        	        artMengPanel.setArtikelMengeTextfield((String) artikelPanel.artikelListe.getValueAt(row, 3));
+        	        int row = mitarbeiterPanel.artikelPanel.artikelListe.getSelectedRow();
+        	        artMengPanel.setArtikelNummerTextfield((String) mitarbeiterPanel.artikelPanel.artikelListe.getValueAt(row, 0));
+        	        artMengPanel.setArtikelMengeTextfield((String) mitarbeiterPanel.artikelPanel.artikelListe.getValueAt(row, 3));
 	        }            
         };
-        artikelPanel.addListSelectionListener(listSelectArtMenge);
+        mitarbeiterPanel.artikelPanel.addListSelectionListener(listSelectArtMenge);
 		// Listener für Artikel loeschen
 		ActionListener listenerDelArt = new ActionListener() {
 			@Override
@@ -819,15 +818,14 @@ public class ShopGUI extends JFrame {
 		};
 		artDelPanel.addActionListenerOK(listenerArtDelOK);
 		// Selection Listener für Artikel löschen Panel
-		// TODO Funktioniert komischerweise nicht
 		ListSelectionListener listSelectArtDel = new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 	    		if(e.getValueIsAdjusting()) return;
-	    	        int row = artikelPanel.artikelListe.getSelectedRow();
-	    	        artDelPanel.setArtikelNummerTextfield((String) artikelPanel.artikelListe.getValueAt(row, 0));
+	    	        int row = mitarbeiterPanel.artikelPanel.artikelListe.getSelectedRow();
+	    	        artDelPanel.setArtikelNummerTextfield((String) mitarbeiterPanel.artikelPanel.artikelListe.getValueAt(row, 0));
 	        	}            
 	        };
-        artikelPanel.addListSelectionListener(listSelectArtDel);
+	        mitarbeiterPanel.artikelPanel.addListSelectionListener(listSelectArtDel);
 		// Listener für Mitarbeiter Registrieren
 		ActionListener listenerMitReg = new ActionListener() {
 			@Override

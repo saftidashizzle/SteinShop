@@ -16,8 +16,8 @@ public class MitarbeiterRegistrierenPanel extends JPanel {
 	 */
 	private JButton regButton;
 	private JButton backButton;
-	private JTextField userNameTextfield;
 	private JPasswordField pw1Textfield;
+	JTextField userNameTextfield;
 	private JPasswordField pw2Textfield;
 	private JComboBox<String> dropdownmenu;
 	private JTextField nameTextfield;

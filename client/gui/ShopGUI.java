@@ -118,12 +118,10 @@ public class ShopGUI extends JFrame {
 				JOptionPane.showMessageDialog(null, e.getMessage()); 
 				e.printStackTrace();
 			}
-			
 			artikelListe = connection.gibAlleArtikel();
 			userListe = connection.gibAlleUser();
 			ereignisListe = connection.gibProtokollListe();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage()); 
 			e.printStackTrace();
 		}
 		
@@ -153,6 +151,8 @@ public class ShopGUI extends JFrame {
 	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		ShopGUI shop = new ShopGUI("Stone Lounge");		
+		// nur damit shop nicht unused ist
+		shop.aktuellerBenutzer  = null;
 	}
 	/**
 	 * Initialisieren aller Komponenten im Fenster
@@ -529,6 +529,7 @@ public class ShopGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				frame.cardLayout.show(westPanel, "artInWPanel");
+				artInWPanel.artnrTextfield.requestFocus();
 			}
 		};
 		kundeMenuPanel.addActionListenerArtInW(listenerArtikelInWarenkorb);
@@ -580,6 +581,7 @@ public class ShopGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				frame.cardLayout.show(westPanel, "artMengeInWPanel");
+				artMengeInWPanel.artnrTextfield.requestFocus();
 			}
 		};
 		kundeMenuPanel.addActionListenerArtMenge(listenerArtikelmenge);
@@ -631,6 +633,7 @@ public class ShopGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				frame.cardLayout.show(westPanel, "artAusWPanel");
+				artAusWPanel.artnrTextfield.requestFocus();
 			}
 		};
 		kundeMenuPanel.addActionListenerArtAusW(listenerArtikelAusWarenkorb);
@@ -718,6 +721,7 @@ public class ShopGUI extends JFrame {
 				frame.cardLayout.show(centerPanel, "mitarbeiterPanel");
 				frame.mitarbeiterPanel.tabbedPane.setSelectedIndex(0);
 				frame.cardLayout.show(westPanel, "newArtPanel");
+				newArtPanel.artikelNameTextfield.requestFocus();
 				frame.pack();
 			}
 		};
@@ -800,7 +804,6 @@ public class ShopGUI extends JFrame {
 				frame.cardLayout.show(centerPanel, "mitarbeiterPanel");
 				frame.mitarbeiterPanel.tabbedPane.setSelectedIndex(0);
 				frame.cardLayout.show(westPanel, "artDelPanel");
-				// TODO hier steht der code
 				artDelPanel.artnrTextfield.requestFocus();
 				frame.pack();
 			}
@@ -839,6 +842,7 @@ public class ShopGUI extends JFrame {
 				frame.cardLayout.show(centerPanel, "mitarbeiterPanel");
 				frame.mitarbeiterPanel.tabbedPane.setSelectedIndex(1);
 				frame.cardLayout.show(westPanel, "mitRegPanel");
+				mitRegPanel.userNameTextfield.requestFocus();
 				frame.pack();
 			}
 		};
@@ -876,6 +880,7 @@ public class ShopGUI extends JFrame {
 				frame.cardLayout.show(centerPanel, "mitarbeiterPanel");
 				frame.mitarbeiterPanel.tabbedPane.setSelectedIndex(1);
 				frame.cardLayout.show(westPanel, "usrDelPanel");
+				usrDelPanel.usernrTextfield.requestFocus();
 				frame.pack();
 			}
 		};

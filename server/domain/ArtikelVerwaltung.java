@@ -27,7 +27,7 @@ public class ArtikelVerwaltung implements Serializable {
 	 */
 	private static final long serialVersionUID = 7311633406194415444L;
 	private List<Artikel> artikelBestand = new Vector<Artikel>();
-	private int laufnr;
+	private int laufnr = 0;
 	
 	/**
 	 * Methode um einen neuen Artikel in die Liste einzufügen.

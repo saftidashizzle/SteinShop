@@ -254,7 +254,6 @@ public class ShopVerwaltung {
 	public void speichereDaten() throws FileNotFoundException, IOException {
 		artVer.schreibeDaten();
 		userVer.schreibeDaten2(); //user objekte
-//		userVer.schreibeDaten(); // user verwaltung
 		erVer.schreibeDaten();
 	}
 	/**

@@ -13,7 +13,7 @@ public class ArtikelmengeAendernPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = -2662697469208559962L;
-	public JTextField artnrTextfield;
+	JTextField artnrTextfield;
 	private JTextField mengeTextfield;
 	private JButton okButton;
 	private JButton backButton;

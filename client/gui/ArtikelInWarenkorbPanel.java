@@ -14,7 +14,7 @@ public class ArtikelInWarenkorbPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = -2662697469208559962L;
-	private JTextField artnrTextfield;
+	JTextField artnrTextfield;
 	private JTextField mengeTextfield;
 	private JButton okButton;
 	private JButton backButton;

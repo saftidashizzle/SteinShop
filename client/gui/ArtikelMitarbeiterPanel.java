@@ -40,11 +40,14 @@ public class ArtikelMitarbeiterPanel extends ArtikelPanel {
 			private static final long serialVersionUID = 1824987424405259505L;
 
 			public boolean isCellEditable(int x, int y) {
+				// das ist für editierung direkt im table und bestätigung mittels enter, haben wir allerdings doch nicht implementiert, 
+				/*
 				if (y==0) {
 					return false;
 				} else {
 					return true;
-				}
+				}*/
+				return false;
 			}
 		};
 		artikelListe.setAutoCreateRowSorter(true);

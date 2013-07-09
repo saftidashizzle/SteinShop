@@ -7,7 +7,7 @@ import java.util.Date;
 	
 	public class Ereignis implements Serializable {
 		/**
-		 * 
+		 * Klasse für ein Ereignis
 		 */
 		private static final long serialVersionUID = -8372776763681771875L;
 		private User akteur;

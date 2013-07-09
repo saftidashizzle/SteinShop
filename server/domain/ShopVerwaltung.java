@@ -20,13 +20,17 @@ import domain.exceptions.ArtikelAngabenInkorrektException;
 import domain.exceptions.ArtikelMengeInkorrektException;
 import domain.exceptions.ArtikelMengeReichtNichtException;
 import domain.exceptions.ArtikelNichtVerfuegbarException;
+import domain.exceptions.ArtikelNurInEinheitenVerfügbarException;
 import domain.exceptions.InkorrekteRegWerteException;
 import domain.exceptions.LoginFehlgeschlagenException;
 import domain.exceptions.MitarbeiterNichtVorhandenException;
 import domain.exceptions.WarenkorbExceedsArtikelbestandException;
 import domain.exceptions.WarenkorbIstLeerException;
 
-
+/**
+ * Klasse zur allgemeinen ShopVerwaltung. beinhaltet die Logik und besitzt die ArtikelVerwaltung, UserVerwaltung, WarenkorbVerwaltung und EreignisVerwaltung.
+ *
+ */
 
 public class ShopVerwaltung {
 	private ArtikelVerwaltung artVer;
@@ -34,7 +38,9 @@ public class ShopVerwaltung {
 	private WarenkorbVerwaltung warkoVer;
 	public EreignisVerwaltung erVer;
 	
-	
+	/**
+	 *  Erstellt die Unterwaltungselemente.
+	 */
 	public ShopVerwaltung() {
 		artVer = new ArtikelVerwaltung();
 		userVer = new UserVerwaltung();
@@ -87,18 +93,15 @@ public class ShopVerwaltung {
 	 * @param nummer Nummer des einzufügenden Artikels.
 	 * @param menge Menge des einzufügenden Artikels
 	 * @return 
+	 * @throws MitarbeiterNichtVorhandenException 
+	 * @throws ArtikelNurInEinheitenVerfügbarException 
 	 * @throws ArtikelNummerFalsch 
 	 */
-	public Kunde artikelInWarenkorb(int artID, int menge, Kunde akteur) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException {	
+	public Kunde artikelInWarenkorb(int artID, int menge, Kunde akteur) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException, ArtikelNurInEinheitenVerfügbarException, MitarbeiterNichtVorhandenException {	
 		Artikel a = artVer.findArtikelByNumber(artID);
 		// überprüfe: sind schon mehr in warenkorb als im bestand?
-		try {
-			 Kunde k = warkoVer.artikelInWarenkorb(a, menge, (Kunde)userVer.findUserByNumber(akteur.getNummer()));
-			 return k;
-		} catch(Exception e) {
-			e.printStackTrace();
-		}	
-		return null;
+		Kunde k = warkoVer.artikelInWarenkorb(a, menge, (Kunde)userVer.findUserByNumber(akteur.getNummer()));
+		return k;
 	}
 	/**
 	 * Methode die einen artikel einliest und an die warenkorb verwaltung durchreicht
@@ -127,6 +130,12 @@ public class ShopVerwaltung {
 		return akteur;
 		
 	}
+	/**
+	 * Methode, um einen Artikel nach der Nummer zu suchen
+	 * @param artID
+	 * @return Artikel, mit "der" Nummer
+	 * @throws ArtikelNichtVerfuegbarException
+	 */
 	public Artikel findArtikelByNumber(int artID) throws ArtikelNichtVerfuegbarException {
 		return artVer.findArtikelByNumber(artID);
 	}
@@ -230,11 +239,14 @@ public class ShopVerwaltung {
 		userVer.loescheUser(userNr, aktuellerBenutzer);
 	}
 	/**
-	 * Methode die, die Artikelliste ausgiebt
+	 * Methode die, die Artikelliste ausgibt
 	 */
 	public void gibArtikellisteAus() {
 		artVer.gibArtikellisteAus();		
 	}
+	/**
+	 * Methode, die die Benutzerliste ausgibt
+	 */
 	public void gibBenutzerlisteAus() {
 		userVer.gibBenutzerlisteAus();
 	}
@@ -245,12 +257,23 @@ public class ShopVerwaltung {
 	public void getWarenkorbInhalt(User user){
 		warkoVer.getWarenkorbInhalt(user);
 	}
+	/**
+	 * Methode, die die ladeDaten Methoden der unteren Verwaltungen aufruft
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
 	public void ladeDaten() throws FileNotFoundException, IOException, ClassNotFoundException {
 		artVer.ladeDaten(); //funktioniert
 		userVer.ladeDaten(); // user objekte
 		erVer.ladeDaten();			
 	
 	}
+	/**
+	 * Methode, die die speichereDaten Methoden der unteren Verwaltungen aufruft
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	public void speichereDaten() throws FileNotFoundException, IOException {
 		artVer.schreibeDaten();
 		userVer.schreibeDaten2(); //user objekte
@@ -269,6 +292,11 @@ public class ShopVerwaltung {
 		Artikel a = artVer.findArtikelByNumber(artID);
 		return warkoVer.setArtikelMenge(a, menge, (Kunde)userVer.findUserByNumber(akteur.getNummer()));
 	}
+	/**
+	 * Methode, die den Mengenverlauf eines Artikels ausgibt
+	 * @param artID
+	 * @throws ArtikelNichtVerfuegbarException
+	 */
 	public void einkaufsVerlauf(int artID) throws ArtikelNichtVerfuegbarException {
 		Artikel a = artVer.findArtikelByNumber(artID);
 		// die soll ich verwenden und bauen
@@ -295,6 +323,13 @@ public class ShopVerwaltung {
 		erVer.ereignisEinfuegen(aktuellerBenutzer, a, a.getMenge(), "Artikel gelöscht.");
 		artVer.loescheArtikel(a);		
 	}
+	/**
+	 * Methode, um sich einzuloggen
+	 * @param name
+	 * @param passwort
+	 * @return
+	 * @throws LoginFehlgeschlagenException
+	 */
 	public User userLogin(String name, char[] passwort) throws LoginFehlgeschlagenException {
 		return userVer.userLogin(name, passwort);
 	}

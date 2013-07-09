@@ -10,8 +10,10 @@ import domain.ShopVerwaltung;
 import domain.exceptions.ArtikelAngabenInkorrektException;
 import domain.exceptions.ArtikelMengeReichtNichtException;
 import domain.exceptions.ArtikelNichtVerfuegbarException;
+import domain.exceptions.ArtikelNurInEinheitenVerfügbarException;
 import domain.exceptions.InkorrekteRegWerteException;
 import domain.exceptions.LoginFehlgeschlagenException;
+import domain.exceptions.MitarbeiterNichtVorhandenException;
 import domain.exceptions.WarenkorbExceedsArtikelbestandException;
 /**
  * ShopUi: Klasse die das Konsolen Interface für den Shop bereitstellt.
@@ -383,6 +385,10 @@ public class ShopCUI {
 					shopVer.artikelInWarenkorb(artID, menge,(Kunde) aktuellerBenutzer);			
 				} catch (ArtikelMengeReichtNichtException | ArtikelNichtVerfuegbarException | WarenkorbExceedsArtikelbestandException e) {
 					System.out.println(e);
+				} catch (ArtikelNurInEinheitenVerfügbarException e) {
+					e.printStackTrace();
+				} catch (MitarbeiterNichtVorhandenException e) {
+					e.printStackTrace();
 				}
 				break;
 			case "d": 

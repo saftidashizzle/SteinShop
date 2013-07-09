@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 public abstract class User implements Serializable {
 	/**
-	 * 
+	 * Klasse User, ist nur Elternklasse von Mitarbeiter und Kunde und wird sonst nicht genutzt (abstract)
 	 */
 	private static final long serialVersionUID = -202117093157771368L;
 	protected String name;
@@ -72,11 +72,17 @@ public abstract class User implements Serializable {
 	public String getAdresse() {
 		return null;
 	}
-
+	/**
+	 * Getter für anrede
+	 * @return die Anrede
+	 */
 	public String getAnrede() {
 		return anrede;
 	}
-
+	/** 
+	 * Getter für den Namen
+	 * @return der Name
+	 */
 	public String getVorUndZuName() {
 		return vorUndZuName;
 	}

@@ -17,11 +17,12 @@ import javax.swing.UnsupportedLookAndFeelException;
 import net.ServerInterfaceImpl;
 
 import de.root1.simon.exceptions.NameBindingException;
-
+/**
+ * Grafische Oberfläche des Servers.
+ * Unteranderem für Starten und Stoppen des Servers.
+ */
 public class ServerGUI extends JFrame {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -6511087670435259463L;
 
 	private ServerInterfaceImpl connection;
@@ -30,7 +31,9 @@ public class ServerGUI extends JFrame {
 	private JLabel status;		// Status des Servers
 	private JButton start;		// Button zum Starten des Servers
 	private JButton stop;		// Button zum Stoppen des Servers
-	
+	/**
+	 * Setzten des Layouts und befüllen mit Inhalt.
+	 */
 	public ServerGUI() {
 		super("SteinShop Server");
 		
@@ -98,7 +101,14 @@ public class ServerGUI extends JFrame {
 			}
 		});
 	}
-
+	/**
+	 * main Methode
+	 * @param args
+	 * @throws ClassNotFoundException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws UnsupportedLookAndFeelException
+	 */
 	public static void main(String[] args) throws ClassNotFoundException,
 			InstantiationException, IllegalAccessException,
 			UnsupportedLookAndFeelException {

@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 
 public class MitarbeiterRegistrierenPanel extends JPanel {
 	/**
-	 * 
+	 * Klasse für ein Panel um Mitarbeiter zu Registrieren
 	 */
 	private JButton regButton;
 	private JButton backButton;
@@ -22,7 +22,9 @@ public class MitarbeiterRegistrierenPanel extends JPanel {
 	private JComboBox<String> dropdownmenu;
 	private JTextField nameTextfield;
 	private static final long serialVersionUID = -286039067067091624L;
-
+	/**
+	 * Setzen des Layouts und befüllen mit Inhalt
+	 */
 	public MitarbeiterRegistrierenPanel() {
 		super();
 		this.setLayout(new GridLayout(6, 2));
@@ -52,30 +54,50 @@ public class MitarbeiterRegistrierenPanel extends JPanel {
 	}
 	/**
 	 * Fügt einen ActionListener zu dem Back Button hinzu
-	 * @param a
+	 * @param a ActionListener
 	 */
 	public void addActionListenerBack(ActionListener a) {
 		this.backButton.addActionListener(a);
 	}	
 	/**
 	 * Fügt einen ActionListener zu dieser Komponente (ergo, dem registrier Button) hinzu
-	 * @param a
+	 * @param a ActionListener
 	 */
 	public void addActionListenerReg(ActionListener a) {
 		this.regButton.addActionListener(a);
 	}
+	/**
+	 * Methode, die einen Usernamen zurückgibt
+	 * @return zurückgegebener Username
+	 */
 	public String getUserName() {
 		return this.userNameTextfield.getText();
 	}
+	/**
+	 * Methode, die das Passwort aus pw1Textfield zurückgibt
+	 * @return zurückgegebenes Passwort
+	 */
 	public char[] getPw1() {
 		return this.pw1Textfield.getPassword();
 	}
+	/**
+	 * Methode, die das Passwort aus pw2Textfield zurückgibt
+	 * @return zurückgegebenes Passwort
+	 */
 	public char[] getPw2() {
 		return this.pw2Textfield.getPassword();
 	}
+	/**
+	 * Methode, die die Anrede zurückgibt
+	 * @return zurückgegebene Anrede
+	 */
 	public String getAnrede() {
 		return (String) this.dropdownmenu.getSelectedItem();
 	}
+	/**
+	 * Methode, die den Namen zurückgibt
+	 * @return zurückgegebener Name
+	 */
 	public String getName() {
 		return this.nameTextfield.getText();
 	}

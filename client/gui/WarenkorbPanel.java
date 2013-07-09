@@ -16,7 +16,7 @@ import valueobjects.Warenkorb;
 
 public class WarenkorbPanel extends JPanel {
 	/**
-	 * 
+	 * Panel für die Warenkorbtabelle
 	 */
 	private static final long serialVersionUID = 4781761849520709380L;
 	JTable warenkorbListe;
@@ -25,6 +25,10 @@ public class WarenkorbPanel extends JPanel {
 	Object[][] data;
 	JButton kassenButton;
 	TableModel model;
+	/**
+	 * Setzen des Layouts und befüllen mit Inhalt
+	 * @param warenkorb Der darzustellende warenkorb
+	 */
 	public WarenkorbPanel(Warenkorb warenkorb) {
 		super();
 		
@@ -38,6 +42,10 @@ public class WarenkorbPanel extends JPanel {
 		kassenZeile.add(kassenButton);
 		this.add(kassenZeile, BorderLayout.SOUTH);		
 	}
+	/**
+	 * Methode die, die Tabelle befüllt
+	 * @param w der Warenkorb
+	 */
 	public void fill(Warenkorb w) {
 		String[] columnNames = {"Nummer",
 				"Name",
@@ -78,6 +86,10 @@ public class WarenkorbPanel extends JPanel {
 		artikelScroll = new JScrollPane(warenkorbListe);
 		this.add(artikelScroll, BorderLayout.CENTER);
 	}
+	/**
+	 * Fügt einen ActionListener zum Kassen Button hinzu
+	 * @param a ActionListener
+	 */
 	public void addActionListenerZurKasse(ActionListener a) {
 		this.kassenButton.addActionListener(a);
 	}

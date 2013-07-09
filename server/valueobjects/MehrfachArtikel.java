@@ -3,7 +3,7 @@ package valueobjects;
 public class MehrfachArtikel extends Artikel {
 	
 	/**
-	 * 
+	 * Klasse für einen Mehrfachartikel, erbt von Artikel
 	 */
 	private static final long serialVersionUID = 3694103134172879212L;
 	private int packungsGroesse;

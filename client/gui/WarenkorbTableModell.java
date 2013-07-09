@@ -8,17 +8,25 @@ import valueobjects.Artikel;
 
 public class WarenkorbTableModell extends DefaultTableModel {
 	/**
-	 * 
+	 * TableModell für den warenkorb
 	 */
 	private static final long serialVersionUID = -6812836455861466744L;
 	Object[][] data;
 	int rowCount;
-	
+	/**
+	 * Konstruktor der Eltnerklasse aufrufen und rowCount setzen
+	 * @param data die Daten für die Tabelle (Type Object[][])
+	 * @param columnNames Die Spaltenbezeichnungen
+	 */
 	public WarenkorbTableModell(Object[][] data, String[] columnNames) {
 		super(data, columnNames);
 		rowCount = data.length;
 		
 	}
+	/**
+	 * Methode, zum Aktualisieren des Warenkorbs
+	 * @param warenkorb der zu aktualisierende Warenkorb
+	 */
 	public void updateDataVector(HashMap<Artikel, Integer> warenkorb) {
 		
 		String[] columnNames = {"Nummer",

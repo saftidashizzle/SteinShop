@@ -44,6 +44,7 @@ import domain.exceptions.ArtikelAngabenInkorrektException;
 import domain.exceptions.ArtikelMengeInkorrektException;
 import domain.exceptions.ArtikelMengeReichtNichtException;
 import domain.exceptions.ArtikelNichtVerfuegbarException;
+import domain.exceptions.ArtikelNurInEinheitenVerfügbarException;
 import domain.exceptions.InkorrekteRegWerteException;
 import domain.exceptions.LoginFehlgeschlagenException;
 import domain.exceptions.MitarbeiterNichtVorhandenException;
@@ -55,10 +56,9 @@ import domain.exceptions.WarenkorbIstLeerException;
 public class ShopGUI extends JFrame {
 	
 	/**
-	 * 
+	 * Hauptklasse der Shop Benutzeroberfläche
 	 */
 	private static final long serialVersionUID = 5711673086933143461L;
-//	ShopVerwaltung shopVer;
 	User aktuellerBenutzer;
 	Kunde kunde = null;
 	
@@ -106,6 +106,10 @@ public class ShopGUI extends JFrame {
 	
 	// Textbereich für Lognachrichten
 	
+    /**
+     * Konstruktor: Mit dem Server verbinden, laden der Daten, Layout und Komponenten erstellen
+     * @param s
+     */
 	public ShopGUI(String s) {
 		super(s);
 		aktuellerBenutzer = null;
@@ -142,11 +146,12 @@ public class ShopGUI extends JFrame {
 		this.setVisible(true);
 	}
 	/**
-	 * @param args
-	 * @throws UnsupportedLookAndFeelException 
-	 * @throws IllegalAccessException 
-	 * @throws InstantiationException 
-	 * @throws ClassNotFoundException 
+	 * Main Methode
+	 * @param args String Array das übergeben werden kann
+	 * @throws UnsupportedLookAndFeelException Exception für nicht unterstütztes LookAndFeel 
+	 * @throws IllegalAccessException IllegalAccessException  
+	 * @throws InstantiationException InstantiationException  
+	 * @throws ClassNotFoundException ClassNotFoundException 
 	 */
 	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -556,6 +561,12 @@ public class ShopGUI extends JFrame {
 					JOptionPane.showMessageDialog(null, e.getMessage()); 
 					e.printStackTrace();
 				} catch (WarenkorbExceedsArtikelbestandException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage());
+					e.printStackTrace();
+				} catch (ArtikelNurInEinheitenVerfügbarException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage());
+					e.printStackTrace();
+				} catch (MitarbeiterNichtVorhandenException e) {
 					JOptionPane.showMessageDialog(null, e.getMessage());
 					e.printStackTrace();
 				}

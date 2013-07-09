@@ -13,17 +13,21 @@ import javax.swing.JTable;
 import javax.swing.event.ListSelectionListener;
 
 import valueobjects.Artikel;
-
+/**
+ * Panel für das Menü, was man bei der Anzeige vom Artikelmengeverlauf benötigt.
+ */
 public class ProtokollMenuPanel extends JPanel {
 	
-		
 	private static final long serialVersionUID = -1550997639417571062L;
 	private JButton backButton;
 	private JScrollPane artikelScroll;
 	JTable artikelListe;
 	private Object[][] data;
 	private ArtikelTableModell model;
-	
+	/**
+	 * Konstruktor: Setzen des Layouts und befüllen mit Inhalt.
+	 * @param liste Liste von Artikeln
+	 */
 	public ProtokollMenuPanel(List<Artikel> liste) {
 		super();
 		this.setBackground(Color.white);
@@ -61,11 +65,17 @@ public class ProtokollMenuPanel extends JPanel {
 		this.add(backButton);
 		
 	}
-
+	/**
+	 * Fügt einen SelectionListener zur Artikelliste hinzu
+	 * @param a SelectionListener
+	 */
 	public void addListSelectionListener(ListSelectionListener a) {
 		artikelListe.getSelectionModel().addListSelectionListener(a);
 	}
-	
+	/**
+	 * Fügt einen ActionListener zum Back Button hinzu
+	 * @param a ActionListener
+	 */
 	public void addActionListenerBack(ActionListener a) {
 		this.backButton.addActionListener(a);
 	}

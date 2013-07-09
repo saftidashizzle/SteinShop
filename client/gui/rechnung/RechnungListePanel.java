@@ -14,7 +14,8 @@ import javax.swing.SwingConstants;
 public class RechnungListePanel extends JPanel {
 	private JButton backButton;
 	/**
-	 * 
+	 * Setzen des Layouts und befüllen mit Inhalt
+	 * @param rechnung
 	 */
 	private static final long serialVersionUID = -2802210553999627458L;
 

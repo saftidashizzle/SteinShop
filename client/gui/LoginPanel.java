@@ -22,7 +22,9 @@ public class LoginPanel extends JPanel {
 	private JPasswordField pwTextfield;
 	private JButton regButton;
 	private static final long serialVersionUID = -286039067067091624L;
-
+	/**
+	 * Setzen des Layouts und befüllen mit Inhalt
+	 */
 	public LoginPanel() {
 		super();
 		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 200));
@@ -46,14 +48,14 @@ public class LoginPanel extends JPanel {
 	}
 	/**
 	 * Fügt einen ActionListener zu dieser Komponente (dem loginButton) hinzu
-	 * @param a
+	 * @param a Actionlistener
 	 */
 	public void addActionListenerLogin(ActionListener a) {
 		this.loginButton.addActionListener(a);
 	}
 	/**
 	 * Fügt einen ActionListener zu dieser Komponente (dem regButton) hinzu
-	 * @param a
+	 * @param a Actionlistener
 	 */
 	public void addActionListenerRegistieren(ActionListener a) {
 		this.regButton.addActionListener(a);

@@ -12,7 +12,8 @@ import valueobjects.Warenkorb;
 public class GekauftListePanel extends JPanel {
 
 	/**
-	 * 
+	 * Setzen des Layouts und befüllen mit Inhalt
+	 * @param warenkorb
 	 */
 	private static final long serialVersionUID = 336606700357886974L;
 	

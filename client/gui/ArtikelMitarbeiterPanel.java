@@ -13,12 +13,23 @@ import valueobjects.Artikel;
 public class ArtikelMitarbeiterPanel extends ArtikelPanel {
 
 	/**
-	 * 
+	 * Panel für die Artikelliste spezifisch für einen Mitarbeiter.
+	 * Eigentlich überflüssig, da es sich noch nicht von dem, für den Kunden
+	 * unterscheidet. Jedoch benötigten wir eine eigene Klasse, da beim Kunden
+	 * im Ausblick der ArtikelTable nicht editierbar sein sollte, während
+	 * der Mitarbeiter darüber die Werte verändern kann.
 	 */
 	private static final long serialVersionUID = -7837851496937539934L;
+	/**
+	 * Konstruktor, der die Artikelliste übergeben bekommt. Und diese an die Elternklasse ArtikelPanel weitergibt.
+	 * @param liste
+	 */
 	public ArtikelMitarbeiterPanel(List<Artikel> liste) {
 		super(liste);
 	}
+	/**
+	 * Methode die, die Tabelle befüllt.
+	 */
 	public void fill(List<Artikel> liste) {
 		String[] columnNames = {"Nummer",
                 "Name",

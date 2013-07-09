@@ -3,7 +3,7 @@ package valueobjects;
 
 public class Mitarbeiter extends User {
 	/**
-	 * 
+	 * Klasse für einen Mitarbeiter, erbt von User
 	 */
 	private static final long serialVersionUID = -3012471213077037986L;
 	/**
@@ -30,13 +30,6 @@ public class Mitarbeiter extends User {
 	public String getName(){
 		return name;
 	}
-//	/**
-//	 * Getter für das Passwort
-//	 * @return gibt das Passwort des Benutzerobjekts zurück.
-//	 */
-//	public char[] getPasswort(){
-//		return passwort;
-//	}
 	/** 
 	 * Methode die die Nummer des Userobjektes zurück gibt.
 	 * @return Die zurückgegebene Nummer.

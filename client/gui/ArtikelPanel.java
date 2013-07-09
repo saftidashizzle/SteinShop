@@ -16,7 +16,7 @@ import valueobjects.Artikel;
 
 public class ArtikelPanel extends JPanel {
 	/**
-	 * 
+	 * Panel um einen Table im JScrollPane anzuzeigen. (ArtikelListe)
 	 */
 	private static final long serialVersionUID = 953509472024081560L;
 
@@ -24,6 +24,10 @@ public class ArtikelPanel extends JPanel {
 	JTable artikelListe;
 	Object[][] data;
 	TableModel model;
+	/**
+	 * Setzen des Layouts und befüllen mit Inhalt
+	 * @param liste Artikelliste
+	 */
 	public ArtikelPanel(List<Artikel> liste) {
 		super();
 		this.setLayout(new GridLayout(1,1));
@@ -32,6 +36,10 @@ public class ArtikelPanel extends JPanel {
 		fill(liste);
 		this.add(artikelScroll);
 	}
+	/**
+	 * Methode, die die Tabelle befüllt
+	 * @param liste Artikelliste
+	 */
 	public void fill(List<Artikel> liste) {
 		String[] columnNames = {"Nummer",
                 "Name",
@@ -78,7 +86,10 @@ public class ArtikelPanel extends JPanel {
 		artikelListe.setRowSorter(sorter);
 		artikelScroll = new JScrollPane(artikelListe);
 	}
-
+	/**
+	 * Fügt einen SelectionListener der Liste hinzu
+	 * @param a SelectionListener
+	 */
 	public void addListSelectionListener(ListSelectionListener a) {
 		artikelListe.getSelectionModel().addListSelectionListener(a);
 	}

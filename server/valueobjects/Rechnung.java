@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 public class Rechnung implements Serializable { 
 	/**
-	 * 
+	 * Klasse für eine Rechnung
 	 */
 	private static final long serialVersionUID = -4107167793509247770L;
 	private Kunde kunde;
@@ -15,9 +15,9 @@ public class Rechnung implements Serializable {
 	private double gesamtpreis;
 	/**
 	 * Konstruktor: erzeugt eine Rechnung, mit Kunde, Jahrestag/Datum und dem Warenkorb
-	 * @param kunde
-	 * @param warenkorb
-	 * @param jahrestag
+	 * @param kunde der Kunde
+	 * @param warenkorb der Warenkorb
+	 * @param datum das Datum
 	 */
 	public Rechnung(Kunde kunde, Warenkorb warenkorb, Date datum) {
 		this.kunde=kunde;

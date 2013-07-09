@@ -8,7 +8,7 @@ import valueobjects.Artikel;
 
 public class ArtikelTableModell extends DefaultTableModel {
 	/**
-	 * 
+	 * Table Modell für Artikelliste
 	 */
 	private static final long serialVersionUID = -8059390534653512407L;
 	Object[][] data;
@@ -19,11 +19,9 @@ public class ArtikelTableModell extends DefaultTableModel {
 		rowCount = data.length;
 		
 	}
-	/*
-	 * Ziel: Ein Table Modell für: Artikel, Benutzer, Ereignisse, Warenkorb
-	 * 
-	 * Mehrere updateDAtaVector funktionen: je nachdem was für ein Typ von Liste übergeben wird
-	 * 
+	/**
+	 * Methode, zum Aktualisieren der Artikelliste
+	 * @param liste Artikelliste
 	 */
 	public void updateDataVector(List<Artikel> liste) {
 			

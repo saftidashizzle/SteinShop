@@ -11,12 +11,15 @@ import javax.swing.JTextField;
 
 public class ArtikelAusWarenkorbPanel extends JPanel {
 	/**
-	 * 
+	 * Panel für Artikel aus Warenkorb entfernen Dialog.
 	 */
 	private static final long serialVersionUID = -2662697469208559962L;
 	JTextField artnrTextfield;
 	private JButton okButton;
 	private JButton backButton;
+	/**
+	 * Setzen des Layouts und befüllen mit Inhalt
+	 */
 	public ArtikelAusWarenkorbPanel() {
 		super();
 		this.setLayout(new GridLayout(2, 2));

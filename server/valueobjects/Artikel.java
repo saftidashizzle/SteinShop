@@ -7,7 +7,7 @@ import domain.exceptions.ArtikelMengeInkorrektException;
 
 public class Artikel implements Serializable {
 	/**
-	 * 
+	 * Klasse für einen Artikel
 	 */
 	private static final long serialVersionUID = 7103260858515340470L;
 	private String titel;
@@ -84,7 +84,10 @@ public class Artikel implements Serializable {
 	public double getPreis(){
 		return preis;
 	}
-
+	/**
+	 * getter für Packungsgroesse
+	 * @return die Packungsgroesse
+	 */
 	public int getPackungsgroesse() {
 		return 1;
 	}

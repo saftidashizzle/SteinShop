@@ -1,9 +1,9 @@
 package domain.exceptions;
-/**
- * Exception, die eine Fehleingabe des zu löschenden Mitarbeiters mitteilt
- */
+
 public class MitarbeiterNichtVorhandenException extends Exception {
-	
+	/**
+	 * Exception, die eine Fehleingabe des zu löschenden Mitarbeiters mitteilt
+	 */
 	private static final long serialVersionUID = 1L;
 
 	public MitarbeiterNichtVorhandenException(int nr) {

@@ -10,12 +10,15 @@ import javax.swing.JTextField;
 
 public class ArtikelLoeschenPanel extends JPanel {
 	/**
-	 * 
+	 * Panel für Artikel löschen Dialog.
 	 */
 	private static final long serialVersionUID = -2662697469208559962L;
 	JTextField artnrTextfield;
 	private JButton okButton;
 	private JButton backButton;
+	/**
+	 * Setzen des Layouts und befüllen mit Inhalt
+	 */
 	public ArtikelLoeschenPanel() {
 		super();
 		this.setLayout(new GridLayout(2, 2));
@@ -44,9 +47,17 @@ public class ArtikelLoeschenPanel extends JPanel {
 	public void addActionListenerOK(ActionListener a) {
 		this.okButton.addActionListener(a);
 	}
+	/**
+	 * Methode, die die Artikelnummer aus dem artnrTextfield zurückgibt
+	 * @return zurückgegebene Artikelnummer
+	 */
 	public int getArtikelNummer() {
 		return Integer.parseInt(this.artnrTextfield.getText());
 	}
+	/**
+	 * Methode, zum setzen/vorgeben der Artikelnummer im artnrTextfield
+	 * @param valueAt
+	 */
 	public void setArtikelNummerTextfield(String valueAt) {
 		this.artnrTextfield.setText(valueAt);
 	}

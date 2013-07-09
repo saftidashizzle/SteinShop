@@ -9,7 +9,11 @@ import javax.swing.JPanel;
 public class AnschriftPanel extends JPanel {
 
 	/**
-	 * 
+	 * Setzen des Layout und befüllen mit Inhalt
+	 * @param anrede
+	 * @param vorZuname
+	 * @param adresse
+	 * @param datum
 	 */
 	private static final long serialVersionUID = -3762360456096814592L;
 	

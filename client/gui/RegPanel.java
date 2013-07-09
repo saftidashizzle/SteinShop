@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 
 public class RegPanel extends JPanel {
 	/**
-	 * 
+	 * Panel für das Registrieren eines neuen Benutzers.
 	 */
 	private JButton regButton;
 	private JButton backButton;
@@ -26,7 +26,9 @@ public class RegPanel extends JPanel {
 	private JTextField ortTextfield;
 	private JTextField landTextfield;
 	private static final long serialVersionUID = -286039067067091624L;
-
+	/**
+	 * Setzen des Layouts und befüllen mit Inhalt
+	 */
 	public RegPanel() {
 		super();
 		this.setLayout(new GridLayout(10, 2));
@@ -69,42 +71,78 @@ public class RegPanel extends JPanel {
 	
 	/**
 	 * Fügt einen ActionListener zu dieser Komponente (ergo, dem registrier Button) hinzu
-	 * @param a
+	 * @param a ActionListener
 	 */
 	public void addActionListenerReg(ActionListener a) {
 		this.regButton.addActionListener(a);
 	}
 	/**
 	 * Fügt einen ActionListener zu dieser Komponente (ergo, dem back Button) hinzu
-	 * @param a
+	 * @param a ActionListener
 	 */
 	public void addActionListenerBack(ActionListener a) {
 		this.backButton.addActionListener(a);
 	}
+	/**
+	 * Methode, die den Namen aus userNameTextfield zurückgibt
+	 * @return zurückgegebener NAme
+	 */
 	public String getUserName() {
 		return this.userNameTextfield.getText();
 	}
+	/**
+	 * Methode, die das Passwort aus pw1Textfield zurückgibt (char[])
+	 * @return zurückgegebenes Passwort
+	 */
 	public char[] getPw1() {
 		return this.pw1Textfield.getPassword();
 	}
+	/**
+	 * Methode, die das PAsswort aus pw2Textfield zurückgibt (char[])
+	 * @return zurückgegebenes Passwort
+	 */
 	public char[] getPw2() {
 		return this.pw2Textfield.getPassword();
 	}
+	/**
+	 * Methode, die die Anrede aus dropdownmenu zurückgibt
+	 * @return zurückgegebene Anrede
+	 */
 	public String getAnrede() {
 		return (String) this.dropdownmenu.getSelectedItem();
 	}
+	/**
+	 * Methode, die den Namen aus nameTextfield zurückgibt
+	 * @return zurückgegebener Name
+	 */
 	public String getName() {
 		return this.nameTextfield.getText();
 	}
+	/**
+	 * Methode, die die Strasse aus strTextfield zurückgibt
+	 * @return zurückgegebene Strasse
+	 */
 	public String getStr() {
 		return this.strTextfield.getText();
 	}
+	/**
+	 * Methode, die die PLZ aus plzTextfield zurückgibt
+	 * @return zurückgegebene PLZ
+	 */
 	public String getPlz() {
 		return this.plzTextfield.getText();
 	}
+	/**
+	 * Methode, die den Ort aus ortTextfield zurückgibt
+	 * @return zurückgegebener Ort
+	 */
 	public String getOrt() {
 		return this.ortTextfield.getText();
 	}
+	/**
+	 * Methode, die das Land aus landTextfield zurückgibt
+	 * @return zurückgegebenes Land
+	 */
 	public String getLand() {
 		return this.landTextfield.getText();
 	}

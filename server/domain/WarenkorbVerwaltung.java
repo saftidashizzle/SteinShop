@@ -10,16 +10,20 @@ import domain.exceptions.ArtikelMengeReichtNichtException;
 import domain.exceptions.ArtikelNurInEinheitenVerfügbarException;
 import domain.exceptions.WarenkorbExceedsArtikelbestandException;
 import domain.exceptions.WarenkorbIstLeerException;
-
+/**
+ * Klasse für die WarenkorbVerwaltung.
+ *
+ */
 public class WarenkorbVerwaltung {	
 	/**
 	 * Methode um einen neuen Artikel in die Liste (warenkorb) einzufügen.
 	 * @param einArtikel der Artikel der eingefügt werden soll.
-	 * @return 
+	 * @param menge Menge des Artikels die in der Warenkorb soll
+	 * @param Kunde Kunde dessen Warenkorb gefordert ist
+	 * @return Kunde Kunde dessen Warenkorb gefordert ist
 	 * @throws ArtikelMengeReichtNichtException 
 	 */
 	public Kunde artikelInWarenkorb(Artikel einArtikel, int menge, Kunde k) throws ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException, ArtikelNurInEinheitenVerfügbarException {		
-		System.out.println("moin");
 		if(menge<=einArtikel.getMenge()){
 			if (einArtikel instanceof MehrfachArtikel) {
 				MehrfachArtikel b = (MehrfachArtikel) einArtikel;
@@ -42,7 +46,9 @@ public class WarenkorbVerwaltung {
 	/**
 	 * Methode um einen Artikel aus der Liste (warenkorb) zu löschen.
 	 * @param einArtikel der Artikel der rausgenommen werden soll.
+	 * @param user User Objekt des verlangten Warenkorbs
 	 * @throws WarenkorbIstLeerException 
+	 * @return user User Objekt
 	 */
 	public Kunde artikelAusWarenkorb(Artikel artikel, Kunde user) throws WarenkorbIstLeerException{		
 		user.getWarenkorb().artikelEntfernen(artikel);
@@ -52,7 +58,8 @@ public class WarenkorbVerwaltung {
 	 * Methode um die Menge eines Artikels im Warenkorb zu ändern.
 	 * @param nummer Artikelnummer des zu ändernden Artikels.
 	 * @param anzahl Wieviel hinzugefügt werden soll.
-	 * @return 
+	 * @param user Der User des verlangten Warenkorbs
+	 * @return w Warenkorb des passenden Users (vom typ HashMap) 
 	 */
 	public HashMap<Artikel, Integer> setArtikelMenge(Artikel a, int anzahl, Kunde user) {
 		HashMap<Artikel, Integer> w = user.getWarenkorb().getInhalt();

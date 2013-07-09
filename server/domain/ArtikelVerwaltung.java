@@ -19,12 +19,12 @@ import domain.exceptions.ArtikelAngabenInkorrektException;
 import domain.exceptions.ArtikelMengeInkorrektException;
 import domain.exceptions.ArtikelNichtVerfuegbarException;
 
-
+/**
+ * Klasse für die Verwaltung der Artikel
+ *
+ */
 public class ArtikelVerwaltung implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 7311633406194415444L;
 	private List<Artikel> artikelBestand = new Vector<Artikel>();
 	private int laufnr = 0;
@@ -64,7 +64,7 @@ public class ArtikelVerwaltung implements Serializable {
 	}
 	 /**
 	 * Methode die die aktuelle Artikelliste zurückgibt
-	 * @return die aktuelle Artikelliste.
+	 * @return list Die aktuelle Artikelliste.
 	 */
 	public List<Artikel> getArtikelBestand() {
 		return artikelBestand;
@@ -132,6 +132,11 @@ public class ArtikelVerwaltung implements Serializable {
 	private int bestimmeNr() {
 		return ++laufnr;
 	}
+	/**
+	 * Methode, zum Serialisieren/Speichern der Daten
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	public void schreibeDaten() throws FileNotFoundException, IOException {
 		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Artikel.ser")); 
 		// hier schleife in der dir jeweiligen objekte (artikel, user, ereignisse durchgegangen werden
@@ -151,6 +156,12 @@ public class ArtikelVerwaltung implements Serializable {
 		// muss aufgerufen werden, bevor der datenstrom zur eingabe verwendet werden soll
 		out.close();
 	}
+	/**
+	 * Methode, zum Laden der serialisierten Daten
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
 	public void ladeDaten() throws FileNotFoundException, IOException, ClassNotFoundException {
 		int count = 0;
 		ObjectInputStream in = new ObjectInputStream(new FileInputStream("Artikel.ser"));

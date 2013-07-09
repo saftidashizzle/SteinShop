@@ -9,7 +9,7 @@ import domain.exceptions.WarenkorbIstLeerException;
 public class Warenkorb implements Serializable {
 
 	/**
-	 * 
+	 * Klasse für den Warenkorb
 	 */
 	private static final long serialVersionUID = 1L;
 	private HashMap<Artikel, Integer> warenkorb = new HashMap<Artikel, Integer>();

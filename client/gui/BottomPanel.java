@@ -5,10 +5,13 @@ import javax.swing.JPanel;
 
 public class BottomPanel extends JPanel {
 	/**
-	 * 
+	 * Panel für die Bottomleiste
 	 */
 	private static final long serialVersionUID = 2918283340094782157L;
 	
+	/**
+	 * Setzen des Layouts und befüllen mit Inhalt
+	 */
 	public BottomPanel() {
 		super();
 		

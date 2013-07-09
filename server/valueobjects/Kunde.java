@@ -3,7 +3,7 @@ package valueobjects;
 
 public class Kunde extends User{
 	/**
-	 * 
+	 * Klasse für einen Kunden, erbt von User
 	 */
 	private static final long serialVersionUID = -7792565462403768647L;
 	private String strasseUndHausnr;
@@ -18,10 +18,10 @@ public class Kunde extends User{
 	 * @param nr BenutzerID geerbt von der Klasse User
 	 * @param anrede geerbt von der Klasse User
 	 * @param vorUndZuName geerbt von der Klasse User
-	 * @param strasse
-	 * @param plz
-	 * @param ort
-	 * @param land
+	 * @param strasse die Strasse
+	 * @param plz die PLZ
+	 * @param ort der Ort
+	 * @param land das Land
 	 */
 	public Kunde(String name, char[] passwort, int nr, String anrede, String vorUndZuName, String strasse, int plz, String ort, String land) {
 		super(name, passwort, nr, anrede, vorUndZuName);
@@ -43,13 +43,6 @@ public class Kunde extends User{
 	public String getName(){
 		return name;
 	}
-//	/**
-//	 * Getter für das Passwort
-//	 * @return gibt das Passwort des Benutzerobjekts zurück.
-//	 */
-//	public char[] getPasswort(){
-//		return passwort;
-//	}
 	/** 
 	 * Methode die die Nummer des Userobjektes zurück gibt.
 	 * @return Die zurückgegebene Nummer.

@@ -13,7 +13,7 @@ import valueobjects.Ereignis;
 
 public class ProtokollPanel extends JPanel {
 	/**
-	 * 
+	 * Klasse um die EreignisListe anzuzeigen
 	 */
 	
 	JTable ereignisListe;
@@ -21,13 +21,20 @@ public class ProtokollPanel extends JPanel {
 	Object[][] data;
     TableModel model;
 	private static final long serialVersionUID = 2332524247825957602L;
-
+	/**
+	 * Setzen des Layouts und befüllen mit Inhalt
+	 * @param liste Ereignisliste
+	 */
 	public ProtokollPanel(List<Ereignis> liste) {
 		super();
 		setLayout(new GridLayout(1, 1));
 		fill(liste);				
 		this.add(ereignisScroll);
 	}
+	/**
+	 * Methode zum befüllen der Tabelle
+	 * @param liste die Ereignisliste
+	 */
 	public void fill(List<Ereignis> liste) {
 		String[] columnNames = {"Datum",
                 "Artikel",
@@ -44,9 +51,6 @@ public class ProtokollPanel extends JPanel {
 		
         model = new DefaultTableModel(data, columnNames);
         ereignisListe = new JTable(model) {
-            /**
-			 * 
-			 */
 			private static final long serialVersionUID = -9187534973180919697L;
 
 			public boolean isCellEditable(int x, int y) {
@@ -54,9 +58,6 @@ public class ProtokollPanel extends JPanel {
             }
         };
 		ereignisListe.setAutoCreateRowSorter(true);
-
-		
-//		ereignisListe = new JTable(data, columnNames);
 		ereignisScroll = new JScrollPane(ereignisListe);
 	}
 

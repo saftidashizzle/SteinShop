@@ -10,7 +10,7 @@ import javax.swing.JTextField;
 
 public class NewArtPanel extends JPanel {
 	/**
-	 * 
+	 * Panel für neuen Artikel anlegen.
 	 */
 	private static final long serialVersionUID = -7268405076864774172L;
 	JTextField artikelNameTextfield;
@@ -19,6 +19,9 @@ public class NewArtPanel extends JPanel {
 	private JTextField sizeTextfield;
 	private JButton okButton;
 	private JButton backButton;
+	/**
+	 * Setzen des Layouts und befüllen mit Inhalt
+	 */
 	public NewArtPanel() {
 		super();
 		this.setLayout(new GridLayout(5, 2));
@@ -44,27 +47,43 @@ public class NewArtPanel extends JPanel {
 	}
 	/**
 	 * Fügt einen ActionListener zu dem Back Button hinzu
-	 * @param a
+	 * @param a Actionlistener
 	 */
 	public void addActionListenerBack(ActionListener a) {
 		this.backButton.addActionListener(a);
 	}
 	/**
 	 * Fügt einen ActionListener zu dem Okay Button hinzu
-	 * @param a
+	 * @param a Actionlistener
 	 */
 	public void addActionListenerOK(ActionListener a) {
 		this.okButton.addActionListener(a);
 	}
+	/**
+	 * Methode, die einen Artikelnamen zurückgibt
+	 * @return zurückgegebener Artikelname
+	 */
 	public String getArtikelName() {
 		return this.artikelNameTextfield.getText();
 	}
+	/**
+	 * Methode, die die Menge aus mengeTextfield zurückgibt
+	 * @return zurückgegebene Menge
+	 */
 	public int getMenge() {
 		return Integer.parseInt(this.mengeTextfield.getText());
 	}
+	/**
+	 * Methode, die den Preis aus preisTextfield zurückgibt
+	 * @return zurückgegebener Preis
+	 */
 	public double getPreis() {
 		return Double.parseDouble(this.preisTextfield.getText());
 	}
+	/**
+	 * Methode, die die Packungsgroesse aus sizeTextfield zurückgibt
+	 * @return zurückgegebene Packungsgroesse
+	 */
 	public int getPackungsgroesse() {
 		return Integer.parseInt(this.sizeTextfield.getText());
 	}

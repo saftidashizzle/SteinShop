@@ -15,6 +15,7 @@ import domain.exceptions.ArtikelAngabenInkorrektException;
 import domain.exceptions.ArtikelMengeInkorrektException;
 import domain.exceptions.ArtikelMengeReichtNichtException;
 import domain.exceptions.ArtikelNichtVerfuegbarException;
+import domain.exceptions.ArtikelNurInEinheitenVerfügbarException;
 import domain.exceptions.InkorrekteRegWerteException;
 import domain.exceptions.LoginFehlgeschlagenException;
 import domain.exceptions.MitarbeiterNichtVorhandenException;
@@ -39,7 +40,7 @@ public interface SessionInterface extends Serializable, SimonUnreferenced {
 	public void fuegeUserEin(String userName, char[] pw1, String anrede,
 			String name, String str, int parseInt, String ort, String land) throws InkorrekteRegWerteException;
 
-	public Kunde artikelInWarenkorb(int artikelNummer, int menge,Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException;
+	public Kunde artikelInWarenkorb(int artikelNummer, int menge,Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, ArtikelMengeReichtNichtException, WarenkorbExceedsArtikelbestandException, ArtikelNurInEinheitenVerfügbarException, MitarbeiterNichtVorhandenException;
 
 	public HashMap<Artikel, Integer> artikelMengeImWarenkorbAendern(int artikelNummer, int menge,
 			Kunde aktuellerBenutzer) throws ArtikelNichtVerfuegbarException, MitarbeiterNichtVorhandenException;
@@ -66,8 +67,6 @@ public interface SessionInterface extends Serializable, SimonUnreferenced {
 	public List<Ereignis> gibEreignisseNachArtikelUndTagen(Artikel a);
 
 	public Artikel findArtikelByNumber(int artikelNr) throws ArtikelNichtVerfuegbarException;
-
-	public void gibBenutzerWeiter(User aktuellerBenutzer);
 
 	public void userLogout();
 	

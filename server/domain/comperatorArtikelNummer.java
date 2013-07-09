@@ -3,9 +3,14 @@ package domain;
 import java.util.Comparator;
 
 import valueobjects.Artikel;
-
+/**
+ * Klasse zum sortieren nach ArtikelNummern.
+ *
+ */
 public class comperatorArtikelNummer implements Comparator<Artikel> {
-
+		/**
+		 * Methode zum sortieren nach ArtikelNummern.
+		 */
 		public comperatorArtikelNummer() {
 			super();
 		}

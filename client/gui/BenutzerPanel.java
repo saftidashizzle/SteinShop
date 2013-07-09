@@ -11,13 +11,16 @@ import javax.swing.table.TableModel;
 
 public class BenutzerPanel extends JPanel {
 	/**
-	 * 
+	 * Panel um die Benutzerliste anzuzeigen.
 	 */
 	private static final long serialVersionUID = -8891187975556008249L;
 	JTable benutzerListe;
 	JScrollPane benutzerScroll;
     TableModel model;
-    
+    /**
+     * Setzen des Layouts und befüllen mit Inhalt
+     * @param liste Benutzerliste
+     */
 	public BenutzerPanel(Object[][] liste) {
 		super();
 		this.setLayout(new GridLayout(1,1));
@@ -26,6 +29,10 @@ public class BenutzerPanel extends JPanel {
 		fill(liste);
 		this.add(benutzerScroll);
 	}
+	/**
+	 * Methode, zum befüllen der Tabelle
+	 * @param liste Datensatz, Typ: Object[][]
+	 */
 	public void fill(Object[][] liste) {
 		String[] columnNames = {"Nummer",
                 "Name",
@@ -57,6 +64,10 @@ public class BenutzerPanel extends JPanel {
 		benutzerScroll = new JScrollPane(benutzerListe);
 		
 	}
+	/**
+	 * Fügt einen SelectionListener zur Benutzerliste hinzu
+	 * @param a ListSelectionListener
+	 */
 	public void addListSelectionListener(ListSelectionListener a) {
 		benutzerListe.getSelectionModel().addListSelectionListener(a);
 

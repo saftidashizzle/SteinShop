@@ -21,16 +21,11 @@ import domain.exceptions.LoginFehlgeschlagenException;
 import domain.exceptions.MitarbeiterNichtVorhandenException;
 /**
  * UserVerwaltung: Verwaltet die Userliste und fügt neue User ein.
- * 
- * @author philipp, kevin, jan
- *
  */
 
 
 public class UserVerwaltung implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -8982487175917305106L;
 	private List<User> userBestand = new Vector<User>();
 	private int laufnr = 0;
@@ -43,6 +38,10 @@ public class UserVerwaltung implements Serializable {
 		User einUser = new Mitarbeiter(name, passwort, nr, anrede, vorUndZuName);
 		userBestand.add(einUser);
 	}
+	/**
+	 * Methode, die eine fortlaufende Nummer vergibt.
+	 * @return laufnr
+	 */
 	private int bestimmeNr() {
 		return ++laufnr;
 	}
@@ -53,6 +52,18 @@ public class UserVerwaltung implements Serializable {
 	public List<User> getUserBestand() {
 		return userBestand;
 	}
+	/**
+	 * Methode, die einen Kunden hinzufügt. Die einen Fehler bei unmöglicher PLZ wirft.
+	 * @param name
+	 * @param passwort
+	 * @param anrede
+	 * @param vorUndZuName
+	 * @param strasse
+	 * @param plz
+	 * @param ort
+	 * @param land
+	 * @throws InkorrekteRegWerteException
+	 */
 	public void einfuegen(String name, char[] passwort, String anrede, String vorUndZuName, String strasse, int plz, String ort, String land) throws InkorrekteRegWerteException{
 		if(plz>99999 || plz<10000){
 			throw new InkorrekteRegWerteException();
@@ -63,6 +74,12 @@ public class UserVerwaltung implements Serializable {
 			userBestand.add(einUser);
 		}
 	}
+	/**
+	 * Methode, um einen Useraccount zu löschen.
+	 * @param userNr Zu löschender Benutzer
+	 * @param aktuellerBenutzer
+	 * @throws MitarbeiterNichtVorhandenException
+	 */
 	public void loescheUser(int userNr, User aktuellerBenutzer) throws MitarbeiterNichtVorhandenException{
 		if(findUserByNumber(userNr)!=null){
 			userBestand.remove(findUserByNumber(userNr));
@@ -71,6 +88,9 @@ public class UserVerwaltung implements Serializable {
 			throw new MitarbeiterNichtVorhandenException(userNr);
 		}
 	}
+	/**
+	 * Methode, um die Benutzerliste auszugeben.
+	 */
 	public void gibBenutzerlisteAus() {
 		if(userBestand.isEmpty()) {
 			System.out.println("Liste ist leer.");
@@ -83,6 +103,11 @@ public class UserVerwaltung implements Serializable {
 		}
 		System.out.println(" ");
 	}
+	/**
+	 * Methode, zum Serialisieren/Speichern der Daten.
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	public void schreibeDaten2() throws FileNotFoundException, IOException {
 		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("User.ser")); 
 		// hier schleife in der dir jeweiligen objekte (artikel, user, ereignisse durchgegangen werden
@@ -102,6 +127,12 @@ public class UserVerwaltung implements Serializable {
 		// muss aufgerufen werden, bevor der datenstrom zur eingabe verwendet werden soll
 		out.close();
 	}
+	/**
+	 * Methode, um einen Benutzer nach seiner ID zu finden.
+	 * @param ID Die ID des gesuchten Users
+	 * @return User Der gesuchte User
+	 * @throws MitarbeiterNichtVorhandenException
+	 */
 	public User findUserByNumber(int ID) throws MitarbeiterNichtVorhandenException {
 		Iterator<User> it = userBestand.iterator();
 		// Artikel erstellen
@@ -118,6 +149,12 @@ public class UserVerwaltung implements Serializable {
 		}
 		return null;
 	}
+	/**
+	 * Methode, zum Laden der serialisierten/gespeicherten Daten.
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
 	public void ladeDaten() throws FileNotFoundException, IOException, ClassNotFoundException {
 		int count = 0;
 		ObjectInputStream in = new ObjectInputStream(new FileInputStream("User.ser"));
@@ -147,6 +184,13 @@ public class UserVerwaltung implements Serializable {
 				}
 		}
 	}
+	/**
+	 * Methode, zum eingloggen durch Name und Passwort.
+	 * @param name
+	 * @param passwort
+	 * @return User
+	 * @throws LoginFehlgeschlagenException
+	 */
 	public User userLogin(String name, char[] passwort) throws LoginFehlgeschlagenException {
 		Iterator<User> it = userBestand.iterator();
 		while  (it.hasNext()) {
@@ -159,13 +203,4 @@ public class UserVerwaltung implements Serializable {
 		}
 		throw new LoginFehlgeschlagenException();
 	}
-//	public void setUser(Kunde k) {
-//		for(User u:userBestand) {
-//			if (u.getNummer()==k.getNummer()) {
-//				userBestand.remove(u);
-//				userBestand.add(k);
-//			}
-//		}
-//	}	
-
 }

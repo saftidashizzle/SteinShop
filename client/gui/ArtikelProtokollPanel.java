@@ -18,9 +18,14 @@ import valueobjects.Ereignis;
 
 public class ArtikelProtokollPanel extends JPanel {
 	/**
-	 * 
+	 * Klasse um die Grafik für den Artikelverlauf darzustellen.
 	 */
 	private static final long serialVersionUID = -5624925222881327740L;
+	/**
+	 * Setzen des Layouts und befüllen mit Inhalt
+	 * @param artikelVerlauf Liste von Ereignissen
+	 * @param artikelName Name des gerade angezeigten Artikels.
+	 */
 	public ArtikelProtokollPanel(List<Ereignis> artikelVerlauf, String artikelName) {
 		super();
 		this.setLayout(new GridLayout(1,1));
@@ -29,6 +34,13 @@ public class ArtikelProtokollPanel extends JPanel {
 		}
 		drawChart(artikelVerlauf, artikelName);
 	}
+
+	/**
+	 * Methode, zur Berechnung der X und Y Werte
+	 * @param artikelVerlauf Liste von Ereignissen
+	 * @param artikelName Name des gerade behandelten Artikels
+	 * @return XYDataset Die XY-Daten
+	 */
     public static XYDataset createDataset(List<Ereignis> artikelVerlauf, String artikelName) {
 	    XYSeries xyseries = new XYSeries(artikelName);
 	    
@@ -56,6 +68,11 @@ public class ArtikelProtokollPanel extends JPanel {
 	    xyseriescollection.setIntervalWidth(0.0D);   
 	    return xyseriescollection;   
 	} 
+    /**
+     * Methode, zum zeichnen
+     * @param artikelVerlauf Liste von Ereignissen
+     * @param artikelName Name des gerade behandelten Artikels
+     */
     public void drawChart(List<Ereignis> artikelVerlauf, String artikelName) {
     	// laeuft
         XYDataset dataset = createDataset(artikelVerlauf, artikelName);  

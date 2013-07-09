@@ -9,7 +9,8 @@ import valueobjects.Rechnung;
 public class RechnungPanel extends JPanel {
 
 	/**
-	 * 
+	 * Setzen des Layouts und befüllen mit Inhalt
+	 * @param rechnung
 	 */
 	private static final long serialVersionUID = -3010974526025246317L;
 	private AnschriftPanel anschriftPanel;
